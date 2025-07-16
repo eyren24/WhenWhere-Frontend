@@ -1,0 +1,17 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+api.ts
+base.ts
+common.ts
+configuration.ts
+docs/AgendaApi.md
+docs/AuthApi.md
+docs/ERuolo.md
+docs/ReqAgendaDTO.md
+docs/ReqLoginUser.md
+docs/ReqRegisterUser.md
+docs/ResAuthToken.md
+docs/TokenInfoDTO.md
+git_push.sh
+index.ts

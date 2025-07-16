@@ -1,0 +1,197 @@
+
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+    min-height: 100vh; /* Occupa almeno l'intera altezza della viewport */
+    justify-content: center;
+}
+
+.slider-title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.slider-wrapper {
+    position: relative;
+    width: 80%; /* Larghezza dello slider */
+    max-width: 2000px; /* Larghezza massima */
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.slide {
+    position: relative;
+    width: 100%;
+    height: 450px; /* Altezza fissa per le slide */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee; /* Colore di fallback */
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assicura che l'immagine copra l'area senza distorsioni */
+    display: block;
+}
+
+.slide-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0)); /* Sfumatura nera dal basso */
+    color: #fff;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Allinea il contenuto in basso */
+    min-height: 50%; /* L'overlay occupa almeno metà altezza della slide */
+    box-sizing: border-box; /* Include padding nel calcolo dell'altezza */
+}
+
+.slide-title {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.slide-text {
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/*.access-button {
+    align-self: flex-end; /* Sposta il bottone a destra all'interno dell'overlay */
+    /*background-color: #8a2be2; /* Viola */
+   /* color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.access-button:hover {
+    background-color: #7b1cd6; /* Viola più scuro all'hover */
+/* transform: translateY(-2px);
+}*/
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 2em;
+    z-index: 10;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.slider-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.slider-arrow.prev {
+    left: 10px;
+}
+
+.slider-arrow.next {
+    right: 10px;
+}
+
+.dot-navigation {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #8a2be2; /* Viola per il pallino attivo */
+    transform: scale(1.2);
+}
+
+/* Media Queries per la responsività */
+@media (max-width: 768px) {
+    .slider-wrapper {
+        width: 95%;
+        height: auto;
+    }
+
+    .slide {
+        height: 350px;
+    }
+
+    .slide-title {
+        font-size: 1.5em;
+    }
+
+    .slide-text {
+        font-size: 0.9em;
+    }
+
+    .access-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide {
+        height: 250px;
+    }
+
+    .slide-overlay {
+        padding: 15px;
+        min-height: 60%;
+    }
+
+    .slide-title {
+        font-size: 1.3em;
+        margin-bottom: 5px;
+    }
+
+    .slide-text {
+        font-size: 0.8em;
+        margin-bottom: 15px;
+    }
+
+    .access-button {
+        padding: 8px 15px;
+        font-size: 0.9em;
+    }
+
+    .slider-arrow {
+        padding: 10px 5px;
+        font-size: 1.5em;
+    }
+}
