@@ -1,34 +1,34 @@
-# AgendaApi
+# NotaApi
 
 All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**apiAgendaAddAgendaPost**](#apiagendaaddagendapost) | **POST** /api/Agenda/AddAgenda | |
-|[**apiAgendaGetAllGet**](#apiagendagetallget) | **GET** /api/Agenda/GetAll | |
-|[**apiAgendaRemoveDelete**](#apiagendaremovedelete) | **DELETE** /api/Agenda/Remove | |
-|[**apiAgendaUpdatePut**](#apiagendaupdateput) | **PUT** /api/Agenda/Update | |
+|[**apiNotaAddPost**](#apinotaaddpost) | **POST** /api/Nota/Add | |
+|[**apiNotaGetAllGet**](#apinotagetallget) | **GET** /api/Nota/GetAll | |
+|[**apiNotaRemoveDelete**](#apinotaremovedelete) | **DELETE** /api/Nota/Remove | |
+|[**apiNotaUpdatePut**](#apinotaupdateput) | **PUT** /api/Nota/Update | |
 
-# **apiAgendaAddAgendaPost**
-> apiAgendaAddAgendaPost(reqAgendaDTO)
+# **apiNotaAddPost**
+> apiNotaAddPost(reqNotaDTO)
 
 
 ### Example
 
 ```typescript
 import {
-    AgendaApi,
+    NotaApi,
     Configuration,
-    ReqAgendaDTO
+    ReqNotaDTO
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
+const apiInstance = new NotaApi(configuration);
 
-let reqAgendaDTO: ReqAgendaDTO; //
+let reqNotaDTO: ReqNotaDTO; //
 
-const { status, data } = await apiInstance.apiAgendaAddAgendaPost(
-    reqAgendaDTO
+const { status, data } = await apiInstance.apiNotaAddPost(
+    reqNotaDTO
 );
 ```
 
@@ -36,7 +36,7 @@ const { status, data } = await apiInstance.apiAgendaAddAgendaPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **reqAgendaDTO** | **ReqAgendaDTO**|  | |
+| **reqNotaDTO** | **ReqNotaDTO**|  | |
 
 
 ### Return type
@@ -60,121 +60,28 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiAgendaGetAllGet**
-> apiAgendaGetAllGet()
+# **apiNotaGetAllGet**
+> Array<ResNotaDTO> apiNotaGetAllGet()
 
 
 ### Example
 
 ```typescript
 import {
-    AgendaApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
-
-const { status, data } = await apiInstance.apiAgendaGetAllGet();
-```
-
-### Parameters
-This endpoint does not have any parameters.
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiAgendaRemoveDelete**
-> apiAgendaRemoveDelete()
-
-
-### Example
-
-```typescript
-import {
-    AgendaApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
-
-let agendaId: number; // (default to undefined)
-
-const { status, data } = await apiInstance.apiAgendaRemoveDelete(
-    agendaId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **agendaId** | [**number**] |  | defaults to undefined|
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiAgendaUpdatePut**
-> apiAgendaUpdatePut()
-
-
-### Example
-
-```typescript
-import {
-    AgendaApi,
+    NotaApi,
     Configuration,
-    ReqUpdateAgenda
+    FiltriAgendaDTO
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
+const apiInstance = new NotaApi(configuration);
 
 let agendaId: number; // (default to undefined)
-let reqUpdateAgenda: ReqUpdateAgenda; // (optional)
+let filtriAgendaDTO: FiltriAgendaDTO; // (optional)
 
-const { status, data } = await apiInstance.apiAgendaUpdatePut(
+const { status, data } = await apiInstance.apiNotaGetAllGet(
     agendaId,
-    reqUpdateAgenda
+    filtriAgendaDTO
 );
 ```
 
@@ -182,13 +89,13 @@ const { status, data } = await apiInstance.apiAgendaUpdatePut(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **reqUpdateAgenda** | **ReqUpdateAgenda**|  | |
+| **filtriAgendaDTO** | **FiltriAgendaDTO**|  | |
 | **agendaId** | [**number**] |  | defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**Array<ResNotaDTO>**
 
 ### Authorization
 
@@ -197,7 +104,111 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiNotaRemoveDelete**
+> Array<ResNotaDTO> apiNotaRemoveDelete()
+
+
+### Example
+
+```typescript
+import {
+    NotaApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new NotaApi(configuration);
+
+let notaId: number; // (default to undefined)
+
+const { status, data } = await apiInstance.apiNotaRemoveDelete(
+    notaId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **notaId** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**Array<ResNotaDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiNotaUpdatePut**
+> Array<ResNotaDTO> apiNotaUpdatePut(reqNotaDTO)
+
+
+### Example
+
+```typescript
+import {
+    NotaApi,
+    Configuration,
+    ReqNotaDTO
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new NotaApi(configuration);
+
+let notaId: number; // (default to undefined)
+let reqNotaDTO: ReqNotaDTO; //
+
+const { status, data } = await apiInstance.apiNotaUpdatePut(
+    notaId,
+    reqNotaDTO
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **reqNotaDTO** | **ReqNotaDTO**|  | |
+| **notaId** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**Array<ResNotaDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

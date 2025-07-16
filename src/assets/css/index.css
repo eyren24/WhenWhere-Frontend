@@ -12,3 +12,8 @@ html, body{
 .icon{
     vertical-align: middle;
 }
+
+.universal-link{
+    color: inherit;
+    text-decoration: none;
+}

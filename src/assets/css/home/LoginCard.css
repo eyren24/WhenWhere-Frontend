@@ -1,7 +1,7 @@
 @keyframes slideFadeIn {
     from {
         opacity: 0;
-        transform: translate(-50%, 10px);
+        transform: translate(-50%, 18px);
     }
     to {
         opacity: 1;
@@ -16,13 +16,13 @@
     }
     to {
         opacity: 0;
-        transform: translate(-50%, 10px);
+        transform: translate(-50%, 18px);
     }
 }
 
 .login-popup {
     position: absolute;
-    bottom: 90px;
+    bottom: 70px;
     left: 50%;
     transform: translateX(-50%);
     background: #ECF9FF;
@@ -36,14 +36,19 @@
     gap: 10px;
     width: 180px;
     align-items: center;
+    opacity: 0; /* Di default invisibile finché non ha .open */
+    pointer-events: none; /* Non cliccabile quando è invisibile */
 }
 
 .login-popup.open {
-    animation: slideFadeIn 0.3s ease-out forwards;
+    animation: slideFadeIn 0.3s cubic-bezier(0.3, 0.8, 0.3, 1) forwards;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .login-popup.closing {
-    animation: slideFadeOut 0.3s ease-in forwards;
+    animation: slideFadeOut 0.3s cubic-bezier(0.3, 0.8, 0.3, 1) forwards;
+    pointer-events: none;
 }
 
 .login-btn {

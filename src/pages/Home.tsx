@@ -1,9 +1,7 @@
-import {Navbar} from "../components/home/Navbar.tsx";
-import {Slider} from "../components/AboutUs/Slider.tsx";
+import {HomeSlider} from "../components/AboutUs/HomeSlider.tsx";
 
 export const Home = () => {
     return <>
-        <Navbar/>
-        <Slider/>
+        <HomeSlider/>
     </>
 }

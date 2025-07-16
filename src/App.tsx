@@ -3,7 +3,6 @@ import {Layout} from "./pages/Layout.tsx";
 import {Home} from "./pages/Home.tsx";
 import {AreaPersonale} from "./pages/AreaPersonale.tsx";
 import "./assets/css/index.css";
-import {Login} from "./pages/Login.tsx";
 import {useAuthStore} from "./stores/AuthStore.ts";
 import {useEffect, useState} from "react";
 
@@ -31,7 +30,6 @@ function App() {
                         <Route path='/' element={<Layout/>}>
                             <Route path='/' index element={<Home/>}/>
                             <Route path='/AreaPersonale' index element={<AreaPersonale/>}/>
-                            <Route path='/Login' index element={<Login/>}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>}
