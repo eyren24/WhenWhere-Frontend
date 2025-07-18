@@ -1,6 +1,6 @@
 import Slider from "react-slick";
 import { useEffect, useState } from "react";
-import "../../assets/css/aboutUs/slider.css";
+import "../../assets/css/home/slider.css";
 
 const allImages = import.meta.glob(
     "/src/assets/imgs/slider/*.{jpg,jpeg,png,webp}",
