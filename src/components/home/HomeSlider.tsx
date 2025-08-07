@@ -40,10 +40,12 @@ export const HomeSlider = () => {
         dots: false,
         arrows: false,
         infinite: true,
-        speed: 800,
+        speed: 3000,
+        pauseOnHover: true,
         autoplay: true,
-        autoplaySpeed: 4000,
+        autoplaySpeed: 1000,
         slidesToShow: 1,
+        swipeToSlide: true,
         slidesToScroll: 1
     };
 

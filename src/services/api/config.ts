@@ -6,8 +6,7 @@ export const apiConfig = new Configuration({
         axios: apiClient
     },
     basePath: import.meta.env.VITE_API_BASE_URL,
-
 })
 
 
-export const URL_PATH = import.meta.env.VITE_API_ORIGIN ? document.location.origin : 'https://gibivision.com';
+export const URL_PATH = import.meta.env.VITE_API_ORIGIN || document.location.origin;

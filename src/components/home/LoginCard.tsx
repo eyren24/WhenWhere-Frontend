@@ -1,10 +1,11 @@
-import { useEffect, useState, forwardRef } from "react";
+import {useEffect, useState, forwardRef} from "react";
 import "../../assets/css/home/LoginCard.css";
 
 export const LoginCard = forwardRef<HTMLDivElement, {
     visible: boolean;
     onLoginClick: () => void;
-}>(({ visible, onLoginClick }, ref) => {
+    onRegisterClick: () => void;
+}>(({visible, onLoginClick, onRegisterClick}, ref) => {
     const [closing, setClosing] = useState(false);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export const LoginCard = forwardRef<HTMLDivElement, {
             }`}
         >
             <button className="login-btn" onClick={onLoginClick}>Login</button>
-            <button className="login-btn secondary">Registrati</button>
+            <button className="login-btn secondary" onClick={onRegisterClick}>Registrati</button>
         </div>
     );
 });

@@ -1,13 +1,12 @@
 .carousel-caption {
     position: absolute;
-    max-width: 900px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
     color: white;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.5); /* migliora leggibilità */
+    background-color: rgba(0, 0, 0, 0.3); /* migliora leggibilità */
     padding: 1.5rem 2rem;
     border-radius: 8px;
     max-width: 80%;
@@ -21,6 +20,7 @@
     right: 0;
     width: 100%;
     height: 100%;
+    opacity: 0.5;
 }
 
 .carousel-caption h2 {
@@ -37,4 +37,5 @@
     height: 90vh;
     width: 100%;
     position: relative; /* NECESSARIO per la caption assoluta */
+    background: rgba(0,0,0,1);
 }

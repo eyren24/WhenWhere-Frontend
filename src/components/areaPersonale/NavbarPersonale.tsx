@@ -1,24 +1,15 @@
 import '../../assets/css/areaPersonale/Navbarpersonale.css';
 import { IoMdAdd } from "react-icons/io";
+import {Link} from "react-router";
+import {IoHomeOutline} from "react-icons/io5";
 
 export const NavbarPersonale = () => {
     return (
         <div id="navbody">
             <div className="navigation-card">
-                <a href="#" className="tab">
-                    <svg
-                        className="svgIcon"
-                        viewBox="0 0 104 100"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M100.5 40.75V96.5H66V68.5V65H62.5H43H39.5V68.5V96.5H3.5V40.75L52 4.375L100.5 40.75Z"
-                            stroke="black"
-                            stroke-width="7"
-                        ></path>
-                    </svg>
-                </a>
+                <Link to="/" className="universal-link navbar-tab">
+                    <IoHomeOutline className="icon navbar-icon" />
+                </Link>
 
                 <a href="#" className="tab">
                     <IoMdAdd className="icon nav-central-button"/>

@@ -4,7 +4,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    z-index: 99999;
+    z-index: 998;
 }
 
 .navbar-card {
