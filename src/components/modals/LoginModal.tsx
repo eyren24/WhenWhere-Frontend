@@ -23,7 +23,7 @@ export const LoginModal = ({show, onClose}: { show: boolean; onClose: () => void
         login({email, password}).then((res) => {
             if (res.success) {
                 toast.success('Autenticato con successo!')
-                navigate('/');
+                navigate('/areaPersonale');
             }else{
                 toast.error(res.error || 'Errore generico')
             }

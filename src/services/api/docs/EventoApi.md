@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**apiEventoAddPost**](#apieventoaddpost) | **POST** /api/Evento/Add | |
-|[**apiEventoGetAllGet**](#apieventogetallget) | **GET** /api/Evento/GetAll | |
+|[**apiEventoGetAllPost**](#apieventogetallpost) | **POST** /api/Evento/GetAll | |
 |[**apiEventoRemoveDelete**](#apieventoremovedelete) | **DELETE** /api/Evento/Remove | |
 |[**apiEventoUpdatePut**](#apieventoupdateput) | **PUT** /api/Evento/Update | |
 
@@ -60,8 +60,8 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiEventoGetAllGet**
-> Array<ResEventoDTO> apiEventoGetAllGet(filtriAgendaDTO)
+# **apiEventoGetAllPost**
+> Array<ResEventoDTO> apiEventoGetAllPost(filtriAgendaDTO)
 
 
 ### Example
@@ -79,7 +79,7 @@ const apiInstance = new EventoApi(configuration);
 let agendaId: number; // (default to undefined)
 let filtriAgendaDTO: FiltriAgendaDTO; //
 
-const { status, data } = await apiInstance.apiEventoGetAllGet(
+const { status, data } = await apiInstance.apiEventoGetAllPost(
     agendaId,
     filtriAgendaDTO
 );

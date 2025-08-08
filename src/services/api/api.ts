@@ -312,6 +312,43 @@ export interface ReqUpdateEventoDTO {
 /**
  * 
  * @export
+ * @interface ResAgendaDTO
+ */
+export interface ResAgendaDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAgendaDTO
+     */
+    'id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAgendaDTO
+     */
+    'utenteId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResAgendaDTO
+     */
+    'nomeAgenda': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResAgendaDTO
+     */
+    'descrizione': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResAgendaDTO
+     */
+    'tema': string;
+}
+/**
+ * 
+ * @export
  * @interface ResAuthToken
  */
 export interface ResAuthToken {
@@ -673,7 +710,7 @@ export const AgendaApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAgendaGetAllGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async apiAgendaGetAllGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResAgendaDTO>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaGetAllGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaGetAllGet']?.[localVarOperationServerIndex]?.url;
@@ -728,7 +765,7 @@ export const AgendaApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAgendaGetAllGet(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        apiAgendaGetAllGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ResAgendaDTO>> {
             return localVarFp.apiAgendaGetAllGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -1170,11 +1207,11 @@ export const EventoApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEventoGetAllGet: async (agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiEventoGetAllPost: async (agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'agendaId' is not null or undefined
-            assertParamExists('apiEventoGetAllGet', 'agendaId', agendaId)
+            assertParamExists('apiEventoGetAllPost', 'agendaId', agendaId)
             // verify required parameter 'filtriAgendaDTO' is not null or undefined
-            assertParamExists('apiEventoGetAllGet', 'filtriAgendaDTO', filtriAgendaDTO)
+            assertParamExists('apiEventoGetAllPost', 'filtriAgendaDTO', filtriAgendaDTO)
             const localVarPath = `/api/Evento/GetAll`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1183,7 +1220,7 @@ export const EventoApiAxiosParamCreator = function (configuration?: Configuratio
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -1324,10 +1361,10 @@ export const EventoApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiEventoGetAllGet(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResEventoDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiEventoGetAllGet(agendaId, filtriAgendaDTO, options);
+        async apiEventoGetAllPost(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResEventoDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiEventoGetAllPost(agendaId, filtriAgendaDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EventoApi.apiEventoGetAllGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EventoApi.apiEventoGetAllPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -1381,8 +1418,8 @@ export const EventoApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiEventoGetAllGet(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResEventoDTO>> {
-            return localVarFp.apiEventoGetAllGet(agendaId, filtriAgendaDTO, options).then((request) => request(axios, basePath));
+        apiEventoGetAllPost(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResEventoDTO>> {
+            return localVarFp.apiEventoGetAllPost(agendaId, filtriAgendaDTO, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1432,8 +1469,8 @@ export class EventoApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof EventoApi
      */
-    public apiEventoGetAllGet(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig) {
-        return EventoApiFp(this.configuration).apiEventoGetAllGet(agendaId, filtriAgendaDTO, options).then((request) => request(this.axios, this.basePath));
+    public apiEventoGetAllPost(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig) {
+        return EventoApiFp(this.configuration).apiEventoGetAllPost(agendaId, filtriAgendaDTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

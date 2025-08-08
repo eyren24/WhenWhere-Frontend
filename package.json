@@ -8,9 +8,15 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate": "openapi-generator-cli generate -g typescript-axios -i http://10.10.21.68:5282/swagger/v1/swagger.json -o src/services/api"
+    "generate": "openapi-generator-cli generate -g typescript-axios -i http://192.168.1.100:5282/swagger/v1/swagger.json -o src/services/api"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.18",
+    "@fullcalendar/daygrid": "^6.1.18",
+    "@fullcalendar/interaction": "^6.1.18",
+    "@fullcalendar/list": "^6.1.18",
+    "@fullcalendar/react": "^6.1.18",
+    "@fullcalendar/timegrid": "^6.1.18",
     "@openapitools/openapi-generator-cli": "^2.21.0",
     "@vitejs/plugin-react": "^4.6.0",
     "axios": "^1.10.0",

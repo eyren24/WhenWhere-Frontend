@@ -17,6 +17,7 @@ docs/ReqNotaDTO.md
 docs/ReqRegisterUser.md
 docs/ReqUpdateAgenda.md
 docs/ReqUpdateEventoDTO.md
+docs/ResAgendaDTO.md
 docs/ResAuthToken.md
 docs/ResEventoDTO.md
 docs/ResNotaDTO.md
