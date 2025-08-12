@@ -1,35 +1,34 @@
-# AgendaApi
+# TagApi
 
 All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**apiAgendaAddAgendaPost**](#apiagendaaddagendapost) | **POST** /api/Agenda/AddAgenda | |
-|[**apiAgendaGetAllGet**](#apiagendagetallget) | **GET** /api/Agenda/GetAll | |
-|[**apiAgendaGetByIdGet**](#apiagendagetbyidget) | **GET** /api/Agenda/GetById | |
-|[**apiAgendaRemoveDelete**](#apiagendaremovedelete) | **DELETE** /api/Agenda/Remove | |
-|[**apiAgendaUpdatePut**](#apiagendaupdateput) | **PUT** /api/Agenda/Update | |
+|[**apiTagAddPost**](#apitagaddpost) | **POST** /api/Tag/Add | |
+|[**apiTagGetListGet**](#apitaggetlistget) | **GET** /api/Tag/GetList | |
+|[**apiTagRemoveDelete**](#apitagremovedelete) | **DELETE** /api/Tag/Remove | |
+|[**apiTagUpdatePut**](#apitagupdateput) | **PUT** /api/Tag/Update | |
 
-# **apiAgendaAddAgendaPost**
-> apiAgendaAddAgendaPost(reqAgendaDTO)
+# **apiTagAddPost**
+> apiTagAddPost(reqTagDTO)
 
 
 ### Example
 
 ```typescript
 import {
-    AgendaApi,
+    TagApi,
     Configuration,
-    ReqAgendaDTO
+    ReqTagDTO
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
+const apiInstance = new TagApi(configuration);
 
-let reqAgendaDTO: ReqAgendaDTO; //
+let reqTagDTO: ReqTagDTO; //
 
-const { status, data } = await apiInstance.apiAgendaAddAgendaPost(
-    reqAgendaDTO
+const { status, data } = await apiInstance.apiTagAddPost(
+    reqTagDTO
 );
 ```
 
@@ -37,7 +36,7 @@ const { status, data } = await apiInstance.apiAgendaAddAgendaPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **reqAgendaDTO** | **ReqAgendaDTO**|  | |
+| **reqTagDTO** | **ReqTagDTO**|  | |
 
 
 ### Return type
@@ -61,126 +60,26 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiAgendaGetAllGet**
-> Array<ResAgendaDTO> apiAgendaGetAllGet()
+# **apiTagGetListGet**
+> apiTagGetListGet()
 
 
 ### Example
 
 ```typescript
 import {
-    AgendaApi,
+    TagApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
+const apiInstance = new TagApi(configuration);
 
-const { status, data } = await apiInstance.apiAgendaGetAllGet();
+const { status, data } = await apiInstance.apiTagGetListGet();
 ```
 
 ### Parameters
 This endpoint does not have any parameters.
-
-
-### Return type
-
-**Array<ResAgendaDTO>**
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiAgendaGetByIdGet**
-> ResAgendaDTO apiAgendaGetByIdGet()
-
-
-### Example
-
-```typescript
-import {
-    AgendaApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
-
-let agendaId: number; // (default to undefined)
-
-const { status, data } = await apiInstance.apiAgendaGetByIdGet(
-    agendaId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **agendaId** | [**number**] |  | defaults to undefined|
-
-
-### Return type
-
-**ResAgendaDTO**
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiAgendaRemoveDelete**
-> apiAgendaRemoveDelete()
-
-
-### Example
-
-```typescript
-import {
-    AgendaApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
-
-let agendaId: number; // (default to undefined)
-
-const { status, data } = await apiInstance.apiAgendaRemoveDelete(
-    agendaId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **agendaId** | [**number**] |  | defaults to undefined|
 
 
 ### Return type
@@ -204,28 +103,25 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiAgendaUpdatePut**
-> apiAgendaUpdatePut()
+# **apiTagRemoveDelete**
+> apiTagRemoveDelete()
 
 
 ### Example
 
 ```typescript
 import {
-    AgendaApi,
-    Configuration,
-    ReqUpdateAgenda
+    TagApi,
+    Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new AgendaApi(configuration);
+const apiInstance = new TagApi(configuration);
 
-let agendaId: number; // (default to undefined)
-let reqUpdateAgenda: ReqUpdateAgenda; // (optional)
+let id: number; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.apiAgendaUpdatePut(
-    agendaId,
-    reqUpdateAgenda
+const { status, data } = await apiInstance.apiTagRemoveDelete(
+    id
 );
 ```
 
@@ -233,8 +129,61 @@ const { status, data } = await apiInstance.apiAgendaUpdatePut(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **reqUpdateAgenda** | **ReqUpdateAgenda**|  | |
-| **agendaId** | [**number**] |  | defaults to undefined|
+| **id** | [**number**] |  | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiTagUpdatePut**
+> apiTagUpdatePut(reqUpdateTagDTO)
+
+
+### Example
+
+```typescript
+import {
+    TagApi,
+    Configuration,
+    ReqUpdateTagDTO
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new TagApi(configuration);
+
+let reqUpdateTagDTO: ReqUpdateTagDTO; //
+let id: number; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.apiTagUpdatePut(
+    reqUpdateTagDTO,
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **reqUpdateTagDTO** | **ReqUpdateTagDTO**|  | |
+| **id** | [**number**] |  | (optional) defaults to undefined|
 
 
 ### Return type

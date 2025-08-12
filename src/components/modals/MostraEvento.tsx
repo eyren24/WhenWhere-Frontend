@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { EventApi } from "@fullcalendar/core";
-import { motion, AnimatePresence } from "framer-motion";
+import {useEffect, useMemo, useRef, useState} from "react";
+import {motion, AnimatePresence} from "framer-motion";
 import "../../assets/css/mostraEventoModale.css";
 import {
     FaCalendarAlt,
@@ -15,35 +14,31 @@ import {
     FaTimesCircle,
 } from "react-icons/fa";
 import toast from "react-hot-toast";
-import type { ReqUpdateEventoDTO } from "../../services/api";
-import { emitAgendaChanged } from "../../stores/lib/agendaBus.ts";
+import type {ReqUpdateEventoDTO, ResEventoDTO} from "../../services/api";
+import {FaTrash} from "react-icons/fa6";
+import {useAgendaStore} from "../../stores/AgendaStore.ts";
+import {emitAgendaChanged} from "../../stores/lib/agendaBus.ts";
+import {ClipLoader} from "react-spinners";
 
 type MostraEventoProps = {
-    selectedEvent: EventApi;
+    selectedEvent: ResEventoDTO;
     setModalOpen: (open: boolean) => void;
-    onUpdateEvent?: (event: EventApi, dto: ReqUpdateEventoDTO) => Promise<void> | void;
-    onRate?: (event: EventApi, rating: number) => Promise<void> | void;
-    /** opzionale: persistenza descrizione lato API */
-    onUpdateDescrizione?: (event: EventApi, descrizione: string) => Promise<void> | void;
+    onClose: () => void;
 };
 
 const clampRating = (n: number) => Math.max(1, Math.min(5, Math.floor(n)));
-const getErrorMessage = (err: Error | string): string =>
-    typeof err === "string" ? err : err.message;
 
 export const MostraEvento = ({
                                  selectedEvent,
                                  setModalOpen,
-                                 onUpdateEvent,
-                                 onRate,
-                                 onUpdateDescrizione,
+                                 onClose,
                              }: MostraEventoProps) => {
-    const { extendedProps } = selectedEvent;
-    const descrizione: string = extendedProps?.descrizione ?? "";
-    const stato: string = extendedProps?.stato ?? "";
-    const tagNome: string = extendedProps?.tagNome ?? "";
-    const notifica: boolean = extendedProps?.notifica ?? false;
-    const rating: number = extendedProps?.rating ?? 0;
+    const {deleteEvento, isLoading, aggiornaEvento} = useAgendaStore();
+    const descrizione: string = selectedEvent.descrizione ?? "";
+    const stato: string = selectedEvent.stato ?? "";
+    const tagNome: number = selectedEvent.tagId ?? "";
+    const notifica: boolean = selectedEvent.notifica ?? false;
+    const rating: number = selectedEvent.rating ?? 0;
 
     const hasRating = useMemo(() => rating > 0, [rating]);
 
@@ -69,20 +64,8 @@ export const MostraEvento = ({
 
     const handleSaveRating = () => {
         const value = clampRating(tempRating);
-        if (!onRate) {
-            toast.error("Funzione di salvataggio valutazione non configurata.");
-            return;
-        }
-        Promise.resolve(onRate(selectedEvent, value))
-            .then(() => {
-                toast.success("Valutazione aggiunta!");
-                setAddingRating(false);
-                emitAgendaChanged();
-            })
-            .catch((err: Error | string) => toast.error(getErrorMessage(err)));
-    };
-
-    const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    }
+    const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
         const titolo = (fd.get("titolo") as string)?.trim();
@@ -98,34 +81,33 @@ export const MostraEvento = ({
             return;
         }
 
-        const dto: ReqUpdateEventoDTO = { titolo, descrizione: nuovaDescrizione, stato: nuovoStato };
+        const dto: ReqUpdateEventoDTO = {titolo, descrizione: nuovaDescrizione, tagId: 1, stato: nuovoStato};
 
-        const doUpdateEvento = (): Promise<void> =>
-            onUpdateEvent
-                ? Promise.resolve(onUpdateEvent(selectedEvent, dto))
-                : Promise.resolve().then(() => {
-                    // fallback locale su FullCalendar
-                    selectedEvent.setProp("title", dto.titolo);
-                    selectedEvent.setExtendedProp("stato", dto.stato);
-                });
-
-        const doUpdateDescrizione = (): Promise<void> =>
-            onUpdateDescrizione
-                ? Promise.resolve(onUpdateDescrizione(selectedEvent, nuovaDescrizione))
-                : Promise.resolve().then(() => {
-                    selectedEvent.setExtendedProp("descrizione", nuovaDescrizione);
-                });
-
-        doUpdateEvento()
-            .then(() => doUpdateDescrizione())
-            .then(() => {
-                toast.success("Evento aggiornato!");
-                setIsEditing(false);
-                emitAgendaChanged();
-            })
-            .catch((err: Error | string) => toast.error(getErrorMessage(err)));
+        await aggiornaEvento(selectedEvent.id, dto).then((res) => {
+            if (res.success) {
+                toast.success(res.message || '')
+            } else {
+                toast.error(res.message || '')
+            }
+        }).catch((err) => {
+            toast.error(err.message);
+        })
+        onClose();
+        emitAgendaChanged();
     };
-
+    const handleDeleteEvento = async () => {
+        await deleteEvento(selectedEvent.id).then((res) => {
+            if (res.success) {
+                toast.success(res.message || '')
+            } else {
+                toast.error(res.message || '')
+            }
+        }).catch(err => {
+            toast.error(err.message);
+        });
+        onClose();
+        emitAgendaChanged();
+    }
     const firstFocusableRef = useRef<HTMLButtonElement | null>(null);
     useEffect(() => {
         const t = setTimeout(() => firstFocusableRef.current?.focus(), 0);
@@ -137,9 +119,9 @@ export const MostraEvento = ({
             <motion.div
                 className="event-view-overlay"
                 onMouseDown={handleBackdropClick}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
             >
                 <motion.div
                     className="event-view-modal"
@@ -147,17 +129,17 @@ export const MostraEvento = ({
                     aria-modal="true"
                     aria-labelledby="event-view-title"
                     onMouseDown={(e) => e.stopPropagation()}
-                    initial={{ y: 18, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: 12, opacity: 0 }}
-                    transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                    initial={{y: 18, opacity: 0}}
+                    animate={{y: 0, opacity: 1}}
+                    exit={{y: 12, opacity: 0}}
+                    transition={{duration: 0.22, ease: [0.22, 1, 0.36, 1]}}
                 >
                     {/* Header */}
                     <header className="event-view-header">
                         <div className="event-view-header-left">
-                            <FaCalendarAlt className="event-view-icon" aria-hidden />
+                            <FaCalendarAlt className="event-view-icon" aria-hidden/>
                             <h2 id="event-view-title" className="event-view-title">
-                                {selectedEvent.title}
+                                {selectedEvent.titolo}
                             </h2>
                         </div>
                         <button
@@ -168,7 +150,7 @@ export const MostraEvento = ({
                             aria-label="Chiudi"
                             title="Chiudi"
                         >
-                            <FaTimes />
+                            <FaTimes/>
                         </button>
                     </header>
 
@@ -178,7 +160,7 @@ export const MostraEvento = ({
                             <>
                                 <div className="event-view-row">
                   <span className="event-view-key">
-                    <FaInfoCircle aria-hidden /> Descrizione:
+                    <FaInfoCircle aria-hidden/> Descrizione:
                   </span>
                                     <span className="event-view-value">{descrizione || "-"}</span>
                                 </div>
@@ -190,7 +172,7 @@ export const MostraEvento = ({
 
                                 <div className="event-view-row">
                   <span className="event-view-key">
-                    <FaTag aria-hidden /> Tag:
+                    <FaTag aria-hidden/> Tag:
                   </span>
                                     <span className="event-view-value">{tagNome || "-"}</span>
                                 </div>
@@ -198,7 +180,7 @@ export const MostraEvento = ({
                                 {notifica && (
                                     <div className="event-view-row">
                     <span className="event-view-key">
-                      <FaBell aria-hidden /> Notifica:
+                      <FaBell aria-hidden/> Notifica:
                     </span>
                                         <span className="event-view-value">Attiva</span>
                                     </div>
@@ -212,7 +194,7 @@ export const MostraEvento = ({
                                             className="event-view-stars"
                                             aria-label={`Valutazione ${rating}/5`}
                                         >
-                                            {Array.from({ length: 5 }, (_, i) => (
+                                            {Array.from({length: 5}, (_, i) => (
                                                 <FaStar
                                                     key={i}
                                                     className={`event-view-star ${
@@ -232,7 +214,7 @@ export const MostraEvento = ({
                                                 className="event-view-btn event-view-btn-outline"
                                                 onClick={() => setAddingRating(true)}
                                             >
-                                                <FaPlus /> Aggiungi valutazione
+                                                <FaPlus/> Aggiungi valutazione
                                             </button>
                                         ) : (
                                             <div className="event-view-add-rating">
@@ -241,7 +223,7 @@ export const MostraEvento = ({
                                                     role="radiogroup"
                                                     aria-label="Seleziona valutazione"
                                                 >
-                                                    {Array.from({ length: 5 }, (_, i) => {
+                                                    {Array.from({length: 5}, (_, i) => {
                                                         const index = i + 1;
                                                         const active = (hoverRating ?? tempRating) >= index;
                                                         return (
@@ -256,7 +238,7 @@ export const MostraEvento = ({
                                                                 onClick={() => setTempRating(index)}
                                                                 aria-label={`${index} stelle`}
                                                             >
-                                                                <FaStar />
+                                                                <FaStar/>
                                                             </button>
                                                         );
                                                     })}
@@ -271,14 +253,14 @@ export const MostraEvento = ({
                                                             setHoverRating(null);
                                                         }}
                                                     >
-                                                        <FaTimesCircle /> Annulla
+                                                        <FaTimesCircle/> Annulla
                                                     </button>
                                                     <button
                                                         type="button"
                                                         className="event-view-btn event-view-btn-primary"
                                                         onClick={handleSaveRating}
                                                     >
-                                                        <FaSave /> Salva
+                                                        <FaSave/> Salva
                                                     </button>
                                                 </div>
                                             </div>
@@ -302,7 +284,7 @@ export const MostraEvento = ({
                                         id="titolo"
                                         name="titolo"
                                         type="text"
-                                        defaultValue={selectedEvent.title || ""}
+                                        defaultValue={selectedEvent.titolo || ""}
                                         className="event-view-input"
                                         placeholder="Titolo evento"
                                         maxLength={140}
@@ -347,10 +329,10 @@ export const MostraEvento = ({
                                         className="event-view-btn event-view-btn-secondary"
                                         onClick={() => setIsEditing(false)}
                                     >
-                                        <FaTimesCircle /> Annulla
+                                        <FaTimesCircle/> Annulla
                                     </button>
                                     <button type="submit" className="event-view-btn event-view-btn-primary">
-                                        <FaSave /> Salva modifiche
+                                        <FaSave/> Salva modifiche
                                     </button>
                                 </div>
                             </form>
@@ -361,11 +343,19 @@ export const MostraEvento = ({
                         <footer className="event-view-footer">
                             <button
                                 type="button"
+                                className="event-view-btn event-view-btn-danger"
+                                title="Modifica questo evento"
+                                onClick={handleDeleteEvento}
+                            >
+                                <FaTrash/> {isLoading ? <ClipLoader /> : 'Elimina evento'}
+                            </button>
+                            <button
+                                type="button"
                                 className="event-view-btn event-view-btn-primary"
                                 onClick={() => setIsEditing(true)}
                                 title="Modifica questo evento"
                             >
-                                <FaPen /> Modifica evento
+                                <FaPen/> {isLoading ? <ClipLoader /> : 'Modifica evento'}
                             </button>
                         </footer>
                     )}

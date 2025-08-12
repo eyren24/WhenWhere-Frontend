@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import '../../assets/css/creaAgendaModale.css';
 import type {ReqAgendaDTO} from "../../services/api";
 import {useAgendaStore} from "../../stores/AgendaStore.ts";
-import {ClipLoader} from "react-spinners";
 import {emitAgendaChanged} from "../../stores/lib/agendaBus.ts";
 
 
@@ -37,11 +36,6 @@ export const CreateAgendaModal: React.FC<CreateAgendaModalProps> = ({
         return () => window.removeEventListener("keydown", onKey);
     }, [isOpen, onClose]);
 
-    const normalize = (v?: string): string | null | undefined => {
-        if (v === undefined) return undefined;
-        const t = v.trim();
-        return t.length ? t : null;
-    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -57,8 +51,8 @@ export const CreateAgendaModal: React.FC<CreateAgendaModalProps> = ({
 
         const payload: ReqAgendaDTO = {
             nomeAgenda,
-            descrizione: normalize(descrizione) ?? null,
-            tema: normalize(tema) ?? null,
+            descrizione,
+            tema,
         };
 
         await creaAgenda(payload).then((res) => {
@@ -185,7 +179,6 @@ export const CreateAgendaModal: React.FC<CreateAgendaModalProps> = ({
                                     {isLoading ? (
                                         <>
                                             <FaSpinner className="agenda-create-spin"/>
-                                            <ClipLoader/>
                                         </>
                                     ) : (
                                         <>

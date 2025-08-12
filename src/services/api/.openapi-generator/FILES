@@ -15,12 +15,15 @@ docs/ReqEventoDTO.md
 docs/ReqLoginUser.md
 docs/ReqNotaDTO.md
 docs/ReqRegisterUser.md
+docs/ReqTagDTO.md
 docs/ReqUpdateAgenda.md
 docs/ReqUpdateEventoDTO.md
+docs/ReqUpdateTagDTO.md
 docs/ResAgendaDTO.md
 docs/ResAuthToken.md
 docs/ResEventoDTO.md
 docs/ResNotaDTO.md
+docs/TagApi.md
 docs/TokenInfoDTO.md
 git_push.sh
 index.ts

@@ -1,7 +1,21 @@
 import {create} from "zustand/react";
-import type {FiltriAgendaDTO, ReqAgendaDTO, ReqUpdateEventoDTO, ResAgendaDTO, ResEventoDTO} from "../services/api";
+import type {
+    FiltriAgendaDTO,
+    ReqAgendaDTO,
+    ReqEventoDTO,
+    ReqUpdateEventoDTO,
+    ResAgendaDTO,
+    ResEventoDTO
+} from "../services/api";
 import axios from "axios";
-import {createAgenda, deleteAgenda, getAllAgende, getAllEventi, updateEvento} from "../services/api/services.ts";
+import {
+    createAgenda,
+    createEvent,
+    deleteAgenda, deleteEvento, getAgendaById,
+    getAllAgende,
+    getAllEventi,
+    updateEvento
+} from "../services/api/services.ts";
 
 interface AgendaStore {
     isLoading: boolean;
@@ -16,7 +30,18 @@ interface AgendaStore {
         message?: string,
         error?: string
     }>;
+    createEvent: (evento: ReqEventoDTO) => Promise<{
+        success: boolean,
+        message?: string,
+        error?: string
+    }>;
+    deleteEvento: (eventoId: number) => Promise<{
+        success: boolean,
+        message?: string,
+        error?: string
+    }>;
     creaAgenda: (agenda: ReqAgendaDTO) => Promise<{ success: boolean, message?: string; error?: string }>;
+    getAgendaById: (agendaId: number) => Promise<{ success: boolean, agenda?: ResAgendaDTO; error?: string }>;
     deleteAgenda: (agenda: number) => Promise<{ success: boolean, message?: string; error?: string }>;
 }
 
@@ -80,6 +105,44 @@ export const useAgendaStore = create<AgendaStore>((set) => ({
             }
         }
     },
+    createEvent: async (evento) => {
+        set({isLoading: true});
+        try {
+            await createEvent(evento);
+            set({isLoading: false});
+            return {success: true, message: 'Evento creato con successo!'}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
+    deleteEvento: async (eventoId) => {
+        set({isLoading: true});
+        try {
+            await deleteEvento(eventoId);
+            set({isLoading: false});
+            return {success: true, message: 'Evento eliminato con successo!'}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
     creaAgenda: async (agenda) => {
         set({isLoading: true});
         try {
@@ -87,6 +150,27 @@ export const useAgendaStore = create<AgendaStore>((set) => ({
             set({isLoading: false});
             return {success: true, message: 'Agenda creata con successo!'}
         } catch (error) {
+            console.log(error)
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
+    getAgendaById: async (agenda) => {
+        set({isLoading: true});
+        try {
+            const res = await getAgendaById(agenda);
+            set({isLoading: false});
+            return {success: true, agenda: res.data}
+        } catch (error) {
+            console.log(error)
             set({isLoading: false});
             if (axios.isAxiosError(error)) {
                 return {success: false, error: error.response?.data}

@@ -1,5 +1,12 @@
 import {
-    AgendaApi, AuthApi, EventoApi, type FiltriAgendaDTO, type ReqAgendaDTO, type ReqLoginUser, type ReqRegisterUser,
+    AgendaApi,
+    AuthApi,
+    EventoApi,
+    type FiltriAgendaDTO,
+    type ReqAgendaDTO,
+    type ReqEventoDTO,
+    type ReqLoginUser,
+    type ReqRegisterUser,
     type ReqUpdateEventoDTO
 } from "./api.ts";
 import {apiClient} from "./Interceptor.ts";
@@ -14,7 +21,7 @@ export const login = (loginField: ReqLoginUser) => {
     return authApi.apiAuthLoginPost(loginField);
 }
 export const register = (registerField: ReqRegisterUser) => {
-    return authApi.apiAuthLoginPost(registerField);
+    return authApi.apiAuthRegisterPost(registerField);
 }
 export const getUserInfo = async () => {
     return authApi.apiAuthGetUserInfoGet()
@@ -22,7 +29,12 @@ export const getUserInfo = async () => {
 export const getAllAgende = async () => {
     return agendaApi.apiAgendaGetAllGet();
 }
-
+export const createEvent = async (evento: ReqEventoDTO) => {
+    return eventoApi.apiEventoAddPost(evento);
+}
+export const deleteEvento = async (eventoId: number) => {
+    return eventoApi.apiEventoRemoveDelete(eventoId);
+}
 export const getAllEventi = async (agenda: number, filtri: FiltriAgendaDTO) => {
     return eventoApi.apiEventoGetAllPost(agenda, filtri);
 }
@@ -34,4 +46,7 @@ export const createAgenda = async (agenda: ReqAgendaDTO) => {
 }
 export const deleteAgenda = async (agenda: number) => {
     return agendaApi.apiAgendaRemoveDelete(agenda)
+}
+export const getAgendaById = async (agendaId: number) => {
+    return agendaApi.apiAgendaGetByIdGet(agendaId)
 }

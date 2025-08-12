@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**apiEventoAddPost**](#apieventoaddpost) | **POST** /api/Evento/Add | |
 |[**apiEventoGetAllPost**](#apieventogetallpost) | **POST** /api/Evento/GetAll | |
+|[**apiEventoGetEventoByTitleGet**](#apieventogeteventobytitleget) | **GET** /api/Evento/GetEventoByTitle | |
 |[**apiEventoRemoveDelete**](#apieventoremovedelete) | **DELETE** /api/Evento/Remove | |
 |[**apiEventoUpdatePut**](#apieventoupdateput) | **PUT** /api/Evento/Update | |
 
@@ -104,6 +105,59 @@ const { status, data } = await apiInstance.apiEventoGetAllPost(
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiEventoGetEventoByTitleGet**
+> ResEventoDTO apiEventoGetEventoByTitleGet()
+
+
+### Example
+
+```typescript
+import {
+    EventoApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new EventoApi(configuration);
+
+let agendaId: number; // (optional) (default to undefined)
+let titolo: string; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.apiEventoGetEventoByTitleGet(
+    agendaId,
+    titolo
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **agendaId** | [**number**] |  | (optional) defaults to undefined|
+| **titolo** | [**string**] |  | (optional) defaults to undefined|
+
+
+### Return type
+
+**ResEventoDTO**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: text/plain, application/json, text/json
 
 

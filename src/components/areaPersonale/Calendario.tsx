@@ -1,63 +1,46 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin, {type DateClickArg} from "@fullcalendar/interaction";
-import type {ResAgendaDTO, ResEventoDTO} from "../../services/api";
+import type {ResAgendaDTO, ResEventoDTO, ReqEventoDTO} from "../../services/api";
 import {useAgendaStore} from "../../stores/AgendaStore.ts";
 import toast from "react-hot-toast";
-import type {EventApi, EventClickArg, EventContentArg, EventInput} from "@fullcalendar/core";
+import type {
+    EventClickArg,
+    EventContentArg,
+    EventInput,
+    DateSelectArg,
+} from "@fullcalendar/core";
 import FullCalendar from "@fullcalendar/react";
 import {MostraEvento} from "../modals/MostraEvento.tsx";
 import {FaTrash} from "react-icons/fa6";
 import {emitAgendaChanged} from "../../stores/lib/agendaBus.ts";
 import "../../assets/css/calendarTheme.css";
-import type { JSX } from "react";
-
+import type {JSX} from "react";
+import {CreateEventoModale} from "../modals/CreateEventoModale.tsx";
 
 interface CalendarioProps {
     agenda: ResAgendaDTO;
 }
 
-/** ---------- THEME PRESETS (10) ---------- */
-type CalendarPresetId =
-    | "ocean"
-    | "forest"
-    | "sunset"
-    | "grape"
-    | "sky"
-    | "coral"
-    | "slate"
-    | "mint"
-    | "amber"
-    | "rose";
+type PastelThemeId =
+    | "mint" | "peach" | "lavender" | "sky" | "butter"
+    | "coral" | "lilac" | "sage" | "powder" | "blush";
 
-interface CalendarTheme {
-    id: CalendarPresetId;
-    label: string;
-    // CSS variables
-    bg: string;           // background container
-    fg: string;           // text color base
-    headerBg: string;     // header/topbar background
-    headerFg: string;     // header/topbar text
-    accent: string;       // borders, hover, focus
-    eventBg: string;      // event background
-    eventFg: string;      // event text
-}
-
-const THEME_PRESETS: CalendarTheme[] = [
-    { id: "ocean",  label: "Ocean",  bg: "#0b1220", fg: "#e6eefc", headerBg: "#12284a", headerFg: "#e6eefc", accent: "#3da9fc", eventBg: "#2a4365", eventFg: "#e6eefc" },
-    { id: "forest", label: "Forest", bg: "#0f1310", fg: "#e7f5e5", headerBg: "#1f3d2a", headerFg: "#e7f5e5", accent: "#58c497", eventBg: "#2d5a3a", eventFg: "#e7f5e5" },
-    { id: "sunset", label: "Sunset", bg: "#1b1410", fg: "#ffeadd", headerBg: "#5e2a17", headerFg: "#ffeadd", accent: "#ff8e3c", eventBg: "#7a341e", eventFg: "#ffeadd" },
-    { id: "grape",  label: "Grape",  bg: "#120f18", fg: "#efe7ff", headerBg: "#2a1b4a", headerFg: "#efe7ff", accent: "#a78bfa", eventBg: "#3d2b6b", eventFg: "#efe7ff" },
-    { id: "sky",    label: "Sky",    bg: "#0f1216", fg: "#e8f3ff", headerBg: "#16324a", headerFg: "#e8f3ff", accent: "#7cc4ff", eventBg: "#214b73", eventFg: "#e8f3ff" },
-    { id: "coral",  label: "Coral",  bg: "#171012", fg: "#ffeef0", headerBg: "#4a1f25", headerFg: "#ffeef0", accent: "#ff6b6b", eventBg: "#6b2b33", eventFg: "#ffeef0" },
-    { id: "slate",  label: "Slate",  bg: "#0f1115", fg: "#e6eaf2", headerBg: "#1f2430", headerFg: "#e6eaf2", accent: "#8aa1c1", eventBg: "#2b3342", eventFg: "#e6eaf2" },
-    { id: "mint",   label: "Mint",   bg: "#0e1412", fg: "#e6fff7", headerBg: "#1a3c33", headerFg: "#e6fff7", accent: "#3fe0b5", eventBg: "#24564a", eventFg: "#e6fff7" },
-    { id: "amber",  label: "Amber",  bg: "#161208", fg: "#fff6e0", headerBg: "#3a2a08", headerFg: "#fff6e0", accent: "#fbbf24", eventBg: "#5a3f0c", eventFg: "#fff6e0" },
-    { id: "rose",   label: "Rose",   bg: "#140f12", fg: "#ffe6f0", headerBg: "#3a1f2d", headerFg: "#ffe6f0", accent: "#f472b6", eventBg: "#5b2b43", eventFg: "#ffe6f0" },
+const PASTEL_THEMES: { id: PastelThemeId; label: string }[] = [
+    {id: "mint", label: "Menta"},
+    {id: "peach", label: "Pesca"},
+    {id: "lavender", label: "Lavanda"},
+    {id: "sky", label: "Cielo"},
+    {id: "butter", label: "Burro"},
+    {id: "coral", label: "Corallo"},
+    {id: "lilac", label: "Lilla"},
+    {id: "sage", label: "Salvia"},
+    {id: "powder", label: "Polvere"},
+    {id: "blush", label: "Blush"},
 ];
 
-const THEME_STORAGE_KEY = (agendaId: number) => `calendar-theme:${agendaId}`;
+const THEME_KEY = (id: number) => `agenda-theme:${id}`;
 
 const renderStars = (rating: number) => {
     const stars: JSX.Element[] = [];
@@ -67,12 +50,11 @@ const renderStars = (rating: number) => {
     return <div className="stars">{stars}</div>;
 };
 
-const mapEvents = (events: ResEventoDTO[]): EventInput[] => {
-    return events.map((e) => {
+const mapEvents = (events: ResEventoDTO[]): EventInput[] =>
+    events.map((e) => {
         const start = new Date(e.dataInizio);
         let end = e.dataFine ? new Date(e.dataFine) : undefined;
         if (end && start.getTime() === end.getTime()) end = undefined;
-
         return {
             id: String(e.id),
             title: e.titolo,
@@ -87,28 +69,50 @@ const mapEvents = (events: ResEventoDTO[]): EventInput[] => {
             },
         };
     });
-};
 
-export const Calendario = ({ agenda }: CalendarioProps) => {
+
+export const Calendario = ({agenda}: CalendarioProps) => {
     const [events, setEvents] = useState<EventInput[]>([]);
-    const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
+    const [selectedEvent, setSelectedEvent] = useState<ResEventoDTO | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
 
-    const { deleteAgenda, getAllEventi } = useAgendaStore();
+    const [creaEventoModal, setCreaEventoModal] = useState(false);
+    const [createPayload, setCreatePayload] = useState<{ startISO: string; endISO: string } | null>(null);
+
+    const {deleteAgenda, getAllEventi, createEvent} = useAgendaStore();
     const calendarRef = useRef<FullCalendar | null>(null);
 
-    // Load persisted theme or default
-    const persistedThemeId: CalendarPresetId | null = useMemo(() => {
-        if (!agenda.id) return null;
-        const raw = localStorage.getItem(THEME_STORAGE_KEY(agenda.id));
-        return (raw as CalendarPresetId | null) ?? null;
+    const [isMobile, setIsMobile] = useState<boolean>(false);
+    const [contentHeight, setContentHeight] = useState<number>(560);
+
+    useEffect(() => {
+        const compute = () => {
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            setIsMobile(vw < 760);
+            const h = Math.max(420, Math.min(860, Math.floor(vh - 220)));
+            setContentHeight(h);
+        };
+        compute();
+        window.addEventListener("resize", compute);
+        return () => window.removeEventListener("resize", compute);
+    }, []);
+
+    const [themeId, setThemeId] = useState<PastelThemeId>(() => {
+        const raw = agenda.id ? (localStorage.getItem(THEME_KEY(agenda.id)) as PastelThemeId | null) : null;
+        return raw ?? "sky";
+    });
+
+    useEffect(() => {
+        if (!agenda.id) return;
+        const raw = localStorage.getItem(THEME_KEY(agenda.id)) as PastelThemeId | null;
+        if (raw) setThemeId(raw);
     }, [agenda.id]);
 
-    const [theme, setTheme] = useState<CalendarTheme>(() => {
-        const fallback = THEME_PRESETS[0];
-        if (!persistedThemeId) return fallback;
-        return THEME_PRESETS.find(t => t.id === persistedThemeId) ?? fallback;
-    });
+    const onPickTheme = (id: PastelThemeId) => {
+        setThemeId(id);
+        if (agenda.id) localStorage.setItem(THEME_KEY(agenda.id), id);
+    };
 
     useEffect(() => {
         if (!agenda.id) return;
@@ -116,27 +120,42 @@ export const Calendario = ({ agenda }: CalendarioProps) => {
             .then((res) => {
                 if (res.success) setEvents(mapEvents(res.events ?? []));
             })
-            .catch((err) => toast.error(err));
+            .catch((err) => toast.error(typeof err === "string" ? err : (err as Error).message));
     }, [agenda.id, getAllEventi]);
 
-    // Persist theme when it changes
-    useEffect(() => {
-        if (agenda.id) {
-            localStorage.setItem(THEME_STORAGE_KEY(agenda.id), theme.id);
-        }
-    }, [agenda.id, theme.id]);
-
+    const ONE_HOUR = 60 * 60 * 1000;
     const handleDateClick = (arg: DateClickArg) => {
-        console.log("Clicked date: ", arg.dateStr);
+        const startISO = arg.date.toISOString();
+        const endISO = new Date(arg.date.getTime() + ONE_HOUR).toISOString();
+        setCreatePayload({startISO, endISO});
+        setCreaEventoModal(true);
     };
 
-    const handleEventClick = (arg: EventClickArg) => {
-        setSelectedEvent(arg.event);
-        setModalOpen(true);
+    const handleSelect = (arg: DateSelectArg) => {
+        const start = arg.start;
+        let end = arg.end;
+        if (arg.allDay) {
+            end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
+        }
+        setCreatePayload({startISO: start.toISOString(), endISO: end.toISOString()});
+        setCreaEventoModal(true);
     };
 
-    const renderEventContent = (eventInfo: EventContentArg) => {
-        const { event } = eventInfo;
+    const handleEventClick = async (arg: EventClickArg) => {
+        await getAllEventi(agenda.id, {}).then((res) => {
+            if (res.success && res.events) {
+                const foundEvent = res.events.find(ev => ev.titolo === arg.event.title);
+                if (!foundEvent)
+                    return
+                setSelectedEvent(foundEvent);
+                setModalOpen(true);
+            }
+        })
+
+    };
+
+    const renderEventContent = (eventInfo: EventContentArg): JSX.Element => {
+        const {event} = eventInfo;
         const rating = (event.extendedProps as { rating?: number }).rating ?? 0;
         return (
             <div className="fc-event-content-custom">
@@ -148,97 +167,115 @@ export const Calendario = ({ agenda }: CalendarioProps) => {
 
     const handleDeleteAgenda = async (agendaId: number) => {
         await deleteAgenda(agendaId)
-            .then((res) => {
-                if (res.success) toast.success(res.message || "Agenda eliminata con successo!");
-                else toast.error(res.error || "Impossibile eliminare l'agenda!");
-            })
+            .then((res) =>
+                res.success
+                    ? toast.success(res.message || "Agenda eliminata con successo!")
+                    : toast.error(res.error || "Impossibile eliminare l'agenda!")
+            )
             .catch((err) => console.log(err));
         emitAgendaChanged();
     };
 
-    const onPickTheme = (id: CalendarPresetId) => {
-        const next = THEME_PRESETS.find(t => t.id === id);
-        if (next) setTheme(next);
-    };
-
-    // Inline CSS variables for this instance
-    const cssVars: React.CSSProperties & Record<
-        "--cal-bg" | "--cal-fg" | "--cal-header-bg" | "--cal-header-fg" |
-        "--cal-accent" | "--cal-event-bg" | "--cal-event-fg", string
-    > = {
-        "--cal-bg": theme.bg,
-        "--cal-fg": theme.fg,
-        "--cal-header-bg": theme.headerBg,
-        "--cal-header-fg": theme.headerFg,
-        "--cal-accent": theme.accent,
-        "--cal-event-bg": theme.eventBg,
-        "--cal-event-fg": theme.eventFg
+    const handleCreateEvento = async (dto: ReqEventoDTO) => {
+        try {
+            const res = await createEvent(dto);
+            if (res.success) {
+                toast.success(res.message ?? "Evento creato!");
+                setCreaEventoModal(false);
+                const r = await getAllEventi(agenda.id, {});
+                if (r.success) setEvents(mapEvents(r.events ?? []));
+                emitAgendaChanged();
+            } else {
+                toast.error(res.error ?? "Errore durante la creazione dell'evento.");
+            }
+        } catch (err) {
+            toast.error(typeof err === "string" ? err : (err as Error).message);
+        }
     };
 
     return (
         <>
-            <div className="calendar-wrapper compact-calendar" style={cssVars}>
-                {/* Header + Theme Picker */}
-                <div className="calendar-header-wrapper" style={{ background: "var(--cal-header-bg)", color: "var(--cal-header-fg)" }}>
-                    <h3 title={agenda.descrizione || ""}>{agenda.descrizione || "Nessuna descrizione"}</h3>
-                    <div className="calendar-actions">
-                        <ThemePicker
-                            current={theme.id}
-                            onPick={onPickTheme}
-                        />
-                        <FaTrash onClick={() => handleDeleteAgenda(agenda.id)} className='icon calendar-trash-icon' />
+            <div className={`calendar-outer theme-${themeId}`}>
+                <div className="calendar-wrapper compact-calendar">
+                    <div className="calendar-header-wrapper">
+                        <h3 title={agenda.descrizione || ""}>{agenda.descrizione || "Nessuna descrizione"}</h3>
+                        <div className="calendar-actions">
+                            <ThemePills themes={PASTEL_THEMES} current={themeId} onPick={onPickTheme}/>
+                            <button
+                                className="calendar-trash-btn"
+                                onClick={() => handleDeleteAgenda(agenda.id)}
+                                aria-label="Elimina agenda"
+                            >
+                                <FaTrash className="icon calendar-trash-icon"/>
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                {/* Calendar */}
-                <FullCalendar
-                    ref={calendarRef}
-                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                    initialView="dayGridMonth"
-                    locale="it"
-                    events={events}
-                    dateClick={handleDateClick}
-                    eventClick={handleEventClick}
-                    eventContent={renderEventContent}
-                    height="auto"
-                    contentHeight={500}
-                    // As fallback, set event colors (we still primarily theme via CSS vars)
-                    eventColor={theme.eventBg}
-                    eventTextColor={theme.eventFg}
-                />
+                    <FullCalendar
+                        ref={calendarRef}
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                        initialView={isMobile ? "dayGridWeek" : "dayGridMonth"}
+                        locale="it"
+                        events={events}
+                        dateClick={handleDateClick}
+                        select={handleSelect}
+                        selectable={true}
+                        eventClick={handleEventClick}
+                        eventContent={renderEventContent}
+                        height="auto"
+                        contentHeight={contentHeight}
+                        expandRows={true}
+                        handleWindowResize={true}
+                        headerToolbar={{
+                            left: "prev,next today",
+                            center: "title",
+                            right: ""
+                        }}
+                        dayMaxEvents={true}
+                    />
+                </div>
             </div>
 
             {modalOpen && selectedEvent && (
-                <MostraEvento selectedEvent={selectedEvent} setModalOpen={setModalOpen}/>
+                <MostraEvento selectedEvent={selectedEvent} onClose={()=>{setSelectedEvent(null); setModalOpen(false)}} setModalOpen={setModalOpen}/>
+            )}
+
+            {creaEventoModal && createPayload && (
+                <CreateEventoModale
+                    isOpen={creaEventoModal}
+                    onClose={() => setCreaEventoModal(false)}
+                    onCreate={handleCreateEvento}
+                    agendaId={agenda.id}
+                    dataInizio={createPayload.startISO}
+                    dataFine={createPayload.endISO}
+                    defaultValues={{stato: "Pianificato", rating: 0}}
+                />
             )}
         </>
     );
 };
 
-/** ---------- ThemePicker (UI) ---------- */
-interface ThemePickerProps {
-    current: CalendarPresetId;
-    onPick: (id: CalendarPresetId) => void;
+interface ThemePillsProps {
+    themes: { id: PastelThemeId; label: string }[];
+    current: PastelThemeId;
+    onPick: (id: PastelThemeId) => void;
 }
 
-const ThemePicker = ({ current, onPick }: ThemePickerProps) => {
+const ThemePills = ({themes, current, onPick}: ThemePillsProps) => {
     return (
-        <div className="theme-picker" role="listbox" aria-label="Selettore tema calendario">
-            {THEME_PRESETS.map((t) => (
-                <button
-                    key={t.id}
-                    type="button"
-                    className={`theme-swatch ${current === t.id ? "active" : ""}`}
-                    onClick={() => onPick(t.id)}
-                    title={t.label}
-                    aria-pressed={current === t.id}
-                    style={{
-                        background: `linear-gradient(135deg, ${t.headerBg} 0%, ${t.eventBg} 100%)`,
-                        color: t.headerFg,
-                    }}
-                >
-                    <span className="theme-dot" style={{ background: t.accent }} />
-                </button>
+        <div className="theme-pills" role="radiogroup" aria-label="Tema calendario">
+            {themes.map((t) => (
+                <label key={t.id} className={`pill ${current === t.id ? "active" : ""}`}>
+                    <input
+                        type="radio"
+                        name="calendar-theme"
+                        value={t.id}
+                        checked={current === t.id}
+                        onChange={() => onPick(t.id)}
+                    />
+                    <span className={`dot dot-${t.id}`}/>
+                    <span className="pill-text">{t.label}</span>
+                </label>
             ))}
         </div>
     );

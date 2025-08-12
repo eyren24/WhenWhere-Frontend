@@ -268,6 +268,19 @@ export interface ReqRegisterUser {
 /**
  * 
  * @export
+ * @interface ReqTagDTO
+ */
+export interface ReqTagDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqTagDTO
+     */
+    'nome': string;
+}
+/**
+ * 
+ * @export
  * @interface ReqUpdateAgenda
  */
 export interface ReqUpdateAgenda {
@@ -314,6 +327,25 @@ export interface ReqUpdateEventoDTO {
      * @memberof ReqUpdateEventoDTO
      */
     'descrizione': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqUpdateEventoDTO
+     */
+    'tagId': number;
+}
+/**
+ * 
+ * @export
+ * @interface ReqUpdateTagDTO
+ */
+export interface ReqUpdateTagDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateTagDTO
+     */
+    'nome': string;
 }
 /**
  * 
@@ -611,6 +643,46 @@ export const AgendaApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        apiAgendaGetByIdGet: async (agendaId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'agendaId' is not null or undefined
+            assertParamExists('apiAgendaGetByIdGet', 'agendaId', agendaId)
+            const localVarPath = `/api/Agenda/GetById`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (agendaId !== undefined) {
+                localVarQueryParameter['agendaId'] = agendaId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} agendaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         apiAgendaRemoveDelete: async (agendaId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'agendaId' is not null or undefined
             assertParamExists('apiAgendaRemoveDelete', 'agendaId', agendaId)
@@ -728,6 +800,18 @@ export const AgendaApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async apiAgendaGetByIdGet(agendaId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResAgendaDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaGetByIdGet(agendaId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaGetByIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} agendaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async apiAgendaRemoveDelete(agendaId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaRemoveDelete(agendaId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -780,6 +864,15 @@ export const AgendaApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        apiAgendaGetByIdGet(agendaId: number, options?: RawAxiosRequestConfig): AxiosPromise<ResAgendaDTO> {
+            return localVarFp.apiAgendaGetByIdGet(agendaId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} agendaId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         apiAgendaRemoveDelete(agendaId: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.apiAgendaRemoveDelete(agendaId, options).then((request) => request(axios, basePath));
         },
@@ -822,6 +915,17 @@ export class AgendaApi extends BaseAPI {
      */
     public apiAgendaGetAllGet(options?: RawAxiosRequestConfig) {
         return AgendaApiFp(this.configuration).apiAgendaGetAllGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} agendaId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AgendaApi
+     */
+    public apiAgendaGetByIdGet(agendaId: number, options?: RawAxiosRequestConfig) {
+        return AgendaApiFp(this.configuration).apiAgendaGetByIdGet(agendaId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1254,6 +1358,49 @@ export const EventoApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {number} [agendaId] 
+         * @param {string} [titolo] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiEventoGetEventoByTitleGet: async (agendaId?: number, titolo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Evento/GetEventoByTitle`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (agendaId !== undefined) {
+                localVarQueryParameter['agendaId'] = agendaId;
+            }
+
+            if (titolo !== undefined) {
+                localVarQueryParameter['titolo'] = titolo;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} eventoId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1375,6 +1522,19 @@ export const EventoApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [agendaId] 
+         * @param {string} [titolo] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiEventoGetEventoByTitleGet(agendaId?: number, titolo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResEventoDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiEventoGetEventoByTitleGet(agendaId, titolo, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['EventoApi.apiEventoGetEventoByTitleGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} eventoId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1429,6 +1589,16 @@ export const EventoApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {number} [agendaId] 
+         * @param {string} [titolo] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiEventoGetEventoByTitleGet(agendaId?: number, titolo?: string, options?: RawAxiosRequestConfig): AxiosPromise<ResEventoDTO> {
+            return localVarFp.apiEventoGetEventoByTitleGet(agendaId, titolo, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} eventoId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1477,6 +1647,18 @@ export class EventoApi extends BaseAPI {
      */
     public apiEventoGetAllPost(agendaId: number, filtriAgendaDTO: FiltriAgendaDTO, options?: RawAxiosRequestConfig) {
         return EventoApiFp(this.configuration).apiEventoGetAllPost(agendaId, filtriAgendaDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [agendaId] 
+     * @param {string} [titolo] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventoApi
+     */
+    public apiEventoGetEventoByTitleGet(agendaId?: number, titolo?: string, options?: RawAxiosRequestConfig) {
+        return EventoApiFp(this.configuration).apiEventoGetEventoByTitleGet(agendaId, titolo, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1842,6 +2024,327 @@ export class NotaApi extends BaseAPI {
      */
     public apiNotaUpdatePut(notaId: number, reqNotaDTO: ReqNotaDTO, options?: RawAxiosRequestConfig) {
         return NotaApiFp(this.configuration).apiNotaUpdatePut(notaId, reqNotaDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * TagApi - axios parameter creator
+ * @export
+ */
+export const TagApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {ReqTagDTO} reqTagDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagAddPost: async (reqTagDTO: ReqTagDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reqTagDTO' is not null or undefined
+            assertParamExists('apiTagAddPost', 'reqTagDTO', reqTagDTO)
+            const localVarPath = `/api/Tag/Add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(reqTagDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagGetListGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Tag/GetList`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagRemoveDelete: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Tag/Remove`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ReqUpdateTagDTO} reqUpdateTagDTO 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagUpdatePut: async (reqUpdateTagDTO: ReqUpdateTagDTO, id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reqUpdateTagDTO' is not null or undefined
+            assertParamExists('apiTagUpdatePut', 'reqUpdateTagDTO', reqUpdateTagDTO)
+            const localVarPath = `/api/Tag/Update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(reqUpdateTagDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * TagApi - functional programming interface
+ * @export
+ */
+export const TagApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TagApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {ReqTagDTO} reqTagDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiTagAddPost(reqTagDTO: ReqTagDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTagAddPost(reqTagDTO, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TagApi.apiTagAddPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiTagGetListGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTagGetListGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TagApi.apiTagGetListGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiTagRemoveDelete(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTagRemoveDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TagApi.apiTagRemoveDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ReqUpdateTagDTO} reqUpdateTagDTO 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiTagUpdatePut(reqUpdateTagDTO: ReqUpdateTagDTO, id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiTagUpdatePut(reqUpdateTagDTO, id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TagApi.apiTagUpdatePut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * TagApi - factory interface
+ * @export
+ */
+export const TagApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TagApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {ReqTagDTO} reqTagDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagAddPost(reqTagDTO: ReqTagDTO, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiTagAddPost(reqTagDTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagGetListGet(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiTagGetListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagRemoveDelete(id?: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiTagRemoveDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ReqUpdateTagDTO} reqUpdateTagDTO 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiTagUpdatePut(reqUpdateTagDTO: ReqUpdateTagDTO, id?: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiTagUpdatePut(reqUpdateTagDTO, id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * TagApi - object-oriented interface
+ * @export
+ * @class TagApi
+ * @extends {BaseAPI}
+ */
+export class TagApi extends BaseAPI {
+    /**
+     * 
+     * @param {ReqTagDTO} reqTagDTO 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TagApi
+     */
+    public apiTagAddPost(reqTagDTO: ReqTagDTO, options?: RawAxiosRequestConfig) {
+        return TagApiFp(this.configuration).apiTagAddPost(reqTagDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TagApi
+     */
+    public apiTagGetListGet(options?: RawAxiosRequestConfig) {
+        return TagApiFp(this.configuration).apiTagGetListGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [id] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TagApi
+     */
+    public apiTagRemoveDelete(id?: number, options?: RawAxiosRequestConfig) {
+        return TagApiFp(this.configuration).apiTagRemoveDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ReqUpdateTagDTO} reqUpdateTagDTO 
+     * @param {number} [id] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TagApi
+     */
+    public apiTagUpdatePut(reqUpdateTagDTO: ReqUpdateTagDTO, id?: number, options?: RawAxiosRequestConfig) {
+        return TagApiFp(this.configuration).apiTagUpdatePut(reqUpdateTagDTO, id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **titolo** | **string** |  | [default to undefined]
 **stato** | **string** |  | [default to undefined]
 **descrizione** | **string** |  | [default to undefined]
+**tagId** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -18,6 +19,7 @@ const instance: ReqUpdateEventoDTO = {
     titolo,
     stato,
     descrizione,
+    tagId,
 };
 ```
 
