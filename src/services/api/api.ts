@@ -308,6 +308,12 @@ export interface ReqUpdateEventoDTO {
      * @memberof ReqUpdateEventoDTO
      */
     'stato': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateEventoDTO
+     */
+    'descrizione': string;
 }
 /**
  * 

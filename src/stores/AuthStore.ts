@@ -57,6 +57,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
             set({isLoading: false, isAuthenticated: true});
             return {success: true};
         } catch (error) {
+            console.log(error);
             set({isLoading: false});
             if (axios.isAxiosError(error)) {
                 return {success: false, error: error.response?.data}

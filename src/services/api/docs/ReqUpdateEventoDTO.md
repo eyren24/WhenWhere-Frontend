@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **titolo** | **string** |  | [default to undefined]
 **stato** | **string** |  | [default to undefined]
+**descrizione** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { ReqUpdateEventoDTO } from './api';
 const instance: ReqUpdateEventoDTO = {
     titolo,
     stato,
+    descrizione,
 };
 ```
 

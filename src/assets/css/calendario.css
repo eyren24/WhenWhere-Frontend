@@ -100,3 +100,17 @@
 .btn-close:hover {
     background-color: #0056b3;
 }
+
+.calendar-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.calendar-trash-icon{
+    color: #ff4a2b;
+    font-size: 17px;
+    cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import {
-    AgendaApi, AuthApi, EventoApi, type FiltriAgendaDTO, type ReqLoginUser, type ReqRegisterUser,
+    AgendaApi, AuthApi, EventoApi, type FiltriAgendaDTO, type ReqAgendaDTO, type ReqLoginUser, type ReqRegisterUser,
     type ReqUpdateEventoDTO
 } from "./api.ts";
 import {apiClient} from "./Interceptor.ts";
@@ -28,4 +28,10 @@ export const getAllEventi = async (agenda: number, filtri: FiltriAgendaDTO) => {
 }
 export const updateEvento = async (evento: number, nuovoEvento: ReqUpdateEventoDTO) => {
     return eventoApi.apiEventoUpdatePut(evento, nuovoEvento);
+}
+export const createAgenda = async (agenda: ReqAgendaDTO) => {
+    return agendaApi.apiAgendaAddAgendaPost(agenda)
+}
+export const deleteAgenda = async (agenda: number) => {
+    return agendaApi.apiAgendaRemoveDelete(agenda)
 }
