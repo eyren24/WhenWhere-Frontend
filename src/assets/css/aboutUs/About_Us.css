@@ -1,0 +1,59 @@
+.aboutus-background {
+    background-image: url('');
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 70vh;
+    width: 100%;
+}
+.h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+    margin-top: 20px;
+}
+
+.fancy-underline {
+    /* Stile base */
+    position: relative;
+    display: inline-block;
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 0.75em;
+
+    /* Fade-in del testo */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Linea di sottolineatura (animata separatamente) */
+.fancy-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0.5em;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #008bf8, #00d1ff);
+    border-radius: 2px;
+
+    /* Animazione della linea */
+    animation: drawLine 1s ease-out 0.5s forwards;
+}
+
+/* Animazione: testo che appare */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animazione: linea che si disegna */
+@keyframes drawLine {
+    to {
+        width: 100%;
+    }
+}

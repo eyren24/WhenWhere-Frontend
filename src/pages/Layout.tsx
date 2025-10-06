@@ -1,6 +1,5 @@
 import {Outlet, useLocation} from "react-router";
 import {Navbar} from "../components/home/Navbar.tsx";
-import {NavbarPersonale} from "../components/areaPersonale/NavbarPersonale.tsx";
 import {Toaster} from "react-hot-toast";
 
 export const Layout = () => {
@@ -13,8 +12,7 @@ export const Layout = () => {
         />
         {
             location.pathname == '/' ?
-            <Navbar/> :
-            <NavbarPersonale/>
+            <Navbar/> : null
         }
         <main>
             <Outlet/>

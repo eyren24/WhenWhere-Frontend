@@ -75,8 +75,8 @@ export const Navbar = () => {
                             Home
                         </Link>
                         <Link
-                            to="/chi-siamo"
-                            className={`navbar-link ${location.pathname === "/chi-siamo" ? "active" : ""}`}
+                            to="aboutus"
+                            className={`navbar-link ${location.pathname === "aboutus" ? "active" : ""}`}
                         >
                             Chi Siamo
                         </Link>

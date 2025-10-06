@@ -8,7 +8,7 @@
     max-width: 1150px;
     margin: 0 auto;
     padding: 3rem 1.5rem 4rem;
-    color: #ffffff;
+    baccolor: #000000;
 }
 
 /* Titolo sezione */
@@ -17,28 +17,22 @@
     font-weight: 600;
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
-    color: #f3f4f6;
+    color: #000000;
 }
 
-/* Layout griglia */
+/* Layout griglia — le card sempre una accanto all’altra */
 .quick-grid {
-    display: grid;
-    gap: 2rem; /* più spazio tra le card */
-}
-@media (min-width: 640px) {
-    .quick-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (min-width: 1024px) {
-    .quick-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 2rem; /* spazio tra le card */
+    flex-wrap: nowrap; /* tutte in una sola riga */
 }
 
 /* --- CARD --- */
 .quickcard {
-    position: relative;
+    flex: 1; /* stessa larghezza per tutte */
+    min-width: 0;
     border-radius: 1.25rem;
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(14px);
@@ -48,13 +42,14 @@
     box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
     transition: all 0.4s ease;
     overflow: hidden;
+    text-align: left;
 }
 .quickcard:hover {
     background: rgba(255, 255, 255, 0.13);
     border-color: rgba(255, 255, 255, 0.35);
 }
 
-/* Effetto luminoso al passaggio */
+/* Effetto luminoso */
 .quickcard::before {
     content: "";
     position: absolute;
@@ -81,7 +76,7 @@
 .quickcard h4 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.3);
+    color: #000000;
     margin-bottom: 0.5rem;
     position: relative;
     z-index: 1;
@@ -90,7 +85,7 @@
 /* Descrizione card */
 .quickcard p {
     font-size: 0.95rem;
-    color: #d1d5db;
+    color: rgba(0, 0, 0, 0.3);
     line-height: 1.45;
     position: relative;
     z-index: 1;
@@ -101,12 +96,9 @@
     color: #16a3e1;
 }
 
-/* Responsive tuning */
-@media (max-width: 640px) {
-    .quick-section {
-        padding: 2.5rem 1rem;
-    }
-    .quickcard {
-        padding: 1.5rem;
+/* Responsive tuning — le card si impilano su mobile */
+@media (max-width: 768px) {
+    .quick-grid {
+        flex-direction: column;
     }
 }

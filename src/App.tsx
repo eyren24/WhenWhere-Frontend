@@ -6,6 +6,7 @@ import "./assets/css/index.css";
 import {useAuthStore} from "./stores/AuthStore.ts";
 import {useEffect, useState} from "react";
 import { UserProvider } from "./context/UserProvider";
+import AboutUs from "./pages/AboutUs.tsx";
 
 
 function App() {
@@ -32,7 +33,8 @@ function App() {
                         <Routes>
                             <Route path='/' element={<Layout/>}>
                                 <Route path='/' index element={<Home/>}/>
-                                <Route path='/AreaPersonale' index element={<AreaPersonale/>}/>
+                                <Route path='/AreaPersonale' element={<AreaPersonale/>}/>
+                                <Route path='/aboutus' element={<AboutUs/>}/>
                             </Route>
                         </Routes>
                     </BrowserRouter>

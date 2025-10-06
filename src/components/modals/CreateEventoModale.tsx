@@ -11,6 +11,7 @@ import {TextAreaField} from "../ui/TextAreaField.tsx";
 import {DateTimeRange} from "../ui/DateTimeRange.tsx";
 import {StarRating} from "../ui/StarRating.tsx";
 import {useAgendaStore} from "../../stores/AgendaStore.ts";
+import {SelectField} from "../ui/SelectField.tsx";
 
 export type CreateEventoModalProps = {
     isOpen: boolean;
@@ -36,7 +37,7 @@ export const CreateEventoModale: React.FC<CreateEventoModalProps> = ({
     const [rating, setRating] = useState<number>(Math.min(5, Math.max(1, Number(defaultValues?.rating ?? 3))));
     const [notifica, setNotifica] = useState<boolean>(Boolean(defaultValues?.notifica ?? false));
     const [tags, setTags] = useState<ResTagDTO[]>([]);
-    const {getTags} = useAgendaStore();
+    const {isLoading, getTags} = useAgendaStore();
     const firstFieldRef = useRef<HTMLInputElement | null>(null);
     useEffect(() => {
         if (isOpen) {
@@ -186,19 +187,19 @@ export const CreateEventoModale: React.FC<CreateEventoModalProps> = ({
                 </datalist>
 
                 <div className="grid gap-5 sm:grid-cols-2">
-                    <TextField
+                    <SelectField
                         id="tagId"
                         name="tagId"
-                        type="number"
-                        label="Tag ID"
+                        disabled={isLoading}
+                        label="Tag"
                         requiredMark
-                        placeholder="Es. 1"
-                        min={1}
-                        step={1}
+                        placeholder="Seleziona un tag"
+                        options={tags}
                         defaultValue={
-                            typeof defaultValues?.tagId === "number" ? defaultValues.tagId : undefined
+                            typeof defaultValues?.tagId === "number" ? String(defaultValues.tagId) : ""
                         }
                     />
+
                     <label className="mt-6 inline-flex items-center gap-3 text-sm text-gray-700">
                         <input
                             type="checkbox"
@@ -208,10 +209,11 @@ export const CreateEventoModale: React.FC<CreateEventoModalProps> = ({
                             onChange={(e) => setNotifica(e.target.checked)}
                         />
                         <span className="inline-flex items-center gap-2">
-              <FaBell/> Notifica
-            </span>
+      <FaBell/> Notifica
+    </span>
                     </label>
                 </div>
+
 
                 <DateTimeRange
                     start={startLocal}
