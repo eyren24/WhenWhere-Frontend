@@ -5,6 +5,8 @@ import {AreaPersonale} from "./pages/AreaPersonale.tsx";
 import "./assets/css/index.css";
 import {useAuthStore} from "./stores/AuthStore.ts";
 import {useEffect, useState} from "react";
+import { UserProvider } from "./context/UserProvider";
+
 
 function App() {
 
@@ -25,14 +27,17 @@ function App() {
                         loading..
                     </div>
                 </> :
-                <BrowserRouter>
-                    <Routes>
-                        <Route path='/' element={<Layout/>}>
-                            <Route path='/' index element={<Home/>}/>
-                            <Route path='/AreaPersonale' index element={<AreaPersonale/>}/>
-                        </Route>
-                    </Routes>
-                </BrowserRouter>}
+                <UserProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path='/' element={<Layout/>}>
+                                <Route path='/' index element={<Home/>}/>
+                                <Route path='/AreaPersonale' index element={<AreaPersonale/>}/>
+                            </Route>
+                        </Routes>
+                    </BrowserRouter>
+                </UserProvider>
+            }
         </>
     )
 }

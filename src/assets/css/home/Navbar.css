@@ -1,68 +1,191 @@
+/* =============================== */
+/*        NAVBAR CONTAINER         */
+/* =============================== */
+
 .navbar-container {
     position: fixed;
-    bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 998;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 1000;
 }
 
-.navbar-card {
-    width: 300px;
+/* =============================== */
+/*           NAV WRAPPER           */
+/* =============================== */
+
+.navbar-glass {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    background-color: #f3f0f0;
-    padding: 0 18px;
-    border-radius: 50px;
-    z-index: 99999;
+    padding: 0 25px;
+    height: 70px;
+    border-radius: 35px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease;
+}
+
+.navbar-glass:hover {
+    background: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* =============================== */
+/*         LOGO A SINISTRA         */
+/* =============================== */
+
+.navbar-center-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.navbar-logo-img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    transition: all 0.4s ease;
+}
+
+.navbar-logo-img:hover {
+    transform: scale(1.05);
+
+}
+
+.navbar-center-logo:hover .navbar-brand-text {
+    opacity: 1;
+}
+
+/* =============================== */
+/*         BOTTONI A DESTRA        */
+/* =============================== */
+
+.navbar-side {
+    position: relative;
 }
 
 .navbar-tab {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
-    overflow: hidden;
-    background-color: rgb(255, 255, 255);
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 }
 
 .navbar-tab:hover {
-    background-color: rgb(223, 223, 223);
-}
-
-.navbar-tab--center {
-    background: #ECF9FF;
-    color: white;
-    width: 70px;
-    height: 70px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
-}
-
-.navbar-tab--center:hover {
-    background: #ECF9FF;
-    transform: translateX(-50%) scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.08);
 }
 
 .navbar-icon {
-    font-size: 22px;
+    color: #fff;
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
 }
 
-.navbar-logo-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 50%;
+.navbar-tab:hover .navbar-icon {
+    transform: scale(1.15);
 }
+
+/* =============================== */
+/*         LOGIN DROPDOWN          */
+/* =============================== */
+
+.navbar-side .LoginCard {
+    position: absolute;
+    top: 100%;          /* parte subito sotto al contenitore */
+    right: 0;
+    margin-top: 10px;   /* spazio tra bottone e card */
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.LoginCard {
+    opacity: 0;
+    transform: translateY(-10px); /* piccolo movimento in entrata */
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.LoginCard.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+
+/* =============================== */
+/*       RESPONSIVE ADJUSTMENTS    */
+/* =============================== */
+
+@media (max-width: 768px) {
+    .navbar-glass {
+        height: 60px;
+        padding: 0 18px;
+    }
+
+    .navbar-logo-img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .navbar-brand-text {
+        font-size: 1rem;
+    }
+
+    .navbar-tab {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-icon {
+        font-size: 1.2rem;
+    }
+}
+
+/* =============================== */
+/*         LINK CENTRALI NAV       */
+/* =============================== */
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar-link {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.navbar-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.navbar-link.active {
+    background: rgba(255, 255, 255, 0.35);
+    font-weight: 600;
+}
+

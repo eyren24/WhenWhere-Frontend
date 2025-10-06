@@ -1,6 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 *{
     box-sizing: border-box;
 }
+
+:root {
+    --agenda-accent: #6a5af9;
+}
+
+[data-agenda="work"] {
+    --agenda-accent: #f97316;
+}
+
+[data-agenda="travel"] {
+    --agenda-accent: #22c55e;
+}
+
 
 html, body{
     padding: 0;

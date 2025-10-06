@@ -7,7 +7,7 @@ import {
     type ReqEventoDTO,
     type ReqLoginUser,
     type ReqRegisterUser,
-    type ReqUpdateEventoDTO
+    type ReqUpdateEventoDTO, TagApi
 } from "./api.ts";
 import {apiClient} from "./Interceptor.ts";
 import {URL_PATH, apiConfig} from "./config.ts";
@@ -15,6 +15,7 @@ import {URL_PATH, apiConfig} from "./config.ts";
 export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient)
 export const agendaApi = new AgendaApi(apiConfig, URL_PATH, apiClient)
 export const eventoApi = new EventoApi(apiConfig, URL_PATH, apiClient)
+export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient)
 
 
 export const login = (loginField: ReqLoginUser) => {
@@ -49,4 +50,8 @@ export const deleteAgenda = async (agenda: number) => {
 }
 export const getAgendaById = async (agendaId: number) => {
     return agendaApi.apiAgendaGetByIdGet(agendaId)
+}
+
+export const getTags = async () => {
+    return tagsApi.apiTagGetListGet()
 }

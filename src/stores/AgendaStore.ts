@@ -5,7 +5,7 @@ import type {
     ReqEventoDTO,
     ReqUpdateEventoDTO,
     ResAgendaDTO,
-    ResEventoDTO
+    ResEventoDTO, ResTagDTO
 } from "../services/api";
 import axios from "axios";
 import {
@@ -13,7 +13,7 @@ import {
     createEvent,
     deleteAgenda, deleteEvento, getAgendaById,
     getAllAgende,
-    getAllEventi,
+    getAllEventi, getTags,
     updateEvento
 } from "../services/api/services.ts";
 
@@ -43,6 +43,7 @@ interface AgendaStore {
     creaAgenda: (agenda: ReqAgendaDTO) => Promise<{ success: boolean, message?: string; error?: string }>;
     getAgendaById: (agendaId: number) => Promise<{ success: boolean, agenda?: ResAgendaDTO; error?: string }>;
     deleteAgenda: (agenda: number) => Promise<{ success: boolean, message?: string; error?: string }>;
+    getTags: () => Promise<{ success: boolean, tags?: ResTagDTO[]; error?: string }>;
 }
 
 
@@ -202,4 +203,23 @@ export const useAgendaStore = create<AgendaStore>((set) => ({
             }
         }
     },
+    getTags: async () => {
+        set({isLoading: true});
+        try {
+            const res = await getTags();
+            set({isLoading: false});
+            return {success: true, tags: res.data}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    }
 }));

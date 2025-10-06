@@ -1,23 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { LoginCard } from './LoginCard';
 import { FaRegUser } from "react-icons/fa";
-import { IoHomeOutline } from "react-icons/io5";
-import {Link, useNavigate} from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { LoginModal } from "../modals/LoginModal";
+import { RegisterModal } from "../modals/RegisterModal";
+import { useAuthStore } from "../../stores/AuthStore.ts";
 import logo from '../../assets/imgs/logo.webp';
 import '../../assets/css/home/Navbar.css';
-import { RegisterModal } from "../modals/RegisterModal";
-import {useAuthStore} from "../../stores/AuthStore.ts";
 
 export const Navbar = () => {
-    const {isAuthenticated} = useAuthStore();
+    const { isAuthenticated } = useAuthStore();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [isLoginRendered, setIsLoginRendered] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
+    const [registerModal, setRegisterModal] = useState(false);
     const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const [registerModal, setRegisterModal] = useState(false);
     const handleOpenRegister = () => setRegisterModal(true);
     const handleCloseRegister = () => setRegisterModal(false);
 
@@ -33,13 +34,12 @@ export const Navbar = () => {
     const handleMouseLeave = () => {
         hideTimeout.current = setTimeout(() => {
             setIsVisible(false);
-        }, 200); // delay di chiusura
+        }, 200);
     };
 
-    const handleUserClick = ()=>{
-        if (isAuthenticated)
-            navigate('/areaPersonale');
-    }
+    const handleUserClick = () => {
+        if (isAuthenticated) navigate('/areaPersonale');
+    };
 
     useEffect(() => {
         if (!isVisible && isLoginRendered) {
@@ -50,26 +50,52 @@ export const Navbar = () => {
 
     return (
         <>
-            <LoginModal show={loginModal} onClose={handleCloseLogin} />
+            <LoginModal
+                show={loginModal}
+                onClose={handleCloseLogin}
+                onRegisterClick={handleOpenRegister}
+            />
             <RegisterModal show={registerModal} onClose={handleCloseRegister} />
-            <div className="navbar-container">
-                <div className="navbar-card">
-                    <Link to="#" className="universal-link navbar-tab">
-                        <IoHomeOutline className="icon navbar-icon" />
-                    </Link>
 
-                    <Link to="#" className="universal-link navbar-tab navbar-tab--center">
+            <header className="navbar-container">
+                <nav className="navbar-glass">
+
+                    {/* Logo a sinistra */}
+                    <div className="navbar-center-logo">
                         <img src={logo} alt="When & Where" className="navbar-logo-img" />
-                    </Link>
+                        <span className="navbar-brand-text"></span>
+                    </div>
 
-                    <div
-                        style={{ position: 'relative' }}
-                        onMouseEnter={!isAuthenticated ? handleMouseEnter : undefined}
-                        onMouseLeave={!isAuthenticated ? handleMouseLeave : undefined}
-                        onClick={handleUserClick}
-                    >
-                        <Link to="#" className="universal-link navbar-tab">
-                            <FaRegUser className="icon navbar-icon" />
+                    {/* Link centrali */}
+                    <div className="navbar-links">
+                        <Link
+                            to="/"
+                            className={`navbar-link ${location.pathname === "/" ? "active" : ""}`}
+                        >
+                            Home
+                        </Link>
+                        <Link
+                            to="/chi-siamo"
+                            className={`navbar-link ${location.pathname === "/chi-siamo" ? "active" : ""}`}
+                        >
+                            Chi Siamo
+                        </Link>
+                        <Link
+                            to="/calendario"
+                            className={`navbar-link ${location.pathname === "/calendario" ? "active" : ""}`}
+                        >
+                            Calendario
+                        </Link>
+                    </div>
+
+                    {/* Lato destro con login/user */}
+                    <div className="navbar-side right"
+                         onMouseEnter={!isAuthenticated ? handleMouseEnter : undefined}
+                         onMouseLeave={!isAuthenticated ? handleMouseLeave : undefined}
+                         onClick={handleUserClick}>
+
+                        <Link to="#" className="navbar-tab">
+                            <FaRegUser className="navbar-icon" />
                         </Link>
 
                         {!isAuthenticated && isLoginRendered && (
@@ -80,8 +106,8 @@ export const Navbar = () => {
                             />
                         )}
                     </div>
-                </div>
-            </div>
+                </nav>
+            </header>
         </>
     );
 };

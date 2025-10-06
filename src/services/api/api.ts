@@ -534,6 +534,25 @@ export interface ResNotaDTO {
 /**
  * 
  * @export
+ * @interface ResTagDTO
+ */
+export interface ResTagDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResTagDTO
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResTagDTO
+     */
+    'nome': string;
+}
+/**
+ * 
+ * @export
  * @interface TokenInfoDTO
  */
 export interface TokenInfoDTO {
@@ -2216,7 +2235,7 @@ export const TagApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiTagGetListGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async apiTagGetListGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResTagDTO>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiTagGetListGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TagApi.apiTagGetListGet']?.[localVarOperationServerIndex]?.url;
@@ -2271,7 +2290,7 @@ export const TagApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiTagGetListGet(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        apiTagGetListGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ResTagDTO>> {
             return localVarFp.apiTagGetListGet(options).then((request) => request(axios, basePath));
         },
         /**

@@ -23,6 +23,7 @@ docs/ResAgendaDTO.md
 docs/ResAuthToken.md
 docs/ResEventoDTO.md
 docs/ResNotaDTO.md
+docs/ResTagDTO.md
 docs/TagApi.md
 docs/TokenInfoDTO.md
 git_push.sh
