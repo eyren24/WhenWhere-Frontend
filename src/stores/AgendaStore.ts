@@ -2,19 +2,20 @@ import {create} from "zustand/react";
 import type {
     FiltriAgendaDTO,
     ReqAgendaDTO,
-    ReqEventoDTO,
+    ReqEventoDTO, ReqNotaDTO,
     ReqUpdateEventoDTO,
     ResAgendaDTO,
-    ResEventoDTO, ResTagDTO
+    ResEventoDTO, ResNotaDTO, ResTagDTO
 } from "../services/api";
 import axios from "axios";
 import {
+    creaNote,
     createAgenda,
     createEvent,
-    deleteAgenda, deleteEvento, getAgendaById,
+    deleteAgenda, deleteEvento, deleteNote, getAgendaById,
     getAllAgende,
-    getAllEventi, getTags,
-    updateEvento
+    getAllEventi, getNote, getTags,
+    updateEvento, updateNote
 } from "../services/api/services.ts";
 
 interface AgendaStore {
@@ -44,6 +45,10 @@ interface AgendaStore {
     getAgendaById: (agendaId: number) => Promise<{ success: boolean, agenda?: ResAgendaDTO; error?: string }>;
     deleteAgenda: (agenda: number) => Promise<{ success: boolean, message?: string; error?: string }>;
     getTags: () => Promise<{ success: boolean, tags?: ResTagDTO[]; error?: string }>;
+    creaNote: () => Promise<{ success: boolean, message?: string; error?: string }>;
+    deleteNote: () => Promise<{ success: boolean, message?: string; error?: string }>;
+    getAllNotes: () => Promise<{ success: boolean, notes?: ResNotaDTO[]; error?: string }>;
+    updateNote: (notaId: number, nota: ReqNotaDTO) => Promise<{ success: boolean, message?: string; error?: string }>;
 }
 
 
@@ -221,5 +226,82 @@ export const useAgendaStore = create<AgendaStore>((set) => ({
                 return {success: false, error: 'Errore sconosciuto durante il login'}
             }
         }
-    }
+    },
+    createNote: async (nuovaNota: ReqNotaDTO) => {
+        set({isLoading: true});
+        try {
+            await creaNote(nuovaNota);
+            set({isLoading: false});
+            return {success: true, message: "Nota creata con successo!"}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
+    deleteNote: async (notaId: number) => {
+        set({isLoading: true});
+        try {
+            await deleteNote(notaId);
+            set({isLoading: false});
+            return {success: true, message: "Nota eliminata con successo!"}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
+    getAllNotes: async () => {
+        set({isLoading: true});
+        try {
+            const res = await getNote();
+            set({isLoading: false});
+            return {success: true, notes: res.data}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
+    updateNote: async (notaId: number, nota: ReqNotaDTO) => {
+        set({isLoading: true});
+        try {
+            await updateNote(notaId, nota);
+            set({isLoading: false});
+            return {success: true, message: "Nota aggiornata con successo!"}
+        } catch (error) {
+            set({isLoading: false});
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        }
+    },
+
 }));

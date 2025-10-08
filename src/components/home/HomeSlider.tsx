@@ -33,30 +33,30 @@ const captions: ReadonlyArray<Caption> = [
     {
         title: "La Nostra Visione",
         text:
-            "Ogni viaggio è un'opportunità per connettersi: organizza luoghi, idee e momenti in un’unica agenda.",
+            "Ogni viaggio è un'opportunità per connettersi: organizza luoghi, idee e momenti in un’unica agenda",
         icon: <FiCalendar className="inline-block -mt-1" />,
-        highlight: "Crea agende tematiche con colori coerenti.",
-    },
-    {
-        title: "Esplora e Condividi",
-        text:
-            "Scopri gemme nascoste dalla community e aggiungile alle tue note con luogo e tag.",
-        icon: <FiMapPin className="inline-block -mt-1" />,
-        highlight: "Tag intelligenti e ricerca veloce.",
+        highlight: "Crea agende tematiche con colori coerenti",
     },
     {
         title: "Pianificazione Intuitiva",
         text:
-            "Titolo, descrizione, stato, inizio/fine e rating: tutto nella stessa nota, senza stress.",
+            "Eventi e note precisi e personalizzabili, tutti nella stessa agenda",
         icon: <FiStar className="inline-block -mt-1" />,
-        highlight: "Rating evento da 1 a 5.",
+        highlight: "Aggiorna le tue agende con pochi click",
+    },
+    {
+        title: "Colleziona Ricordi",
+        text:
+            "Modifica eventi passati, valuta le tue esperienze e tienine sempre traccia",
+        icon: <FiMapPin className="inline-block -mt-1" />,
+        highlight: "Tag intelligenti e ricerca veloce",
     },
     {
         title: "Promemoria che contano",
         text:
-            "Ricevi una mail quando un evento si avvicina, così non perdi nulla di importante.",
+            "Ricevi una mail quando un evento si avvicina, così non perdi nulla di importante",
         icon: <FiBell className="inline-block -mt-1" />,
-        highlight: "Promemoria email puntualissimi.",
+        highlight: "Promemoria email puntualissimi",
     },
 ];
 

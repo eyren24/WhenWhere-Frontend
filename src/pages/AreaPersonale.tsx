@@ -1,87 +1,143 @@
-import {useCallback, useEffect, useMemo, useState} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import {motion} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
-import {useAgendaStore} from "../stores/AgendaStore.ts";
-import type {ResAgendaDTO} from "../services/api";
-import {Calendario} from "../components/calendario/Calendario.tsx";
-import {EmptyAgendeState} from "./EmptyAgendeState.tsx";
-import {CreateAgendaModal} from "../components/modals/CreateAgendaModal.tsx";
+import { useAgendaStore } from "../stores/AgendaStore.ts";
+import type { ResAgendaDTO } from "../services/api";
+import { Calendario } from "../components/calendario/Calendario.tsx";
+import { EmptyAgendeState } from "./EmptyAgendeState.tsx";
+import { CreateAgendaModal } from "../components/modals/CreateAgendaModal.tsx";
+import {AgendaGrid} from "../components/ui/AgendaGrid.tsx";
+import {AgendaDetailTopbar} from "../components/ui/AgendaDetailTopbar.tsx";
 
 export const AreaPersonale = () => {
     const { getAll, deleteAgenda } = useAgendaStore();
     const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [selectedAgenda, setSelectedAgenda] = useState<ResAgendaDTO | null>(null);
+
+    // reference per capire se abbiamo già pushato uno stato di dettaglio
+    const pushedDetailRef = useRef(false);
 
     const fetchAgende = useCallback(() => {
         setIsLoading(true);
         getAll()
             .then((res) => {
-                if (res.success) setAgende(res.agenda || []);
-                else toast.error(res.error || "Errore imprevisto nel caricamento dell'agenda.");
+                if (res.success) setAgende(res.agenda ?? []);
+                else toast.error(res.error ?? "Errore imprevisto nel caricamento dell'agenda.");
             })
             .catch((err) => toast.error(String(err)))
-            .then(() => setIsLoading(false));
+            .finally(() => setIsLoading(false));
     }, [getAll]);
 
     useEffect(() => {
         fetchAgende();
     }, [fetchAgende]);
 
-    const handleDeleteAgenda = useCallback((agendaId: number) => {
-        const conferma = window.confirm("Vuoi davvero eliminare questa agenda?");
-        if (!conferma) return;
+    const handleDeleteAgenda = useCallback(
+        (agendaId: number) => {
+            const prev = agende;
+            setAgende((curr) => curr.filter((a) => a.id !== agendaId));
+            const tId = toast.loading("Eliminazione in corso...");
 
-        const prev = agende;
-        setAgende((curr) => curr.filter((a) => a.id !== agendaId));
-        const tId = toast.loading("Eliminazione in corso...");
+            deleteAgenda(agendaId)
+                .then((res) => {
+                    if (!res?.success) throw new Error(res?.error ?? "Impossibile eliminare l'agenda.");
+                    toast.success("Agenda eliminata con successo.", { id: tId });
+                    setSelectedAgenda((curr) => (curr && curr.id === agendaId ? null : curr));
+                })
+                .catch((e) => {
+                    setAgende(prev); // rollback
+                    toast.error(String(e), { id: tId });
+                });
+        },
+        [agende, deleteAgenda]
+    );
 
-        deleteAgenda(agendaId)
-            .then((res) => {
-                if (!res?.success) throw new Error(res?.error || "Impossibile eliminare l'agenda.");
-                toast.success("Agenda eliminata con successo.", { id: tId });
-            })
-            .catch((e) => {
-                setAgende(prev); // rollback
-                toast.error(String(e), { id: tId });
-            });
-    }, [agende, deleteAgenda]);
+    // --- Gestione history browser ---
+    useEffect(() => {
+        const handlePop = () => {
+            setSelectedAgenda(null);
+            pushedDetailRef.current = false;
+        };
 
-    const content = useMemo(() => (
-        isLoading ? (
-            <div className="flex justify-center items-center py-24">
-                <div className="w-full max-w-lg rounded-2xl border border-gray-200/70 bg-white/70 p-8">
-                    <div className="h-5 w-40 rounded bg-gray-200 animate-pulse mb-4" />
-                    <div className="h-4 w-64 rounded bg-gray-200 animate-pulse mb-2" />
-                    <div className="h-4 w-56 rounded bg-gray-200 animate-pulse" />
-                </div>
-            </div>
-        ) : agende.length === 0 ? (
-            <EmptyAgendeState onRefresh={fetchAgende} onCreate={() => setIsCreateOpen(true)} />
-        ) : (
-            <div className="flex flex-col gap-10 px-4 sm:px-6">
-                {agende.map((agenda) => (
-                    <motion.div
-                        key={agenda.id}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <Calendario
-                            agenda={agenda}
-                            onDeleteAgenda={() => handleDeleteAgenda(agenda.id)}
-                        />
-                    </motion.div>
-                ))}
-            </div>
-        )
-    ), [isLoading, agende, fetchAgende, handleDeleteAgenda]);
+        if (selectedAgenda) {
+            if (!pushedDetailRef.current) {
+                window.history.pushState({ apDetail: true }, "");
+                pushedDetailRef.current = true;
+                window.addEventListener("popstate", handlePop, { once: true });
+            }
+        } else {
+            if (pushedDetailRef.current && window.history.state?.apDetail) {
+                window.history.back();
+                pushedDetailRef.current = false;
+            }
+        }
+
+        return () => {
+            window.removeEventListener("popstate", handlePop);
+        };
+    }, [selectedAgenda]);
+
+    // Chiudi dettaglio (sincronizzato con history)
+    const closeDetail = () => {
+        if (pushedDetailRef.current && window.history.state?.apDetail) {
+            window.history.back(); // triggera handlePop
+        } else {
+            setSelectedAgenda(null);
+        }
+    };
 
     return (
         <div className="relative min-h-[50vh]">
-            {content}
+            <AnimatePresence mode="wait">
+                {selectedAgenda ? (
+                    <motion.div
+                        key="detail"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <div className="w-full px-3 sm:px-4">
+                            <div className="mx-auto max-w-[760px]">
+                                <AgendaDetailTopbar agenda={selectedAgenda} onBack={closeDetail} />
+                                <Calendario
+                                    agenda={selectedAgenda}
+                                    onDeleteAgenda={() => {
+                                        handleDeleteAgenda(selectedAgenda.id);
+                                        closeDetail();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="grid"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        {isLoading || agende.length > 0 ? (
+                            <AgendaGrid
+                                agende={agende}
+                                isLoading={isLoading}
+                                onOpen={(a) => setSelectedAgenda(a)}
+                                onDelete={(id) => handleDeleteAgenda(id)}
+                                onCreate={() => setIsCreateOpen(true)}
+                                onRefresh={fetchAgende}
+                            />
+                        ) : (
+                            <EmptyAgendeState onRefresh={fetchAgende} onCreate={() => setIsCreateOpen(true)} />
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
+            {/* Floating Action Button */}
             <button
                 type="button"
                 onClick={() => setIsCreateOpen(true)}

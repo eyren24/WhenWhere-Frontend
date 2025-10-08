@@ -57,7 +57,7 @@ export const Navbar = () => {
             />
             <RegisterModal show={registerModal} onClose={handleCloseRegister} />
 
-            <header className="navbar-container">
+            <header className="navbar-container" >
                 <nav className="navbar-glass">
 
                     {/* Logo a sinistra */}

@@ -29,8 +29,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('refreshToken', response.data.refreshToken)
             set({isLoading: false, isAuthenticated: true});
+            console.log(response);
             return {success: true};
         } catch (error) {
+            console.log(error);
             set({isLoading: false});
             if (axios.isAxiosError(error)) {
                 return {success: false, error: error.response?.data}

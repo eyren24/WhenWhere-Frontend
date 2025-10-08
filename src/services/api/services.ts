@@ -2,10 +2,10 @@ import {
     AgendaApi,
     AuthApi,
     EventoApi,
-    type FiltriAgendaDTO,
+    type FiltriAgendaDTO, NotaApi,
     type ReqAgendaDTO,
     type ReqEventoDTO,
-    type ReqLoginUser,
+    type ReqLoginUser, type ReqNotaDTO,
     type ReqRegisterUser,
     type ReqUpdateEventoDTO, TagApi
 } from "./api.ts";
@@ -15,6 +15,7 @@ import {URL_PATH, apiConfig} from "./config.ts";
 export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient)
 export const agendaApi = new AgendaApi(apiConfig, URL_PATH, apiClient)
 export const eventoApi = new EventoApi(apiConfig, URL_PATH, apiClient)
+export const noteApi = new NotaApi(apiConfig, URL_PATH, apiClient)
 export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient)
 
 
@@ -54,4 +55,17 @@ export const getAgendaById = async (agendaId: number) => {
 
 export const getTags = async () => {
     return tagsApi.apiTagGetListGet()
+}
+export const creaNote = async (nota: ReqNotaDTO) => {
+    return noteApi.apiNotaAddPost(nota);
+}
+export const getNote = async (agendaId: number, filtri: FiltriAgendaDTO) => {
+    return noteApi.apiNotaGetAllGet(agendaId, filtri);
+}
+
+export const deleteNote = async (notaId: number) => {
+    return noteApi.apiNotaRemoveDelete(notaId);
+}
+export const updateNote = async (notaId: number, nota: ReqNotaDTO) => {
+    return noteApi.apiNotaUpdatePut(notaId, nota)
 }

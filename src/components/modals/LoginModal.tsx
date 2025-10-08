@@ -38,7 +38,7 @@ export const LoginModal = ({ show, onClose, onRegisterClick }: LoginModalProps) 
                 }
             })
             .catch((err) => {
-                toast.error(err || 'Errore generico');
+                console.log(err);
             });
     };
 

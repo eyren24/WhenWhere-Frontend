@@ -4,12 +4,12 @@
 
 .navbar-container {
     position: fixed;
-    top: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 1200px;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     z-index: 1000;
+    padding: 40px;
 }
 
 /* =============================== */

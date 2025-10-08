@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import { FaCalendarAlt, FaInfoCircle, FaBell, FaTag, FaPen, FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaInfoCircle, FaBell, FaTag, FaPen } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import toast from "react-hot-toast";
 
@@ -9,9 +9,9 @@ import { emitAgendaChanged } from "../../stores/lib/agendaBus";
 import { useAgendaStore } from "../../stores/AgendaStore";
 
 import { ModalShell } from "../ui/ModalShell";
-import {EventMetaRow} from "../ui/EventMetaRow.tsx";
-import {StarDisplay} from "../ui/StarDisplay.tsx";
-import {EditEventoModal} from "./EditEventoModal.tsx";
+import { EventMetaRow } from "../ui/EventMetaRow.tsx";
+import { StarDisplay } from "../ui/StarDisplay.tsx";
+import { EditEventoModal } from "./EditEventoModal.tsx";
 
 type MostraEventoProps = {
     isOpen: boolean;
@@ -30,10 +30,8 @@ export const MostraEvento: React.FC<MostraEventoProps> = ({ isOpen, onClose, sel
 
     const hasRating = useMemo(() => rating > 0, [rating]);
 
-    // modale di edit separato
     const [showEdit, setShowEdit] = useState(false);
 
-    // focus su chiudi
     const closeBtnRef = useRef<HTMLButtonElement | null>(null);
     useEffect(() => {
         if (!isOpen) return;
@@ -41,7 +39,6 @@ export const MostraEvento: React.FC<MostraEventoProps> = ({ isOpen, onClose, sel
         return () => clearTimeout(t);
     }, [isOpen]);
 
-    // ESC per chiudere
     useEffect(() => {
         if (!isOpen) return;
         const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -68,74 +65,65 @@ export const MostraEvento: React.FC<MostraEventoProps> = ({ isOpen, onClose, sel
     return (
         <>
             <ModalShell isOpen={isOpen} onClose={onClose} title="Dettagli evento">
-                {/* Header custom */}
-                <div className="mb-4 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <FaCalendarAlt className="text-gray-500" aria-hidden />
-                        <h3 className="text-lg font-semibold text-gray-900">{selectedEvent.titolo}</h3>
+                <div className="rounded-2xl border border-white/30 bg-white/70 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.08)] ring-1 ring-black/5">
+                    {/* Header */}
+                    <div className="mb-2 p-4 pb-0 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <FaCalendarAlt className="text-gray-500" aria-hidden />
+                            <h3 className="text-lg font-semibold text-gray-900">{selectedEvent.titolo}</h3>
+                        </div>
                     </div>
-                    <button
-                        ref={closeBtnRef}
-                        type="button"
-                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border text-gray-500 hover:bg-gray-50"
-                        onClick={onClose}
-                        aria-label="Chiudi"
-                        title="Chiudi"
-                    >
-                        <FaTimes />
-                    </button>
-                </div>
 
-                {/* Body: solo visualizzazione */}
-                <div className="space-y-4">
-                    <EventMetaRow icon={<FaInfoCircle aria-hidden />} label="Descrizione:">
-                        {descrizione || "-"}
-                    </EventMetaRow>
-
-                    <EventMetaRow label="Stato:" badge>
-                        {stato || "-"}
-                    </EventMetaRow>
-
-                    <EventMetaRow icon={<FaTag aria-hidden />} label="Tag:">
-                        {tagId || "-"}
-                    </EventMetaRow>
-
-                    {notifica && (
-                        <EventMetaRow icon={<FaBell aria-hidden />} label="Notifica:">
-                            Attiva
+                    {/* Body */}
+                    <div className="p-4 space-y-4">
+                        <EventMetaRow icon={<FaInfoCircle aria-hidden />} label="Descrizione:">
+                            {descrizione || "-"}
                         </EventMetaRow>
-                    )}
 
-                    {hasRating && (
-                        <EventMetaRow label="Valutazione:">
-                            <StarDisplay value={rating} />
+                        <EventMetaRow label="Stato:" badge>
+                            {stato || "-"}
                         </EventMetaRow>
-                    )}
-                </div>
 
-                {/* Footer azioni */}
-                <div className="mt-6 flex items-center justify-between border-t pt-4">
-                    <button
-                        type="button"
-                        className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
-                        onClick={handleDelete}
-                        title="Elimina evento"
-                    >
-                        <FaTrash /> {isLoading ? <ClipLoader size={16} /> : "Elimina evento"}
-                    </button>
+                        <EventMetaRow icon={<FaTag aria-hidden />} label="Tag:">
+                            {tagId || "-"}
+                        </EventMetaRow>
 
-                    <button
-                        type="button"
-                        className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-                        onClick={() => setShowEdit(true)}
-                        title="Modifica evento"
-                    >
-                        <FaPen /> Modifica evento
-                    </button>
+                        {notifica && (
+                            <EventMetaRow icon={<FaBell aria-hidden />} label="Notifica:">
+                                Attiva
+                            </EventMetaRow>
+                        )}
+
+                        {hasRating && (
+                            <EventMetaRow label="Valutazione:">
+                                <StarDisplay value={rating} />
+                            </EventMetaRow>
+                        )}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-4 pt-0 mt-2 flex items-center justify-between">
+                        <button
+                            type="button"
+                            className="inline-flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50/70 backdrop-blur px-3 py-2 text-sm font-medium text-rose-700 hover:bg-rose-100"
+                            onClick={handleDelete}
+                            title="Elimina evento"
+                        >
+                            <FaTrash /> {isLoading ? <ClipLoader size={16} /> : "Elimina evento"}
+                        </button>
+
+                        <button
+                            type="button"
+                            className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-sky-700"
+                            onClick={() => setShowEdit(true)}
+                            title="Modifica evento"
+                        >
+                            <FaPen /> Modifica evento
+                        </button>
+                    </div>
                 </div>
             </ModalShell>
 
-            {/* Modale di Edit separato */}
             <EditEventoModal
                 isOpen={showEdit}
                 onClose={() => setShowEdit(false)}

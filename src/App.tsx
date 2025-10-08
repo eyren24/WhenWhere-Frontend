@@ -7,6 +7,7 @@ import {useAuthStore} from "./stores/AuthStore.ts";
 import {useEffect, useState} from "react";
 import { UserProvider } from "./context/UserProvider";
 import AboutUs from "./pages/AboutUs.tsx";
+import {PageNotFound} from "./pages/PageNotFound.tsx";
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
                                 <Route path='/' index element={<Home/>}/>
                                 <Route path='/AreaPersonale' element={<AreaPersonale/>}/>
                                 <Route path='/aboutus' element={<AboutUs/>}/>
+                                <Route path='*' element={<PageNotFound/>}/>
                             </Route>
                         </Routes>
                     </BrowserRouter>

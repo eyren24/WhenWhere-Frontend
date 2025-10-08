@@ -8,16 +8,17 @@
     max-width: 1150px;
     margin: 0 auto;
     padding: 3rem 1.5rem 4rem;
-    baccolor: #000000;
+    color: #000000;
 }
 
 /* Titolo sezione */
-.quick-section h3 {
+.quick-section h2 {
     font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
     color: #000000;
+    text-align: center;
 }
 
 /* Layout griglia — le card sempre una accanto all’altra */
@@ -85,7 +86,7 @@
 /* Descrizione card */
 .quickcard p {
     font-size: 0.95rem;
-    color: rgba(0, 0, 0, 0.3);
+    color: rgba(0, 0, 0, 0.9);
     line-height: 1.45;
     position: relative;
     z-index: 1;
