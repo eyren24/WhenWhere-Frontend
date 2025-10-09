@@ -1,9 +1,12 @@
 import {HomeSlider} from "../components/home/HomeSlider.tsx";
 import '../assets/css/home/home.css';
+import '../components/home/Navbar.tsx';
+import {Navbar} from "../components/home/Navbar.tsx";
 
 export const Home = () => {
     return (
         <main className="min-h-[100dvh] text-white">
+            <Navbar />
             <HomeSlider />
 
             {/* Quick Actions / Feature grid */}
@@ -19,7 +22,7 @@ export const Home = () => {
                             <div className="relative z-10">
                                 <h4 className="text-lg font-semibold mb-2 text-black">
                                     Crea una nuova Agenda
-                                </h4>
+                            </h4>
                                 <p className="text-[0.95rem] text-black/90 leading-snug">
                                     Temi e colori personalizzati per ogni progetto o viaggio
                                 </p>

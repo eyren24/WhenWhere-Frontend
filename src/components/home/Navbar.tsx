@@ -17,6 +17,8 @@ export const Navbar = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [loginModal, setLoginModal] = useState(false);
     const [registerModal, setRegisterModal] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // Hamburger menu mobile
+
     const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const handleOpenRegister = () => setRegisterModal(true);
@@ -48,8 +50,14 @@ export const Navbar = () => {
         }
     }, [isVisible, isLoginRendered, registerModal]);
 
+    // Chiude il menu mobile quando cambia pagina
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [location.pathname]);
+
     return (
         <>
+            {/* Modali di login e registrazione */}
             <LoginModal
                 show={loginModal}
                 onClose={handleCloseLogin}
@@ -57,43 +65,65 @@ export const Navbar = () => {
             />
             <RegisterModal show={registerModal} onClose={handleCloseRegister} />
 
-            <header className="navbar-container" >
-                <nav className="navbar-glass">
+            {/* Overlay scuro quando il menu mobile è aperto */}
+            <div
+                className={`navbar-overlay ${isMenuOpen ? "active" : ""}`}
+                onClick={() => setIsMenuOpen(false)}
+            ></div>
+
+            <header className="navbar-container">
+                <nav className="navbar-glass select-none">
 
                     {/* Logo a sinistra */}
                     <div className="navbar-center-logo">
                         <img src={logo} alt="When & Where" className="navbar-logo-img" />
-                        <span className="navbar-brand-text"></span>
                     </div>
 
-                    {/* Link centrali */}
-                    <div className="navbar-links">
-                        <Link
-                            to="/"
-                            className={`navbar-link ${location.pathname === "/" ? "active" : ""}`}
-                        >
-                            Home
-                        </Link>
-                        <Link
-                            to="aboutus"
-                            className={`navbar-link ${location.pathname === "aboutus" ? "active" : ""}`}
-                        >
-                            Chi Siamo
-                        </Link>
-                        <Link
-                            to="/calendario"
-                            className={`navbar-link ${location.pathname === "/calendario" ? "active" : ""}`}
-                        >
-                            Calendario
-                        </Link>
+                    {/* Hamburger menu per mobile */}
+                    <div
+                        className={`navbar-burger ${isMenuOpen ? "active" : ""}`}
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
 
-                    {/* Lato destro con login/user */}
-                    <div className="navbar-side right"
-                         onMouseEnter={!isAuthenticated ? handleMouseEnter : undefined}
-                         onMouseLeave={!isAuthenticated ? handleMouseLeave : undefined}
-                         onClick={handleUserClick}>
+                    {/* Link centrali come lista */}
+                    <ul className={`navbar-links ${isMenuOpen ? "active" : ""}`}>
+                        <li>
+                            <Link
+                                to="/"
+                                className={`navbar-link ${location.pathname === "/" ? "active" : ""}`}
+                            >
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/aboutus"
+                                className={`navbar-link ${location.pathname === "/aboutus" ? "active" : ""}`}
+                            >
+                                Chi Siamo
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/calendario"
+                                className={`navbar-link ${location.pathname === "/calendario" ? "active" : ""}`}
+                            >
+                                Calendario
+                            </Link>
+                        </li>
+                    </ul>
 
+                    {/* Lato destro: icona utente e dropdown login */}
+                    <div
+                        className="navbar-side right"
+                        onMouseEnter={!isAuthenticated ? handleMouseEnter : undefined}
+                        onMouseLeave={!isAuthenticated ? handleMouseLeave : undefined}
+                        onClick={handleUserClick}
+                    >
                         <Link to="#" className="navbar-tab">
                             <FaRegUser className="navbar-icon" />
                         </Link>

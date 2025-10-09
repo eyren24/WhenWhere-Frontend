@@ -1,239 +1,182 @@
 /* =============================== */
-/*          LOGIN MODAL            */
+/*            BASE MODALS          */
 /* =============================== */
 
 .login-modal-wrapper {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     z-index: 999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+    display: grid;
+    place-items: center;
+    padding: 16px;                 /* respiro ai bordi piccoli */
 }
 
 .overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
+    inset: 0;
+    background: rgba(0,0,0,.6);
     z-index: 998;
 }
 
-/* Box principale */
-.login-wrapper {
+/* ——— Box principali: dimensioni fluide + altezza sicura ——— */
+.login-wrapper,
+.register-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 400px;
-    background: rgba(255, 255, 255, 0.18);
+    width: clamp(300px, 92vw, 400px);   /* login default */
+    max-height: min(88vh, 720px);       /* evita overflow fuori viewport */
+    overflow: auto;                      /* scroll interno se serve */
+    background: rgba(255,255,255,.18);
     backdrop-filter: blur(20px) saturate(160%);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255,255,255,.35);
     border-radius: 18px;
-    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.45);
-    overflow: hidden;
+    box-shadow: 0 10px 45px rgba(0,0,0,.45);
     display: flex;
     flex-direction: column;
-    animation: fadeIn 0.35s ease-out;
+    animation: fadeIn .35s ease-out;
     z-index: 9999;
 }
 
-/* Header */
-.login-header {
-    padding: 25px 20px 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+/* Il register è più largo su schermi grandi; su mobile eredita da sopra */
+.register-wrapper {
+    width: clamp(320px, 92vw, 800px);
+    margin-top: 0; /* rimosso offset fisso, ci pensa la grid centering */
+}
+
+/* =============================== */
+/*             HEADER              */
+/* =============================== */
+
+.login-header,
+.register-header {
+    padding: 18px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.25);
     text-align: center;
 }
 
-.login-header h2 {
+.login-header h2,
+.register-header h2 {
     margin: 0;
-    font-size: 1.8rem;
-    color: #ffffff;
+    font-size: clamp(1.2rem, 2.2vw + .6rem, 1.9rem);
+    color: #fff;
     font-weight: 600;
-    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 3px 8px rgba(0,0,0,.35);
 }
 
-/* Body */
-.login-body {
-    padding: 25px;
+/* =============================== */
+/*              BODY               */
+/* =============================== */
+
+.login-body,
+.register-body {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.login-body label {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.85);
-}
-
-.login-body input {
-    padding: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.login-body input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.login-body input:focus {
-    border-color: rgba(255, 255, 255, 0.9);
-    outline: none;
-    background: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
-}
-
-/* Footer + Pulsanti */
-.login-footer {
-    padding: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.login-footer button {
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(6px);
-    color: white;
-    width: 100%;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.login-footer button:hover {
-    background: rgba(255, 255, 255, 0.35);
-    transform: scale(1.03);
-}
-
-/* Link per passare a Registrazione */
-.login-switch {
-    margin: 1px 0 15px;
-    text-align: center;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.switch-button {
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-weight: 600;
-    cursor: pointer;
-    transition: color 0.3s ease, transform 0.2s ease;
-    text-decoration: underline;
-    padding: 0;
-}
-
-.switch-button:hover {
-    color: #e0e0e0;
-    transform: scale(1.05);
-}
-
-
-/* =============================== */
-/*         REGISTER MODAL          */
-/* =============================== */
-
-.register-wrapper {
-    margin-top: 60px;
-    position: relative;
-    width: 100%;
-    max-width: 800px;
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 18px;
-    box-shadow: 0 10px 45px rgba(0, 0, 0, 0.45);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    animation: fadeIn 0.35s ease-out;
-    z-index: 9999;
-}
-
-/* Header */
-.register-header {
-    padding: 25px 20px 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    text-align: center;
-}
-
-.register-header h2 {
-    margin: 0;
-    font-size: 1.9rem;
-    color: #ffffff;
-    font-weight: 600;
-    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
-}
-
-/* Body */
-.register-body {
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-/* Label */
+.login-body label,
 .register-form-column label,
 .register-form-full label {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: .92rem;
+    color: rgba(255,255,255,.85);
     font-weight: 500;
 }
 
-/* Input e Select */
+.login-body input,
 .register-form-column input,
 .register-form-column select,
 .register-form-full input {
     padding: 12px 14px;
     font-size: 1rem;
     border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255,255,255,.35);
+    background: rgba(255,255,255,.15);
     color: #fff;
     outline: none;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: all .3s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.25);
 }
 
+.login-body input::placeholder,
 .register-form-column input::placeholder,
 .register-form-full input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255,255,255,.7);
 }
 
+.login-body input:focus,
 .register-form-column input:focus,
 .register-form-column select:focus,
 .register-form-full input:focus {
-    border-color: rgba(255, 255, 255, 0.9);
-    background: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+    border-color: rgba(255,255,255,.9);
+    background: rgba(255,255,255,.22);
+    box-shadow: 0 0 8px rgba(255,255,255,.35);
 }
 
-/* Layout */
-.register-form-row {
+/* =============================== */
+/*             FOOTER              */
+/* =============================== */
+
+.login-footer,
+.register-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255,255,255,.25);
     display: flex;
-    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+}
+
+.login-footer button,
+.register-button-full {
+    padding: 10px 18px;
+    background: rgba(255,255,255,.22);
+    backdrop-filter: blur(6px);
+    color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease;
+}
+
+.login-footer button:hover,
+.register-button-full:hover {
+    background: rgba(255,255,255,.35);
+    transform: translateY(-1px);
+}
+
+/* Switch Login <-> Register */
+.login-switch {
+    margin: 4px 0 16px;
+    text-align: center;
+    font-size: .95rem;
+    color: rgba(255,255,255,.85);
+}
+
+.switch-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0 2px;
+    transition: transform .15s ease, color .2s ease;
+}
+.switch-button:hover { color: #e0e0e0; transform: scale(1.04); }
+
+/* =============================== */
+/*        REGISTER LAYOUT          */
+/* =============================== */
+
+.register-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
 .register-form-column {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -242,62 +185,55 @@
 .register-form-full {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     width: 100%;
 }
 
-/* Footer + Pulsante */
-.register-footer {
-    padding: 25px;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
-    display: flex;
-    justify-content: center;
-}
+/* =============================== */
+/*           ANIMATIONS            */
+/* =============================== */
 
-.register-button-full {
-    width: 100%;
-    max-width: 300px;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(6px);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.register-button-full:hover {
-    background: rgba(255, 255, 255, 0.35);
-    transform: scale(1.03);
-}
-
-/* Animazione fade */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .register-wrapper {
-        max-width: 90%;
-    }
+/* =============================== */
+/*            RESPONSIVE           */
+/* =============================== */
 
+/* Tablet ↓ */
+@media (max-width: 1024px) {
+    .register-wrapper { width: clamp(320px, 94vw, 720px); }
+}
+
+/* Phablet ↓ */
+@media (max-width: 768px) {
+    .login-wrapper { width: clamp(300px, 92vw, 420px); }
+    .register-wrapper { width: clamp(300px, 94vw, 560px); }
     .register-form-row {
-        flex-direction: column;
+        grid-template-columns: 1fr; /* colonne -> righe */
         gap: 14px;
     }
+    .register-body { padding: 18px; gap: 16px; }
+}
 
-    .register-body {
-        padding: 20px;
-        gap: 18px;
+/* Mobile ↓ */
+@media (max-width: 480px) {
+    .login-modal-wrapper { padding: 12px; }
+    .login-body, .register-body { padding: 16px; }
+    .login-footer, .register-footer { padding: 14px; }
+    .login-footer { flex-direction: column; }  /* bottoni impilati se ne aggiungi altri */
+    .login-header h2, .register-header h2 {
+        font-size: clamp(1.15rem, 5vw, 1.4rem);
+    }
+}
+
+/* Very small devices ↓ */
+@media (max-width: 360px) {
+    .login-wrapper, .register-wrapper { border-radius: 14px; }
+    .login-body input, .register-form-column input, .register-form-full input {
+        font-size: .95rem;
+        padding: 10px 12px;
     }
 }

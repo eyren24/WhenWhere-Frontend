@@ -35,3 +35,24 @@ html, body{
     color: inherit;
     text-decoration: none;
 }
+
+/* Impedisce che il cursore lampeggiante appaia su elementi non testuali */
+*:focus {
+    outline: none;
+}
+
+div:focus,
+section:focus,
+main:focus,
+header:focus,
+footer:focus {
+    caret-color: transparent;
+}
+
+/* Nasconde il cursore di testo ovunque tranne che in campi realmente editabili */
+*:not(input):not(textarea):not([contenteditable="true"]):focus {
+    caret-color: transparent;
+    outline: none;
+}
+
+
