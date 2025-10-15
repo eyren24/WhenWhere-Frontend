@@ -56,21 +56,16 @@ export const Home = () => {
                 </div>
             </section>
 
-            {/*  LINEA DI DIVISIONE WIP
 
+            {/* Immagine divisoria WIP*/}
 
-            <div className="relative w-full flex justify-center items-center my-16">
-                 Scia curva
-                <div className="w-2/3 h-[3px] bg-gradient-to-r from-transparent via-sky-400 to-sky-600 rounded-full
-                  [mask-image:linear-gradient(to_right,transparent,black,black,transparent)]" />
-
-                 Piccolo aereo alla fine
+            <div className="bg-gradient-to-b from-[#01ace2]/40 to-[#9adef4]">
                 <img
-                    src="/src/assets/imgs/icons/plane-icon.png" // 👉 sostituisci con il tuo path corretto, es: "/src/assets/logo_plane.png"
+                    src="/src/assets/imgs/iconaWW_con_scia.png"
                     alt="Aereo"
-                    className="absolute right-[16.5%] w-6 rotate-[8deg] drop-shadow-md"
+                    className="w-full bg-transparent"
                 />
-            </div>*/}
+            </div>
 
 
 
@@ -91,11 +86,11 @@ export const Home = () => {
 
                         {/* Area Immagine */}
                         <div
-                            className="md:w-1/2 w-full h-64 md:h-auto bg-cover bg-center"
+                            className="md:w-1/2 w-full h-64 md:h-auto bg-cover bg-[center_-75px]"
                             style={{
                                 backgroundImage:
-                                    "url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80')"
-                            }}
+                                    "url('/src/assets/imgs/agende_stockimg.jpg')"
+                                                        }}
                         ></div>
 
                     </div>
