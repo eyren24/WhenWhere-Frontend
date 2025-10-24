@@ -1,18 +1,18 @@
-import {BrowserRouter, Routes, Route} from "react-router";
-import {Layout} from "./pages/Layout.tsx";
-import {Home} from "./pages/Home.tsx";
-import {AreaPersonale} from "./pages/AreaPersonale.tsx";
-import "./assets/css/index.css";
-import {useAuthStore} from "./stores/AuthStore.ts";
-import {useEffect, useState} from "react";
-import { UserProvider } from "./context/UserProvider";
+import { BrowserRouter, Routes, Route } from "react-router";
+import { Layout } from "./pages/Layout.tsx";
+import { AreaPersonaleLayout } from "./pages/AreaPersonaleLayout.tsx"; // ✅ nuovo layout fisso
+import { Home } from "./pages/Home.tsx";
+import { AreaPersonale } from "./pages/AreaPersonale.tsx";
 import AboutUs from "./pages/AboutUs.tsx";
-import {PageNotFound} from "./pages/PageNotFound.tsx";
+import { PageNotFound } from "./pages/PageNotFound.tsx";
 
+import "./assets/css/index.css";
+import { useAuthStore } from "./stores/AuthStore.ts";
+import { useEffect, useState } from "react";
+import { UserProvider } from "./context/UserProvider";
 
 function App() {
-
-    const {isAuthenticated, getTokenInfo} = useAuthStore();
+    const { isAuthenticated, getTokenInfo } = useAuthStore();
     const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
     useEffect(() => {
@@ -24,27 +24,31 @@ function App() {
 
     return (
         <>
-            {isCheckingAuth ? <>
-                    <div className="loader" style={{minHeight: "100vh"}}>
-                        loading..
-                    </div>
-                </> :
+            {isCheckingAuth ? (
+                <div className="loader" style={{ minHeight: "100vh" }}>
+                    loading..
+                </div>
+            ) : (
                 <UserProvider>
                     <BrowserRouter>
                         <Routes>
-                            <Route path='/' element={<Layout/>}>
-                                <Route path='/' index element={<Home/>}/>
-                                <Route path='/AreaPersonale' element={<AreaPersonale/>}/>
-                                <Route path='/aboutus' element={<AboutUs/>}/>
-                                <Route path='*' element={<PageNotFound/>}/>
+                            {/* layout base */}
+                            <Route element={<Layout />}>
+                                <Route path="/" index element={<Home />} />
+                                <Route path="/aboutus" element={<AboutUs />} />
+                                <Route path="*" element={<PageNotFound />} />
+                            </Route>
+
+                            {/* layout area personale */}
+                            <Route element={<AreaPersonaleLayout />}>
+                                <Route path="/AreaPersonale" element={<AreaPersonale />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>
                 </UserProvider>
-            }
+            )}
         </>
-
-    )
+    );
 }
 
-export default App
+export default App;

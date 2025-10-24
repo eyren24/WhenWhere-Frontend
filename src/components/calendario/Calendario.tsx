@@ -13,11 +13,11 @@ import CreateEventoModale from "../modals/CreateEventoModale.tsx";
 import { MostraEvento } from "../modals/MostraEvento.tsx";
 import { motion } from "framer-motion";
 import { emitAgendaChanged } from "../../stores/lib/agendaBus";
-import {QuickCreateChoice} from "../ui/QuickCreateChoice.tsx";
-import {CreateNotaModal} from "../ui/CreateNotaModal.tsx";
-import { CalendarCard } from "../ui/CalendarCard.tsx";
-import {CalendarHeader} from "../ui/CalendarHeader.tsx";
-import {CalendarSkeleton} from "../ui/CalendarSkeleton.tsx";
+import {QuickCreateChoice} from "../areaPersonale/QuickCreateChoice.tsx";
+import {CreateNotaModal} from "../areaPersonale/CreateNotaModal.tsx";
+import { CalendarCard } from "../areaPersonale/CalendarCard.tsx";
+import {CalendarHeader} from "../areaPersonale/CalendarHeader.tsx";
+import {CalendarSkeleton} from "../areaPersonale/CalendarSkeleton.tsx";
 
 type Props = {
     agenda: ResAgendaDTO;

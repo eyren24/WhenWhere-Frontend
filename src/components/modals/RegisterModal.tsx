@@ -53,13 +53,24 @@ export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = (
                 genere: gender,
                 confermaPassword: confirmPassword,
             });
-            if (res.success) {
-                toast.success("Registrazione completata con successo!");
-                navigate("/areaPersonale");
-                onClose();
+
+            if (!res.success) {
+                const err = res.error;
+                const msg =
+                    typeof err === "string"
+                        ? err
+                        : typeof err === "object" && "title" in err
+                            ? err.title
+                            : "Registrazione fallita";
+                toast.error(msg);
+                return;
             }
-        } catch (err) {
-            toast.error("Errore durante la registrazione");
+
+            toast.success("Registrazione completata con successo!");
+            onClose();
+            navigate("/areaPersonale");
+        } catch {
+            toast.error("Errore imprevisto durante la registrazione");
         }
     };
 

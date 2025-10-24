@@ -1,5 +1,6 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import "../../assets/css/areaPersonale/unified-agenda-ui.css";
 
 interface ModalShellProps {
     isOpen: boolean;
@@ -13,7 +14,7 @@ export const ModalShell: React.FC<ModalShellProps> = ({ isOpen, onClose, title, 
     return (
         <AnimatePresence>
             <motion.div
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+                className="modal-shell-overlay"
                 role="presentation"
                 onMouseDown={(e) => e.target === e.currentTarget && onClose()}
                 initial={{ opacity: 0 }}
@@ -22,7 +23,7 @@ export const ModalShell: React.FC<ModalShellProps> = ({ isOpen, onClose, title, 
                 transition={{ duration: 0.18 }}
             >
                 <motion.div
-                    className="w-full max-w-2xl rounded-2xl bg-white shadow-xl ring-1 ring-black/5"
+                    className="modal-shell-content"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="modal-title"
@@ -32,13 +33,11 @@ export const ModalShell: React.FC<ModalShellProps> = ({ isOpen, onClose, title, 
                     exit={{ opacity: 0, y: 12, scale: 0.98 }}
                     transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                 >
-                    <div className="flex items-center justify-between gap-4 border-b px-5 py-4">
-                        <h2 id="modal-title" className="text-lg font-semibold text-gray-800">
-                            {title}
-                        </h2>
+                    <div className="modal-shell-header">
+                        <h2 id="modal-title" className="modal-shell-title">{title}</h2>
                         <button
                             type="button"
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-full border text-gray-500 hover:bg-gray-50"
+                            className="modal-shell-close"
                             onClick={onClose}
                             aria-label="Chiudi"
                             title="Chiudi"
@@ -46,7 +45,7 @@ export const ModalShell: React.FC<ModalShellProps> = ({ isOpen, onClose, title, 
                             ✕
                         </button>
                     </div>
-                    <div className="px-5 pb-5 pt-4">{children}</div>
+                    <div className="modal-shell-body">{children}</div>
                 </motion.div>
             </motion.div>
         </AnimatePresence>

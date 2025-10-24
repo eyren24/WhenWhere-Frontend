@@ -5,9 +5,9 @@ import toast from "react-hot-toast";
 import type { ReqAgendaDTO } from "../../services/api";
 import { useAgendaStore } from "../../stores/AgendaStore.ts";
 import { emitAgendaChanged } from "../../stores/lib/agendaBus.ts";
-import { ModalShell } from "../ui/ModalShell";
-import { TextField } from "../ui/TextField.tsx";
-import { TextAreaField } from "../ui/TextAreaField.tsx";
+import { ModalShell } from "../areaPersonale/ModalShell";
+import { TextField } from "../areaPersonale/TextField.tsx";
+import { TextAreaField } from "../areaPersonale/TextAreaField.tsx";
 
 type CreateAgendaModalProps = {
     isOpen: boolean;

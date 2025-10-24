@@ -1,6 +1,6 @@
-// src/components/ui/SelectField.tsx
 import React from "react";
-import type {ResTagDTO} from "../../services/api";
+import type { ResTagDTO } from "../../services/api";
+import "../../assets/css/areaPersonale/unified-agenda-ui.css";
 
 type SelectFieldProps = {
     id: string;
@@ -32,32 +32,25 @@ export const SelectField = React.forwardRef<HTMLSelectElement, SelectFieldProps>
         ref
     ) => {
         return (
-            <label htmlFor={id} className="block text-sm text-gray-700">
-        <span className="mb-1 inline-flex items-center gap-1 font-medium">
+            <label htmlFor={id} className="select-field-wrapper">
+        <span className="select-field-label">
           {label}
-            {requiredMark && <span className="text-red-500">*</span>}
+            {requiredMark && <span className="select-field-required">*</span>}
         </span>
                 <select
                     id={id}
                     name={name}
                     ref={ref}
-                    className="
-            mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2
-            text-sm text-gray-900 shadow-sm outline-none
-            focus:border-blue-500 focus:ring-2 focus:ring-blue-200
-            disabled:opacity-60
-          "
+                    className="select-field-select"
                     defaultValue={defaultValue}
                     value={value}
                     onChange={(e) => onChange?.(e.target.value)}
                     disabled={disabled}
                     required={requiredMark}
                 >
-                    {/* Placeholder */}
                     <option value="" disabled>
                         {placeholder}
                     </option>
-
                     {options.map((opt) => (
                         <option key={`${id}-${opt.id}`} value={String(opt.id)}>
                             {opt.nome}

@@ -3,7 +3,7 @@
     position: fixed;
     inset: 0;
     z-index: 9990;
-    background: rgba(0, 0, 0, 0.35);
+    background: color-mix(in oklab, var(--vulcan) 65%, transparent);
     display: grid;
     place-items: center;
     padding: 1rem;
@@ -12,8 +12,8 @@
 
 /* Card */
 .event-create-modal {
-    background: #ffffff;
-    color: #222222;
+    background: var(--polar);
+    color: var(--vulcan);
     border-radius: 1rem;
     width: 100%;
     max-width: 720px;
@@ -34,88 +34,90 @@
     border-bottom: 1px solid rgba(0,0,0,.06);
 }
 .event-create-header-left { display: flex; align-items: center; gap: .6rem; }
-.event-create-icon { color: #0f62fe; width: 22px; height: 22px; }
+.event-create-icon { color: var(--eastern-blue); width: 22px; height: 22px; }
 .event-create-title { margin: 0; font-weight: 700; font-size: 1.125rem; }
-.event-create-close {
+.event-create-close{
     border: 0; background: transparent; padding: .45rem; border-radius: .5rem; cursor: pointer;
     transition: background .15s ease, transform .08s ease;
 }
-.event-create-close:hover { background: rgba(0,0,0,.06); }
-.event-create-close:active { transform: translateY(1px); }
+.event-create-close:hover{ background: rgba(0,0,0,.06); }
+.event-create-close:active{ transform: translateY(1px); }
 
 /* Body */
-.event-create-body { padding: 1rem 1.25rem; overflow: auto; }
-.event-create-row { margin-bottom: 1rem; }
-.event-create-row-inline { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
-.event-create-col { display: grid; gap: .4rem; }
+.event-create-body{ padding: 1rem 1.25rem; overflow: auto; }
+.event-create-row{ margin-bottom: 1rem; }
+.event-create-row-inline{ display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.event-create-col{ display: grid; gap: .4rem; }
 
-.event-create-label {
+.event-create-label{
     display: inline-flex; align-items: center; gap: .45rem;
     font-weight: 600; margin-bottom: .4rem;
 }
-.event-create-required { color: #e53935; }
+.event-create-required{ color: #e53935; }
 
 .event-create-input,
-.event-create-textarea {
+.event-create-textarea{
     width: 100%;
-    border: 1px solid #dcdfe4;
+    border: 1px solid var(--bombay);
     border-radius: .625rem;
     padding: .65rem .8rem;
     font-size: .95rem;
-    background: #fff;
-    color: #222;
+    background: var(--polar);
+    color: var(--vulcan);
     outline: none;
     transition: border-color .12s ease, box-shadow .12s ease, background .12s ease;
 }
 
 .event-create-input:focus,
-.event-create-textarea:focus {
-    border-color: #5b8def;
-    box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.18);
+.event-create-textarea:focus{
+    border-color: var(--eastern-blue);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--cerulean) 18%, transparent);
 }
 
-.event-create-input-readonly {
-    background: #f8f9fc;
-    color: #555;
+.event-create-input-readonly{
+    background: color-mix(in oklab, var(--polar) 92%, var(--charlotte) 8%);
+    color: var(--shuttle-gray);
 }
 
 /* Check */
-.event-create-checkbox {
+.event-create-checkbox{
     display: inline-flex; align-items: center; gap: .5rem; user-select: none;
-    font-weight: 600; color: #222;
+    font-weight: 600; color: var(--vulcan);
 }
-.event-create-checkbox input { transform: translateY(1px); }
+.event-create-checkbox input{ transform: translateY(1px); }
 
 /* Stars */
-.event-create-stars { display: inline-flex; gap: .25rem; align-items: center; }
-.event-create-star-btn {
+.event-create-stars{ display: inline-flex; gap: .25rem; align-items: center; }
+.event-create-star-btn{
     border: 0; background: transparent; padding: .25rem; cursor: pointer; border-radius: .4rem;
     color: #c7cbd6; transition: background .12s ease, transform .08s ease, color .12s ease;
 }
-.event-create-star-btn.active { color: #ffb400; }
-.event-create-star-btn:hover { background: rgba(0,0,0,.05); }
-.event-create-star-zero {
-    border: 1px solid #e7e9ef; background: #fff; color: #222; border-radius: .45rem; padding: .25rem .4rem;
+.event-create-star-btn.active{ color: #ffb400; }
+.event-create-star-btn:hover{ background: rgba(0,0,0,.05); }
+.event-create-star-zero{
+    border: 1px solid var(--bombay); background: var(--polar); color: var(--vulcan);
+    border-radius: .45rem; padding: .25rem .4rem;
 }
-.event-create-star-zero.active { border-color: #0f62fe; }
+.event-create-star-zero.active{ border-color: var(--eastern-blue); }
 
 /* Footer */
-.event-create-footer {
+.event-create-footer{
     display: flex; justify-content: flex-end; gap: .6rem;
-    padding: .9rem 1.25rem 1.1rem; border-top: 1px solid rgba(0,0,0,.06); background: #fff;
+    padding: .9rem 1.25rem 1.1rem; border-top: 1px solid rgba(0,0,0,.06); background: var(--polar);
 }
-.event-create-btn {
+.event-create-btn{
     display: inline-flex; align-items: center; gap: .5rem;
     border-radius: .625rem; padding: .6rem .95rem; font-weight: 600; cursor: pointer;
-    border: 1px solid transparent; transition: background .15s ease, transform .08s ease, filter .12s ease;
+    border: 1px solid transparent; transition: background .15s ease, transform .08s ease, filter .12s ease, color .12s ease;
 }
-.event-create-btn-primary { background: #0f62fe; color: #fff; border-color: #0f62fe; }
-.event-create-btn-primary:hover { filter: brightness(.97); }
-.event-create-btn-secondary { background: #f5f7fb; color: #222; border-color: #e7e9ef; }
-.event-create-btn-secondary:hover { background: #eef1f7; }
+.event-create-btn-primary{ background: var(--cerulean); color: var(--vulcan); border-color: var(--cerulean); }
+.event-create-btn-primary:hover{ filter: brightness(.97); }
+
+.event-create-btn-secondary{ background: color-mix(in oklab, var(--polar) 94%, var(--charlotte) 6%); color: var(--vulcan); border-color: var(--bombay); }
+.event-create-btn-secondary:hover{ background: color-mix(in oklab, var(--polar) 88%, var(--charlotte) 12%); }
 
 /* Responsive */
-@media (max-width: 640px) {
-    .event-create-modal { max-width: 95%; border-radius: .875rem; }
-    .event-create-row-inline { grid-template-columns: 1fr; }
+@media (max-width: 640px){
+    .event-create-modal{ max-width: 95%; border-radius: .875rem; }
+    .event-create-row-inline{ grid-template-columns: 1fr; }
 }

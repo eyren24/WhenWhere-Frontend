@@ -1,162 +1,169 @@
-
-.profile-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    width: 250px;
-    height: 350px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background: linear-gradient(to bottom, rgba(79, 195, 247, 1) 0%, #fff 100%);
-    transition: transform 0.3s ease-in-out;
-
-
-
-}
-
-.profile-card:hover {
-    transform: translateY(-16px);
-    border: 1px solid rgba(0, 0, 0, .3);
-    box-shadow: 0 0 20px rgba(79, 195, 247, .4);
-}
-
-.download-btn {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 8px 14px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-.download-btn:hover {
-    background-color: #0056b3;
-}
-
 .about-us-container {
-    padding: 40px;
+    padding: 60px 20px;
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto;
+    color: var(--polar);
+    background-color: var(--vulcan);
+    min-height: 100vh;
 }
 
+.fancy-underline {
+    position: relative;
+    display: inline-block;
+    font-size: 2.5rem;
+    color: var(--polar);
+    margin-bottom: 40px;
+    padding-bottom: 0.5em;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.fancy-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--eastern-blue), var(--cerulean));
+    border-radius: 2px;
+    animation: drawLine 1s ease-out 0.5s forwards;
+}
+
+/* === GRID === */
 .P-card-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center; /* This centers the cards horizontally */
-    align-items: center; /* This centers the cards vertically */
-    margin-top: 30px;
-    min-height: 80vh; /* Set a minimum height to see the vertical centering */
-
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
 }
+
+/* === PROFILE CARD === */
+.profile-card {
+    width: 270px;
+    height: 380px;
+    background: linear-gradient(to bottom, var(--aquamarine-blue) 0%, var(--polar) 100%);
+    border: 1px solid var(--bombay);
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 16px;
+    text-align: center;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease-out forwards;
+}
+
+.profile-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 0 20px rgba(3, 172, 228, 0.4);
+}
+
+.profile-photo-wrapper {
+    position: relative;
+}
+
 .profile-photo {
-    width: 120px;
-    height: 120px;
+    width: 112px;
+    height: 112px;
     object-fit: cover;
     border-radius: 50%;
+    border: 4px solid var(--cerulean);
+    transition: transform 0.3s ease;
 }
 
-@media (max-width: 768px) {
-    .profile-card {
-        width: 100%;
-        max-width: 300px;
-    }
+.profile-card:hover .profile-photo {
+    transform: scale(1.05);
+}
 
+.card-details h2 {
+    font-size: 1.1rem;
+    color: var(--vulcan);
+    margin: 16px 0 6px;
+}
+
+.card-details p {
+    font-size: 0.9rem;
+    color: var(--shuttle-gray);
+    margin: 0 0 16px;
+}
+
+/* === BUTTON === */
+.card-button {
+    display: inline-block;
+    width: 70%;
+    padding: 10px 16px;
+    background: var(--cerulean);
+    color: var(--vulcan);
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(3, 172, 228, 0.3);
+}
+
+.card-button:hover {
+    background-color: var(--eastern-blue);
+    color: var(--polar);
+    transform: scale(1.03);
+    box-shadow: 0 6px 16px rgba(3, 172, 228, 0.5);
+}
+
+.card-button:active {
+    transform: scale(0.97);
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes drawLine {
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
     .P-card-grid {
         flex-direction: column;
-        align-items: center;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
     }
 
     .profile-photo {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
     }
 
-    .download-btn {
-        width: 100%;
-        text-align: center;
+    .card-button {
+        width: 90%;
     }
-}
-
-.card {
-    width: 190px;
-    height: 254px;
-    border-radius: 20px;
-    background: #f5f5f5;
-    position: relative;
-    padding: 1.8rem;
-    border: 2px solid #c3c6ce;
-    transition: all 0.5s ease-out;
-    overflow: visible;
-
-}
-
-.card-details {
-    color: black;
-    height: 100%;
-    gap: .5em;
-    display: grid;
-    place-content: center;
-}
-
-
-
-
-
-/* Bottone animato - inizia nascosto */
-.card-button {
-    display: inline-block;
-    width: 60%;
-    padding: 0.6rem 1rem;
-    text-align: center;
-    text-decoration: none;
-    color: #ffffff !important;
-    background-color: #008bf8;
-    border-radius: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 139, 248, 0.3);
-
-    /* Posizione assoluta rispetto alla card */
-    position: absolute;
-    left: 50%;
-    bottom: -1.5rem;
-    transform: translateX(-50%) translateY(100%);
-
-    /* Inizialmente invisibile */
-    opacity: 0;
-    transition: all 0.3s ease-out;
-
-    /* Interazione */
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: none;
-    z-index: 10;
-}
-
-/* Mostra il bottone solo al hover sulla card */
-.profile-card:hover .card-button {
-    opacity: 1;
-    transform: translateX(-50%) translateY(50%) scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 139, 248, 0.4);
-}
-
-/* Hover sul bottone (ulteriore feedback) */
-.card-button:hover {
-    background-color: #007ae5;
-    box-shadow: 0 6px 16px rgba(0, 139, 248, 0.5);
-}
-
-/* Effetto click */
-.card-button:active {
-    transform: translateX(-50%) translateY(50%) scale(0.98);
-}
-
-/* Focus per accessibilità (tastiera) */
-.card-button:focus {
-    outline: 2px solid #0056b3;
-    outline-offset: 2px;
-    box-shadow:
-            0 0 0 4px rgba(0, 139, 248, 0.1),
-            0 2px 6px rgba(0, 139, 248, 0.3);
 }

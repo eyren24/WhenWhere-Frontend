@@ -1,4 +1,5 @@
 import React from "react";
+import "../../assets/css/areaPersonale/unified-agenda-ui.css";
 
 interface DateTimeRangeProps {
     start: string;
@@ -17,27 +18,23 @@ export const DateTimeRange: React.FC<DateTimeRangeProps> = ({
                                                                 isInstant,
                                                                 setIsInstant,
                                                             }) => (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="space-y-1">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                Inizio
-            </label>
+    <div className="datetime-range-wrapper">
+        <div className="datetime-range-field">
+            <label className="datetime-range-label">Inizio</label>
             <input
                 type="datetime-local"
-                className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="datetime-range-input"
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
                 step={60}
                 required
             />
         </div>
-        <div className="space-y-1">
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                Fine
-            </label>
+        <div className="datetime-range-field">
+            <label className="datetime-range-label">Fine</label>
             <input
                 type="datetime-local"
-                className="w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-blue-500 disabled:opacity-60"
+                className="datetime-range-input"
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
                 step={60}
@@ -46,10 +43,10 @@ export const DateTimeRange: React.FC<DateTimeRangeProps> = ({
                 required={!isInstant}
             />
         </div>
-        <label className="col-span-full inline-flex items-center gap-3 text-sm text-gray-700">
+        <label className="datetime-range-checkbox">
             <input
                 type="checkbox"
-                className="size-4 accent-blue-600"
+                className="datetime-range-check"
                 checked={isInstant}
                 onChange={(e) => setIsInstant(e.target.checked)}
             />

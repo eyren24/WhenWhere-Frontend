@@ -1,4 +1,5 @@
 import React from "react";
+import "../../assets/css/areaPersonale/unified-agenda-ui.css";
 
 interface TextAreaFieldProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
     label: string;
@@ -13,15 +14,15 @@ export const TextAreaField: React.FC<TextAreaFieldProps> = ({
                                                                 className = "",
                                                                 ...props
                                                             }) => (
-    <div className="space-y-1">
-        <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+    <div className="field-wrapper">
+        <label className="field-label">
             {icon}
             <span>
-        {label} {requiredMark && <span className="text-red-500">*</span>}
+        {label} {requiredMark && <span className="field-required">*</span>}
       </span>
         </label>
         <textarea
-            className={`w-full rounded-lg border px-3 py-2 text-sm outline-none ring-0 placeholder:text-gray-400 focus:border-blue-500 ${className}`}
+            className={`field-textarea ${className}`}
             {...props}
         />
     </div>

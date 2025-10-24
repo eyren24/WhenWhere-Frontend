@@ -7,8 +7,8 @@ import type { ResAgendaDTO } from "../services/api";
 import { Calendario } from "../components/calendario/Calendario.tsx";
 import { EmptyAgendeState } from "./EmptyAgendeState.tsx";
 import { CreateAgendaModal } from "../components/modals/CreateAgendaModal.tsx";
-import {AgendaGrid} from "../components/ui/AgendaGrid.tsx";
-import {AgendaDetailTopbar} from "../components/ui/AgendaDetailTopbar.tsx";
+import {AgendaGrid} from "../components/areaPersonale/AgendaGrid.tsx";
+import {AgendaDetailTopbar} from "../components/areaPersonale/AgendaDetailTopbar.tsx";
 
 export const AreaPersonale = () => {
     const { getAll, deleteAgenda } = useAgendaStore();

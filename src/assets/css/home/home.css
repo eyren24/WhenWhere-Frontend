@@ -1,105 +1,87 @@
-/* ===============================
-   SEZIONE QUICK ACTIONS / CARD SFOCATE
-   =============================== */
+.home {
+    background-color: var(--polar);
+    color: var(--vulcan);
+    font-family: sans-serif;
+}
 
-.quick-section {
+/* Hero section */
+.hero {
     position: relative;
-    width: 100%;
-    max-width: 1150px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 4rem;
-    color: #000000;
-}
-
-/* Titolo sezione */
-.quick-section h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-    color: #000000;
-    text-align: center;
-}
-
-/* Layout griglia — le card sempre una accanto all’altra */
-.quick-grid {
+    height: 80vh;
+    background: url("../../imgs/slider/1.jpg") center/cover no-repeat;
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    gap: 2rem; /* spazio tra le card */
-    flex-wrap: nowrap; /* tutte in una sola riga */
+    align-items: center;
+    justify-content: center;
 }
 
-/* --- CARD --- */
-.quickcard {
-    flex: 1; /* stessa larghezza per tutte */
-    min-width: 0;
-    border-radius: 1.25rem;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    -webkit-backdrop-filter: blur(14px);
-    padding: 1.75rem 1.5rem;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s ease;
-    overflow: hidden;
-    text-align: left;
-}
-.quickcard:hover {
-    background: rgba(255, 255, 255, 0.13);
-    border-color: rgba(255, 255, 255, 0.35);
+.hero-overlay {
+    background-color: rgba(14, 22, 31, 0.6);
+    padding: 2rem;
+    text-align: center;
+    border-radius: 8px;
 }
 
-/* Effetto luminoso */
-.quickcard::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-            circle at top right,
-            rgba(22, 163, 225, 0.15),
-            transparent 60%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-.quickcard:hover::before {
-    opacity: 1;
+.hero-title {
+    font-size: 3rem;
+    color: var(--polar);
+    margin: 0;
 }
 
-.quickcard:hover {
-    transform: translateY(-6px);
-    border-color: rgba(22, 163, 225, 0.3);
-    box-shadow: 0 6px 24px rgba(22, 163, 225, 0.25);
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: var(--charlotte);
+    margin-top: 1rem;
 }
 
-/* Titolo card */
-.quickcard h4 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #000000;
-    margin-bottom: 0.5rem;
-    position: relative;
-    z-index: 1;
+/* Feature spotlight */
+.feature-spotlight {
+    padding: 4rem 2rem;
+    background-color: var(--charlotte);
 }
 
-/* Descrizione card */
-.quickcard p {
-    font-size: 0.95rem;
-    color: rgba(0, 0, 0, 0.9);
-    line-height: 1.45;
-    position: relative;
-    z-index: 1;
+.feature-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
 }
 
-/* Hover accent color */
-.quickcard:hover h4 {
-    color: #16a3e1;
+.feature-img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
 }
 
-/* Responsive tuning — le card si impilano su mobile */
+.feature-text {
+    flex: 1;
+}
+
+.feature-text h2 {
+    color: var(--eastern-blue);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.feature-text p {
+    color: var(--shuttle-gray);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Divider image */
+.divider-image {
+    width: 100%;
+    height: 300px;
+    background: url("../../imgs/scia-divider.png") center/cover no-repeat;
+    margin: 0;
+}
+
+/* Hero overlay più leggero su mobile */
 @media (max-width: 768px) {
-    .quick-grid {
-        flex-direction: column;
+    .hero-overlay {
+        background-color: rgba(14, 22, 31, 0.3);
     }
 }

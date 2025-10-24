@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { FaSave, FaTimesCircle } from "react-icons/fa";
-import { ModalShell } from "../ui/ModalShell";
+import { ModalShell } from "../areaPersonale/ModalShell";
 import type { ReqUpdateEventoDTO, ResEventoDTO } from "../../services/api";
-import { TextField } from "../ui/TextField.tsx";
-import { TextAreaField } from "../ui/TextAreaField.tsx";
+import { TextField } from "../areaPersonale/TextField.tsx";
+import { TextAreaField } from "../areaPersonale/TextAreaField.tsx";
 
 type EditEventoModalProps = {
     isOpen: boolean;

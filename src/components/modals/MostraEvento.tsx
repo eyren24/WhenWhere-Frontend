@@ -8,9 +8,9 @@ import type { ReqUpdateEventoDTO, ResEventoDTO } from "../../services/api";
 import { emitAgendaChanged } from "../../stores/lib/agendaBus";
 import { useAgendaStore } from "../../stores/AgendaStore";
 
-import { ModalShell } from "../ui/ModalShell";
-import { EventMetaRow } from "../ui/EventMetaRow.tsx";
-import { StarDisplay } from "../ui/StarDisplay.tsx";
+import { ModalShell } from "../areaPersonale/ModalShell";
+import { EventMetaRow } from "../areaPersonale/EventMetaRow.tsx";
+import { StarDisplay } from "../areaPersonale/StarDisplay.tsx";
 import { EditEventoModal } from "./EditEventoModal.tsx";
 
 type MostraEventoProps = {

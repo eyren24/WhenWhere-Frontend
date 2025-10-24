@@ -1,41 +1,203 @@
-.carousel-caption {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    color: white;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.3); /* migliora leggibilità */
-    padding: 1.5rem 2rem;
-    border-radius: 8px;
-    max-width: 80%;
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+    height: 82vh;
+    background: #0e161f;
+    overflow: hidden;
 }
 
-.carousel-image {
+.slider-track {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
+}
+
+.slider-frame {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.slider-frame.active {
+    opacity: 1;
+}
+
+.slider-frame img {
     width: 100%;
     height: 100%;
-    opacity: 0.5;
+    object-fit: cover;
 }
 
-.carousel-caption h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+.slider-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
 }
 
-.carousel-caption p {
-    font-size: 1.2rem;
+.slider-gradient {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 35vh;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
 }
 
-
-.carousel-slide {
-    height: 90vh;
+.slider-content {
+    position: absolute;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
     width: 100%;
-    position: relative; /* NECESSARIO per la caption assoluta */
-    background: rgba(0,0,0,1);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.slider-card {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 720px;
+    padding: 20px 24px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #effafb;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+.slider-title {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.slider-text {
+    margin-top: 0.5rem;
+    line-height: 1.5;
+}
+
+.slider-pill {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.slider-cta {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+}
+
+.cta:hover {
+    transform: translateY(-1px);
+}
+
+.cta--solid {
+    background: #effafb;
+    color: #0e161f;
+}
+
+.cta--soft {
+    background: rgba(255, 255, 255, 0.15);
+    color: #effafb;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cta--ghost {
+    background: transparent;
+    color: #effafb;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider-progress {
+    margin-top: 12px;
+    height: 6px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.slider-bar {
+    height: 100%;
+    background: #effafb;
+    width: 0%;
+    animation: grow linear forwards;
+}
+
+@keyframes grow {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+/* Overlay e gradiente più leggeri su mobile */
+@media (max-width: 768px) {
+    .slider-wrapper { height: 72vh; }
+
+    .slider-content { bottom: 28px; }
+
+    .slider-card {
+        max-width: 92%;
+        padding: 14px 16px;
+        text-align: center;
+    }
+
+    .slider-title { font-size: 1.4rem; }
+
+    .slider-text { font-size: 0.95rem; }
+
+    .slider-cta { justify-content: center; }
+
+    .slider-pill { font-size: 0.8rem; }
+
+    .slider-overlay { background: rgba(0, 0, 0, 0.25); }
+    .slider-gradient {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
+    }
+}
+
+@media (max-width: 480px) {
+    .slider-content { bottom: 44px; }
+
+    .slider-frame {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .slider-frame img {
+        position: relative;
+        width: auto;
+        height: 100%;
+        min-width: 1200px;
+        max-width: none;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .slider-gradient { height: 50vh; }
 }

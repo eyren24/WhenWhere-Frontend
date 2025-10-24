@@ -1,58 +1,89 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+    --cerulean: #03ace4;
+    --vulcan: #0e161f;
+    --polar: #effafb;
+    --bombay: #abaeb1;
+    --shuttle-gray: #63666a;
+    --aquamarine-blue: #76c8e3;
+    --eastern-blue: #2795ba;
+    --charlotte: #b2e8f5;
+}
 
-
-*{
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-:root {
-    --agenda-accent: #6a5af9;
-}
-
-[data-agenda="work"] {
-    --agenda-accent: #f97316;
-}
-
-[data-agenda="travel"] {
-    --agenda-accent: #22c55e;
-}
-
-
-html, body{
-    padding: 0;
+html, body {
     margin: 0;
+    padding: 0;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
+    font-family: "Inter", sans-serif;
+    background-color: var(--polar);
+    color: var(--vulcan);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+
+    /* Evita la barra bianca a destra */
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: auto !important;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
 }
 
-.icon{
-    vertical-align: middle;
+/* Rimuove scrollbar nativa in WebKit */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
 }
 
-.universal-link{
-    color: inherit;
+a {
     text-decoration: none;
+    color: inherit;
 }
 
-/* Impedisce che il cursore lampeggiante appaia su elementi non testuali */
-*:focus {
-    outline: none;
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
-div:focus,
-section:focus,
-main:focus,
-header:focus,
-footer:focus {
-    caret-color: transparent;
+button {
+    cursor: pointer;
+    font: inherit;
+    border: none;
+    background: none;
 }
 
-/* Nasconde il cursore di testo ovunque tranne che in campi realmente editabili */
-*:not(input):not(textarea):not([contenteditable="true"]):focus {
-    caret-color: transparent;
-    outline: none;
+.no-scroll {
+    overflow: hidden;
+}
+
+/* === BARRA DI SCORRIMENTO CUSTOM FUTURISTA === */
+.scrollbar-track {
+    position: fixed;
+    inset: 0 0 auto 0; /* top:0; left:0; right:0 */
+    height: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Thumb flottante sopra il sito */
+.scrollbar-thumb {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0;
+    background: linear-gradient(90deg, var(--cerulean), var(--aquamarine-blue), var(--charlotte));
+    filter: drop-shadow(0 0 6px var(--aquamarine-blue));
+    border-radius: 3px;
+    transition: width 0.15s ease-out;
 }
 
 

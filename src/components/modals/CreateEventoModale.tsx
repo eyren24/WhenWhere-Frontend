@@ -4,14 +4,14 @@ import {FaSave, FaBell} from "react-icons/fa";
 import toast from "react-hot-toast";
 import type {ReqEventoDTO, ResTagDTO} from "../../services/api";
 import {emitAgendaChanged} from "../../stores/lib/agendaBus";
-import {ModalShell} from "../ui/ModalShell";
+import {ModalShell} from "../areaPersonale/ModalShell";
 import {toDatetimeLocal, isSameInstant} from "../datetime.ts";
-import {TextField} from "../ui/TextField.tsx";
-import {TextAreaField} from "../ui/TextAreaField.tsx";
-import {DateTimeRange} from "../ui/DateTimeRange.tsx";
-import {StarRating} from "../ui/StarRating.tsx";
+import {TextField} from "../areaPersonale/TextField.tsx";
+import {TextAreaField} from "../areaPersonale/TextAreaField.tsx";
+import {DateTimeRange} from "../areaPersonale/DateTimeRange.tsx";
+import {StarRating} from "../areaPersonale/StarRating.tsx";
 import {useAgendaStore} from "../../stores/AgendaStore.ts";
-import {SelectField} from "../ui/SelectField.tsx";
+import {SelectField} from "../areaPersonale/SelectField.tsx";
 
 export type CreateEventoModalProps = {
     isOpen: boolean;
