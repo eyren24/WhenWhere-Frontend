@@ -10,6 +10,7 @@ import "./assets/css/index.css";
 import { useAuthStore } from "./stores/AuthStore.ts";
 import { useEffect, useState } from "react";
 import { UserProvider } from "./context/UserProvider";
+import {Agenda} from "./components/agendaPersonale/Agenda.tsx";
 
 function App() {
     const { isAuthenticated, getTokenInfo } = useAuthStore();
@@ -41,7 +42,8 @@ function App() {
 
                             {/* layout area personale */}
                             <Route element={<AreaPersonaleLayout />}>
-                                <Route path="/AreaPersonale" element={<AreaPersonale />} />
+                                <Route path="/areapersonale" element={<AreaPersonale />} />
+                                <Route path="/agenda/:id" element={<Agenda />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>

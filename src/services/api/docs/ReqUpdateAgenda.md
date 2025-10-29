@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **nomeAgenda** | **string** |  | [default to undefined]
 **descrizione** | **string** |  | [optional] [default to undefined]
 **tema** | **string** |  | [optional] [default to undefined]
+**isprivate** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -18,6 +19,7 @@ const instance: ReqUpdateAgenda = {
     nomeAgenda,
     descrizione,
     tema,
+    isprivate,
 };
 ```
 

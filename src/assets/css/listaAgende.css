@@ -1,0 +1,125 @@
+.listaAgende-section {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* === HEADER === */
+.listaAgende-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.listaAgende-title {
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--vulcan);
+    margin-bottom: 6px;
+}
+
+.listaAgende-subtitle {
+    font-size: 14px;
+    color: var(--shuttle-gray);
+    margin: 0 auto 12px auto;
+    max-width: 480px;
+}
+
+/* divisore decorativo */
+.listaAgende-divider {
+    width: 60%;
+    height: 1px;
+    margin: 0 auto;
+    background: color-mix(in srgb, var(--bombay) 35%, transparent);
+    border-radius: 2px;
+}
+
+/* === CONTENUTO === */
+.listaAgende-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 30px 40px 0 40px;
+    position: relative;
+}
+
+
+.listaAgende-div {
+    flex: 1 1 400px;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* === CARD CREAZIONE === */
+.new-agenda-card {
+    width: 100%;
+    min-height: 240px;
+    border-radius: 16px;
+    border: 2px dashed var(--cerulean);
+    background: color-mix(in srgb, var(--charlotte) 15%, white);
+    color: var(--cerulean);
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.15s ease;
+}
+
+.new-agenda-card:hover,
+.new-agenda-card:focus-visible {
+    background: color-mix(in srgb, var(--aquamarine-blue) 15%, white);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(3, 172, 228, 0.15);
+}
+
+.new-agenda-icon {
+    font-size: 32px;
+    color: var(--cerulean);
+}
+
+.new-agenda-text {
+    font-size: 14px;
+    color: var(--shuttle-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* === DIVISORI INTERNI NELLE AGENDE === */
+.agendapreview-header {
+    border-bottom: 1px solid color-mix(in srgb, var(--bombay) 25%, transparent);
+    padding-bottom: 6px;
+}
+
+.agendapreview-description {
+    border-bottom: 1px dashed color-mix(in srgb, var(--bombay) 20%, transparent);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .listaAgende-section {
+        margin: 20px;
+    }
+    .listaAgende-wrapper::before {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .new-agenda-card {
+        max-width: 100%;
+        min-height: 180px;
+    }
+}

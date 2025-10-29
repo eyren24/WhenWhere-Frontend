@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **nome** | **string** |  | [default to undefined]
 **cognome** | **string** |  | [default to undefined]
+**username** | **string** |  | [default to undefined]
 **email** | **string** |  | [default to undefined]
 **password** | **string** |  | [default to undefined]
 **confermaPassword** | **string** |  | [default to undefined]
@@ -21,6 +22,7 @@ import { ReqRegisterUser } from './api';
 const instance: ReqRegisterUser = {
     nome,
     cognome,
+    username,
     email,
     password,
     confermaPassword,

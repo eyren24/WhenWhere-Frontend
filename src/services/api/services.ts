@@ -2,9 +2,9 @@ import {
     AgendaApi,
     AuthApi,
     EventoApi,
-    type FiltriAgendaDTO, NotaApi,
+    type FiltriAgendaDTO, LikesApi, NotaApi,
     type ReqAgendaDTO,
-    type ReqEventoDTO,
+    type ReqEventoDTO, type ReqLikesDTO,
     type ReqLoginUser, type ReqNotaDTO,
     type ReqRegisterUser,
     type ReqUpdateEventoDTO, TagApi
@@ -16,6 +16,7 @@ export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient)
 export const agendaApi = new AgendaApi(apiConfig, URL_PATH, apiClient)
 export const eventoApi = new EventoApi(apiConfig, URL_PATH, apiClient)
 export const noteApi = new NotaApi(apiConfig, URL_PATH, apiClient)
+export const likesApi = new LikesApi(apiConfig, URL_PATH, apiClient)
 export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient)
 
 
@@ -68,4 +69,10 @@ export const deleteNote = async (notaId: number) => {
 }
 export const updateNote = async (notaId: number, nota: ReqNotaDTO) => {
     return noteApi.apiNotaUpdatePut(notaId, nota)
+}
+export const addLike = async (nuovaAgenda: ReqLikesDTO) => {
+    return likesApi.apiLikesAddLikePost(nuovaAgenda)
+}
+export const getByUser = async (userId: number) => {
+    return likesApi.apiLikesGetListByUserIdGet(userId);
 }

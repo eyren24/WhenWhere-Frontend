@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **dataCreazione** | **string** |  | [default to undefined]
 **titolo** | **string** |  | [default to undefined]
 **tagId** | **number** |  | [default to undefined]
+**taggedUsers** | [**Array&lt;TaggedUsersDTO&gt;**](TaggedUsersDTO.md) |  | [default to undefined]
 
 ## Example
 
@@ -36,6 +37,7 @@ const instance: ResEventoDTO = {
     dataCreazione,
     titolo,
     tagId,
+    taggedUsers,
 };
 ```
 

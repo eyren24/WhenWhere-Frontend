@@ -80,6 +80,12 @@ export interface ReqAgendaDTO {
      * @memberof ReqAgendaDTO
      */
     'tema'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReqAgendaDTO
+     */
+    'isprivate'?: boolean;
 }
 /**
  * 
@@ -153,6 +159,25 @@ export interface ReqEventoDTO {
      * @memberof ReqEventoDTO
      */
     'tagId': number;
+}
+/**
+ * 
+ * @export
+ * @interface ReqLikesDTO
+ */
+export interface ReqLikesDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqLikesDTO
+     */
+    'utenteid': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqLikesDTO
+     */
+    'agendaid': number;
 }
 /**
  * 
@@ -239,6 +264,12 @@ export interface ReqRegisterUser {
      * @type {string}
      * @memberof ReqRegisterUser
      */
+    'username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqRegisterUser
+     */
     'email': string;
     /**
      * 
@@ -302,6 +333,12 @@ export interface ReqUpdateAgenda {
      * @memberof ReqUpdateAgenda
      */
     'tema'?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReqUpdateAgenda
+     */
+    'isprivate'?: boolean;
 }
 /**
  * 
@@ -383,6 +420,12 @@ export interface ResAgendaDTO {
      * @memberof ResAgendaDTO
      */
     'tema': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ResAgendaDTO
+     */
+    'isprivate': boolean;
 }
 /**
  * 
@@ -481,6 +524,37 @@ export interface ResEventoDTO {
      * @memberof ResEventoDTO
      */
     'tagId': number;
+    /**
+     * 
+     * @type {Array<TaggedUsersDTO>}
+     * @memberof ResEventoDTO
+     */
+    'taggedUsers': Array<TaggedUsersDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface ResLikesDTO
+ */
+export interface ResLikesDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResLikesDTO
+     */
+    'id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResLikesDTO
+     */
+    'utenteid': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResLikesDTO
+     */
+    'agendaid': number;
 }
 /**
  * 
@@ -549,6 +623,25 @@ export interface ResTagDTO {
      * @memberof ResTagDTO
      */
     'nome': string;
+}
+/**
+ * 
+ * @export
+ * @interface TaggedUsersDTO
+ */
+export interface TaggedUsersDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof TaggedUsersDTO
+     */
+    'username': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TaggedUsersDTO
+     */
+    'userId': number;
 }
 /**
  * 
@@ -698,6 +791,46 @@ export const AgendaApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAgendaGetByOwnerGet: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('apiAgendaGetByOwnerGet', 'username', username)
+            const localVarPath = `/api/Agenda/GetByOwner`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -827,6 +960,18 @@ export const AgendaApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAgendaGetByOwnerGet(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResAgendaDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaGetByOwnerGet(username, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaGetByOwnerGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -888,6 +1033,15 @@ export const AgendaApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAgendaGetByOwnerGet(username: string, options?: RawAxiosRequestConfig): AxiosPromise<ResAgendaDTO> {
+            return localVarFp.apiAgendaGetByOwnerGet(username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -945,6 +1099,17 @@ export class AgendaApi extends BaseAPI {
      */
     public apiAgendaGetByIdGet(agendaId: number, options?: RawAxiosRequestConfig) {
         return AgendaApiFp(this.configuration).apiAgendaGetByIdGet(agendaId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} username 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AgendaApi
+     */
+    public apiAgendaGetByOwnerGet(username: string, options?: RawAxiosRequestConfig) {
+        return AgendaApiFp(this.configuration).apiAgendaGetByOwnerGet(username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1701,6 +1866,330 @@ export class EventoApi extends BaseAPI {
      */
     public apiEventoUpdatePut(eventoId: number, reqUpdateEventoDTO: ReqUpdateEventoDTO, options?: RawAxiosRequestConfig) {
         return EventoApiFp(this.configuration).apiEventoUpdatePut(eventoId, reqUpdateEventoDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * LikesApi - axios parameter creator
+ * @export
+ */
+export const LikesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {ReqLikesDTO} reqLikesDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesAddLikePost: async (reqLikesDTO: ReqLikesDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reqLikesDTO' is not null or undefined
+            assertParamExists('apiLikesAddLikePost', 'reqLikesDTO', reqLikesDTO)
+            const localVarPath = `/api/Likes/AddLike`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(reqLikesDTO, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetAllGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Likes/GetAll`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetListByUserIdGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiLikesGetListByUserIdGet', 'id', id)
+            const localVarPath = `/api/Likes/GetListByUserId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesRemoveDelete: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiLikesRemoveDelete', 'id', id)
+            const localVarPath = `/api/Likes/Remove`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LikesApi - functional programming interface
+ * @export
+ */
+export const LikesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LikesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {ReqLikesDTO} reqLikesDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiLikesAddLikePost(reqLikesDTO: ReqLikesDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesAddLikePost(reqLikesDTO, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesAddLikePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiLikesGetAllGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResLikesDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesGetAllGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesGetAllGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiLikesGetListByUserIdGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResLikesDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesGetListByUserIdGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesGetListByUserIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiLikesRemoveDelete(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesRemoveDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesRemoveDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * LikesApi - factory interface
+ * @export
+ */
+export const LikesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LikesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {ReqLikesDTO} reqLikesDTO 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesAddLikePost(reqLikesDTO: ReqLikesDTO, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiLikesAddLikePost(reqLikesDTO, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [id] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetAllGet(id?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResLikesDTO>> {
+            return localVarFp.apiLikesGetAllGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetListByUserIdGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResLikesDTO>> {
+            return localVarFp.apiLikesGetListByUserIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesRemoveDelete(id: number, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiLikesRemoveDelete(id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LikesApi - object-oriented interface
+ * @export
+ * @class LikesApi
+ * @extends {BaseAPI}
+ */
+export class LikesApi extends BaseAPI {
+    /**
+     * 
+     * @param {ReqLikesDTO} reqLikesDTO 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public apiLikesAddLikePost(reqLikesDTO: ReqLikesDTO, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesAddLikePost(reqLikesDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [id] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public apiLikesGetAllGet(id?: number, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesGetAllGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public apiLikesGetListByUserIdGet(id: number, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesGetListByUserIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public apiLikesRemoveDelete(id: number, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesRemoveDelete(id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

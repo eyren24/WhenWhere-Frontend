@@ -1,0 +1,148 @@
+.agenda-wrapper {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: auto;
+    background-color: var(--polar, #effafb);
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
+}
+
+/* === CALENDARIO BASE === */
+.fc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.95rem;
+    background-color: var(--polar, #effafb);
+    overflow: hidden;
+}
+
+/* === TOOLBAR === */
+.fc-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.fc-toolbar-chunk {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.fc-toolbar-title {
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--vulcan, #0e161f);
+    text-align: center;
+}
+
+/* === PULSANTI === */
+.fc-button {
+    background-color: var(--cerulean, #03ace4);
+    border: none;
+    padding: 0.45rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 10px;
+    min-width: 90px;
+    text-transform: capitalize;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap;
+}
+
+.fc-button:hover {
+    background-color: var(--eastern-blue, #2795ba);
+    transform: translateY(-1px);
+}
+
+.fc-button:disabled {
+    background-color: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+.fc-button-active {
+    background-color: var(--vulcan, #0e161f) !important;
+}
+
+/* Pulsanti di navigazione */
+.fc-button.fc-prev-button,
+.fc-button.fc-next-button {
+    font-size: 1.2rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: unset;
+}
+
+
+/* === GIORNI === */
+.fc-daygrid-day {
+    background-color: rgba(255, 255, 255, 0.75);
+    transition: background 0.2s ease;
+}
+
+.fc-daygrid-day:hover {
+    background-color: var(--charlotte, #b2e8f5);
+    cursor: pointer;
+}
+
+.fc-col-header-cell-cushion {
+    font-weight: 600;
+    color: var(--shuttle-gray, #63666a);
+    text-transform: lowercase;
+}
+
+/* === EVENTI === */
+.fc-event {
+    background-color: var(--cerulean, #03ace4);
+    border: none;
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #fff;
+    transition: all 0.2s ease-in-out;
+}
+
+.fc-event:hover {
+    filter: brightness(1.05);
+}
+
+/* === BORDI CELLE === */
+.fc-scrollgrid {
+    border: 1px solid var(--charlotte, #b2e8f5);
+}
+
+.fc-scrollgrid-section > td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* === MOBILE === */
+@media (max-width: 768px) {
+    .agenda-wrapper {
+        padding: 1rem;
+    }
+
+    .fc-toolbar {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .fc-button {
+        min-width: 80px;
+        font-size: 0.85rem;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.3rem;
+    }
+}

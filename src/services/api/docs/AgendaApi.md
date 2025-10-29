@@ -7,6 +7,7 @@ All URIs are relative to *http://localhost*
 |[**apiAgendaAddAgendaPost**](#apiagendaaddagendapost) | **POST** /api/Agenda/AddAgenda | |
 |[**apiAgendaGetAllGet**](#apiagendagetallget) | **GET** /api/Agenda/GetAll | |
 |[**apiAgendaGetByIdGet**](#apiagendagetbyidget) | **GET** /api/Agenda/GetById | |
+|[**apiAgendaGetByOwnerGet**](#apiagendagetbyownerget) | **GET** /api/Agenda/GetByOwner | |
 |[**apiAgendaRemoveDelete**](#apiagendaremovedelete) | **DELETE** /api/Agenda/Remove | |
 |[**apiAgendaUpdatePut**](#apiagendaupdateput) | **PUT** /api/Agenda/Update | |
 
@@ -131,6 +132,56 @@ const { status, data } = await apiInstance.apiAgendaGetByIdGet(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **agendaId** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**ResAgendaDTO**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiAgendaGetByOwnerGet**
+> ResAgendaDTO apiAgendaGetByOwnerGet()
+
+
+### Example
+
+```typescript
+import {
+    AgendaApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AgendaApi(configuration);
+
+let username: string; // (default to undefined)
+
+const { status, data } = await apiInstance.apiAgendaGetByOwnerGet(
+    username
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **username** | [**string**] |  | defaults to undefined|
 
 
 ### Return type

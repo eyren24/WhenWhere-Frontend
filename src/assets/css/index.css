@@ -86,4 +86,12 @@ button {
     transition: width 0.15s ease-out;
 }
 
+.universal-link{
+    text-decoration: none;
+    color: inherit;
+    vertical-align: middle;
+}
 
+.icons{
+    vertical-align: middle;
+}

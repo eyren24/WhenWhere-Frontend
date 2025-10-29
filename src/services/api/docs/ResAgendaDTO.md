@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **nomeAgenda** | **string** |  | [default to undefined]
 **descrizione** | **string** |  | [default to undefined]
 **tema** | **string** |  | [default to undefined]
+**isprivate** | **boolean** |  | [default to undefined]
 
 ## Example
 
@@ -22,6 +23,7 @@ const instance: ResAgendaDTO = {
     nomeAgenda,
     descrizione,
     tema,
+    isprivate,
 };
 ```
 

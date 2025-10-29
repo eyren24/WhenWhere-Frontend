@@ -1,24 +1,25 @@
 import "../../assets/css/modals/login.css";
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import toast from "react-hot-toast";
-import { useAuthStore } from "../../stores/AuthStore.ts";
-import { useNavigate } from "react-router";
-import { ClipLoader } from "react-spinners";
-import { FaHome } from "react-icons/fa";
+import {useAuthStore} from "../../stores/AuthStore.ts";
+import {useNavigate} from "react-router";
+import {ClipLoader} from "react-spinners";
+import {FaHome} from "react-icons/fa";
 
 export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = ({
                                                                                     show,
-                                                                                    onClose,
+                                                                                    onClose
                                                                                 }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [birthDate, setBirthDate] = useState("");
     const [gender, setGender] = useState("");
 
-    const { isLoading, signup } = useAuthStore();
+    const {isLoading, signup} = useAuthStore();
     const navigate = useNavigate();
 
     // ESC per chiudere
@@ -43,42 +44,36 @@ export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = (
             return;
         }
 
-        try {
-            const res = await signup({
-                email,
-                password,
-                nome: firstName,
-                cognome: lastName,
-                dataNascita: birthDate,
-                genere: gender,
-                confermaPassword: confirmPassword,
-            });
-
-            if (!res.success) {
-                const err = res.error;
-                const msg =
-                    typeof err === "string"
-                        ? err
-                        : typeof err === "object" && "title" in err
-                            ? err.title
-                            : "Registrazione fallita";
-                toast.error(msg);
-                return;
+        signup({
+            email,
+            password,
+            username,
+            nome: firstName,
+            cognome: lastName,
+            dataNascita: birthDate,
+            genere: gender,
+            confermaPassword: confirmPassword,
+        }).then((res) => {
+            if (res.success) {
+                toast.success("Registrazione completata con successo!");
+            } else {
+                toast.error(res.error || "Errore generico.");
             }
-
-            toast.success("Registrazione completata con successo!");
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
             onClose();
             navigate("/areaPersonale");
-        } catch {
-            toast.error("Errore imprevisto durante la registrazione");
-        }
+        });
+
+
     };
 
     if (!show) return null;
 
     return (
         <div className="login-modal-wrapper" aria-modal="true" role="dialog" aria-labelledby="register-title">
-            <div className="overlay" onClick={onClose} />
+            <div className="overlay" onClick={onClose}/>
             <form onSubmit={handleSubmit} className="register-wrapper" onClick={(e) => e.stopPropagation()}>
                 {/* Bottone Home */}
                 <button
@@ -90,7 +85,7 @@ export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = (
                         navigate("/");
                     }}
                 >
-                    <FaHome size={16} />
+                    <FaHome size={16}/>
                 </button>
 
                 <div className="register-header">
@@ -153,16 +148,32 @@ export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = (
                     </div>
 
                     {/* Email */}
-                    <div className="register-form-full">
-                        <label htmlFor="email">Email</label>
-                        <input
-                            id="email"
-                            type="email"
-                            placeholder="Inserisci l'email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
+                    <div className="register-form-row">
+
+                        <div className="register-form-column">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="Inserisci l'email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+
+                        </div>
+                        <div className="register-form-column">
+                            <label htmlFor="username">Username</label>
+                            <input
+                                id="username"
+                                type="text"
+                                placeholder="Inserisci username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+
+                        </div>
                     </div>
 
                     {/* Password & Conferma */}
@@ -194,7 +205,7 @@ export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = (
 
                 <div className="register-footer">
                     <button type="submit" className="register-button-full">
-                        {isLoading ? <ClipLoader /> : "Registrati"}
+                        {isLoading ? <ClipLoader/> : "Registrati"}
                     </button>
                 </div>
             </form>
