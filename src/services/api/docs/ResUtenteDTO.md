@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **nome** | **string** |  | [optional] [default to undefined]
 **cognome** | **string** |  | [optional] [default to undefined]
 **email** | **string** |  | [optional] [default to undefined]
+**username** | **string** |  | [optional] [default to undefined]
 **password** | **string** |  | [optional] [default to undefined]
 **token** | **string** |  | [optional] [default to undefined]
 **tokenExpiration** | **string** |  | [optional] [default to undefined]
@@ -30,6 +31,7 @@ const instance: ResUtenteDTO = {
     nome,
     cognome,
     email,
+    username,
     password,
     token,
     tokenExpiration,

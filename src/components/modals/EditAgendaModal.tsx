@@ -1,58 +1,73 @@
-import "../../assets/css/AreaPersonale/EditAgendaModal.css";
 import { useState } from "react";
+import { FaBook, FaPalette } from "react-icons/fa";
+import { BaseModal } from "./BaseModal.tsx";
 
 interface Props {
     onClose: () => void;
+    onSave: (data: { nome: string; colore: string }) => void;
+    defaultNome?: string;
+    defaultColore?: string;
 }
 
-export const EditAgendaModal = ({ onClose }: Props) => {
-    const [nome, setNome] = useState("");
-    const [colore, setColore] = useState("#03ace4");
+export const EditAgendaModal = ({ onClose, onSave, defaultNome = "", defaultColore = "#03ace4" }: Props) => {
+    const [nome, setNome] = useState(defaultNome);
+    const [colore, setColore] = useState(defaultColore);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Nuovo nome:", nome, "Colore:", colore);
+        onSave({ nome, colore });
         onClose();
     };
 
     return (
-        <div className="agenda-modal-backdrop" onClick={onClose}>
-            <div className="agenda-modal" onClick={(e) => e.stopPropagation()}>
-                <h2>Modifica agenda</h2>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Nome
-                        <input
-                            type="text"
-                            value={nome}
-                            onChange={(e) => setNome(e.target.value)}
-                            placeholder="Inserisci nome"
-                            required
-                        />
+        <BaseModal isOpen={true} onClose={onClose} title="Modifica agenda">
+            <form onSubmit={handleSubmit} className="cam-form">
+                <div className="cam-group">
+                    <label className="cam-label">
+                        <FaBook className="cam-icon" />
+                        Nome Agenda
                     </label>
-                    <label>
-                        Colore
-                        <input
-                            type="color"
-                            value={colore}
-                            onChange={(e) => setColore(e.target.value)}
-                        />
+                    <input
+                        type="text"
+                        className="cam-input"
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
+                        required
+                        placeholder="Es. Diario segreto"
+                    />
+                </div>
+
+                <div className="cam-group">
+                    <label className="cam-label">
+                        <FaPalette className="cam-icon" />
+                        Colore Tema
                     </label>
 
-                    <div className="agenda-modal-actions">
-                        <button type="submit" className="btn-confirm">
-                            Salva
-                        </button>
-                        <button
-                            type="button"
-                            className="btn-cancel"
-                            onClick={onClose}
-                        >
-                            Annulla
-                        </button>
+                    <div className="cam-color-wrapper">
+                        <input
+                            type="color"
+                            name="colore"
+                            value={colore}
+                            onChange={(e) => setColore(e.target.value)}
+                            className="cam-color-input"
+                        />
+                        <div
+                            className="cam-color-swatch"
+                            style={{ backgroundColor: colore }}
+                        />
+                        <span className="cam-color-code">{colore}</span>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+
+                <div className="cam-actions">
+                    <button type="submit" className="cam-btn-primary">
+                        Salva
+                    </button>
+                    <button type="button" className="cam-btn-secondary" onClick={onClose}>
+                        Annulla
+                    </button>
+                </div>
+            </form>
+        </BaseModal>
     );
 };

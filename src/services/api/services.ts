@@ -2,22 +2,32 @@ import {
     AgendaApi,
     AuthApi,
     EventoApi,
-    type FiltriAgendaDTO, LikesApi, NotaApi,
+    type FiltriAgendaDTO,
+    LikesApi,
+    NotaApi,
     type ReqAgendaDTO,
-    type ReqEventoDTO, type ReqLikesDTO,
-    type ReqLoginUser, type ReqNotaDTO,
+    type ReqEventoDTO,
+    type ReqLikesDTO,
+    type ReqLoginUser,
+    type ReqNotaDTO,
     type ReqRegisterUser,
-    type ReqUpdateEventoDTO, TagApi
+    type ReqUpdateAgenda,
+    type ReqUpdateEventoDTO,
+    SocialApi,
+    TagApi,
+    UtenteApi
 } from "./api.ts";
 import {apiClient} from "./Interceptor.ts";
-import {URL_PATH, apiConfig} from "./config.ts";
+import {apiConfig, URL_PATH} from "./config.ts";
 
 export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient)
+export const utenteApi = new UtenteApi(apiConfig, URL_PATH, apiClient)
 export const agendaApi = new AgendaApi(apiConfig, URL_PATH, apiClient)
 export const eventoApi = new EventoApi(apiConfig, URL_PATH, apiClient)
 export const noteApi = new NotaApi(apiConfig, URL_PATH, apiClient)
 export const likesApi = new LikesApi(apiConfig, URL_PATH, apiClient)
 export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient)
+export const socialApi = new SocialApi(apiConfig, URL_PATH, apiClient)
 
 
 export const login = (loginField: ReqLoginUser) => {
@@ -31,6 +41,9 @@ export const getUserInfo = async () => {
 }
 export const getAllAgende = async () => {
     return agendaApi.apiAgendaGetAllGet();
+}
+export const updateAgenda = async (id: number, agenda: ReqUpdateAgenda) => {
+    return agendaApi.apiAgendaUpdatePut(id, agenda);
 }
 export const createEvent = async (evento: ReqEventoDTO) => {
     return eventoApi.apiEventoAddPost(evento);
@@ -75,4 +88,11 @@ export const addLike = async (nuovaAgenda: ReqLikesDTO) => {
 }
 export const getByUser = async (userId: number) => {
     return likesApi.apiLikesGetListByUserIdGet(userId);
+}
+export const top10Agende = async () => {
+    return socialApi.apiSocialListTopAgendeGet();
+}
+
+export const getUserByUsername = async (username: string) => {
+    return utenteApi.apiUtenteGetByUsernameGet(username);
 }

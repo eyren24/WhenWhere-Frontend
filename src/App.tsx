@@ -3,6 +3,7 @@ import { Layout } from "./pages/Layout.tsx";
 import { AreaPersonaleLayout } from "./pages/AreaPersonaleLayout.tsx"; // ✅ nuovo layout fisso
 import { Home } from "./pages/Home.tsx";
 import { AreaPersonale } from "./pages/AreaPersonale.tsx";
+import { Social } from "./pages/Social.tsx"
 import AboutUs from "./pages/AboutUs.tsx";
 import { PageNotFound } from "./pages/PageNotFound.tsx";
 
@@ -33,16 +34,15 @@ function App() {
                 <UserProvider>
                     <BrowserRouter>
                         <Routes>
-                            {/* layout base */}
                             <Route element={<Layout />}>
                                 <Route path="/" index element={<Home />} />
                                 <Route path="/aboutus" element={<AboutUs />} />
                                 <Route path="*" element={<PageNotFound />} />
                             </Route>
 
-                            {/* layout area personale */}
                             <Route element={<AreaPersonaleLayout />}>
                                 <Route path="/areapersonale" element={<AreaPersonale />} />
+                                <Route path={"/social"} element={<Social />}/>
                                 <Route path="/agenda/:id" element={<Agenda />} />
                             </Route>
                         </Routes>

@@ -1,7 +1,7 @@
-import { create } from "zustand";
+import {create} from "zustand";
 import axios from "axios";
-import type { ReqAgendaDTO, ResAgendaDTO } from "../services/api";
-import { createAgenda, deleteAgenda, getAgendaById, getAllAgende } from "../services/api/services";
+import type {ReqAgendaDTO, ReqUpdateAgenda, ResAgendaDTO} from "../services/api";
+import {createAgenda, deleteAgenda, getAgendaById, getAllAgende, updateAgenda} from "../services/api/services";
 
 interface AgendaStore {
     isLoading: boolean;
@@ -9,6 +9,11 @@ interface AgendaStore {
     creaAgenda: (agenda: ReqAgendaDTO) => Promise<{ success: boolean; message?: string; error?: string }>;
     getAgendaById: (agendaId: number) => Promise<{ success: boolean; agenda?: ResAgendaDTO; error?: string }>;
     deleteAgenda: (agendaId: number) => Promise<{ success: boolean; message?: string; error?: string }>;
+    aggiorna: (agendaId: number, agendaNew: ReqUpdateAgenda) => Promise<{
+        success: boolean;
+        message?: string;
+        error?: string
+    }>;
 }
 
 const handleError = (e: unknown): string =>
@@ -62,6 +67,17 @@ export const useAgendaStore = create<AgendaStore>((set) => ({
             return { success: false, error: handleError(e) };
         } finally {
             set({ isLoading: false });
+        }
+    },
+    aggiorna: async (agendaId, agendaNew) => {
+        set({isLoading: true});
+        try {
+            await updateAgenda(agendaId, agendaNew);
+            return {success: true, message: "Agenda aggiornata con successo!"};
+        } catch (e) {
+            return {success: false, error: handleError(e)};
+        } finally {
+            set({isLoading: false});
         }
     },
 }));

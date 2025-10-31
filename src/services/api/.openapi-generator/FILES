@@ -9,6 +9,7 @@ docs/AuthApi.md
 docs/ERuolo.md
 docs/EventoApi.md
 docs/FiltriAgendaDTO.md
+docs/FiltriUtenteDTO.md
 docs/LikesApi.md
 docs/NotaApi.md
 docs/ReqAgendaDTO.md
@@ -21,15 +22,19 @@ docs/ReqTagDTO.md
 docs/ReqUpdateAgenda.md
 docs/ReqUpdateEventoDTO.md
 docs/ReqUpdateTagDTO.md
+docs/ReqUpdateUtenteDTO.md
 docs/ResAgendaDTO.md
 docs/ResAuthToken.md
 docs/ResEventoDTO.md
 docs/ResLikesDTO.md
 docs/ResNotaDTO.md
+docs/ResSocialDTO.md
 docs/ResTagDTO.md
 docs/ResUtenteDTO.md
+docs/SocialApi.md
 docs/TagApi.md
 docs/TaggedUsersDTO.md
 docs/TokenInfoDTO.md
+docs/UtenteApi.md
 git_push.sh
 index.ts

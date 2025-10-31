@@ -256,7 +256,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAgendaUpdatePut**
-> apiAgendaUpdatePut()
+> apiAgendaUpdatePut(reqUpdateAgenda)
 
 
 ### Example
@@ -272,7 +272,7 @@ const configuration = new Configuration();
 const apiInstance = new AgendaApi(configuration);
 
 let agendaId: number; // (default to undefined)
-let reqUpdateAgenda: ReqUpdateAgenda; // (optional)
+let reqUpdateAgenda: ReqUpdateAgenda; //
 
 const { status, data } = await apiInstance.apiAgendaUpdatePut(
     agendaId,

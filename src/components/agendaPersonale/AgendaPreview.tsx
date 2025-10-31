@@ -1,8 +1,8 @@
 import "../../assets/css/agendaPreview.css";
-import type { ResAgendaDTO } from "../../services/api";
-import { useNavigate } from "react-router";
-import { FaRegShareSquare } from "react-icons/fa";
-import type { MouseEventHandler } from "react";
+import type {ResAgendaDTO} from "../../services/api";
+import {useNavigate} from "react-router";
+import {FaRegShareSquare} from "react-icons/fa";
+import type {MouseEventHandler} from "react";
 import toast from "react-hot-toast";
 
 type Props = { agenda: ResAgendaDTO };
@@ -28,10 +28,6 @@ async function copyToClipboard(text: string) {
 }
 
 export const AgendaPreview = ({ agenda }: Props) => {
-    const isPrivate = agenda.isprivate;
-    const title = agenda.nomeAgenda?.trim() || "Senza nome";
-    const desc = agenda.descrizione?.trim() || "Nessuna descrizione";
-    const initials = title.charAt(0).toUpperCase();
     const navigate = useNavigate();
 
     const handleNav: MouseEventHandler<HTMLElement> = (e) => {
@@ -57,41 +53,46 @@ export const AgendaPreview = ({ agenda }: Props) => {
             className="agendapreview-wrapper"
             role="button"
             tabIndex={0}
-            aria-label={`Anteprima agenda: ${title}`}
-            data-privacy={isPrivate ? "private" : "public"}
+            aria-label={`Anteprima agenda: ${agenda.nomeAgenda}`}
+            data-privacy={agenda.isprivate ? "private" : "public"}
         >
             <header className="agendapreview-header">
-                <div className="agendapreview-avatar">{initials}</div>
+                <div className="agendapreview-avatar" style={{background: agenda.tema}}>{agenda.nomeAgenda}</div>
                 <div className="agendapreview-headings">
                     <span className="agendapreview-subtitle">Nome</span>
-                    <h3 className="agendapreview-title" title={title}>
-                        {title}
+                    <h3 className="agendapreview-title" title={agenda.nomeAgenda}>
+                        {agenda.nomeAgenda}
                     </h3>
                 </div>
-                <span className={`agendapreview-badge ${isPrivate ? "is-private" : "is-public"}`}>
-          {isPrivate ? "Privata" : "Pubblica"}
+                <span className={`agendapreview-badge`} style={{background: agenda.tema}}>
+          {agenda.isprivate ? "Privata" : "Pubblica"}
         </span>
             </header>
 
-            <section className="agendapreview-description">{desc}</section>
+            <section className="agendapreview-description">{agenda.descrizione || "Nessuna descrizione"}</section>
 
             <footer className="agendapreview-footer">
                 <div className="agendapreview-meta">
-                    <span className="agendapreview-dot" />
+                    <span className="agendapreview-dot" style={{color: agenda.tema}} />
                     <span className="agendapreview-meta-text">
-            {isPrivate ? "Solo tu e invitati" : "Visibile a tutti"}
+            {agenda.isprivate ? "Solo tu e invitati" : "Visibile a tutti"}
           </span>
                 </div>
-
+                {!agenda.isprivate &&
                 <button
                     type="button"
                     data-no-nav
                     onClick={handleShareButton}
                     className="agendapreview-link universal-link"
+                    style={{
+                        background: agenda.tema,
+                        border: `1px solid color-mix(in srgb, ${agenda.tema} 25%, transparent);`
+                    }}
                 >
                     <FaRegShareSquare className="agendapreview-icon icons" />
                     Condividi
                 </button>
+                }
             </footer>
         </article>
     );

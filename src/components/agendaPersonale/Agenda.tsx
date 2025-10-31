@@ -13,6 +13,9 @@ export const Agenda = () => {
         console.log("Giorno cliccato:", arg.dateStr);
     };
 
+    const handleSaveChanges = ()=>{
+
+    }
     return (
         <section className="agenda-wrapper">
             <div className="agenda-header">
@@ -47,7 +50,7 @@ export const Agenda = () => {
             </div>
 
             {isModalOpen && (
-                <EditAgendaModal onClose={() => setIsModalOpen(false)} />
+                <EditAgendaModal onSave={handleSaveChanges} onClose={() => setIsModalOpen(false)} />
             )}
         </section>
     );

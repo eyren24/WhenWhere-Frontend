@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { FaRegUser } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from "react-router";
-import { useAuthStore } from "../../stores/AuthStore.ts";
-import { LoginModal } from "../modals/LoginModal.tsx";
-import { RegisterModal } from "../modals/RegisterModal.tsx";
-import logo from "../../assets/imgs/logo.webp";
+import {useEffect, useState} from "react";
+import {FaRegUser} from "react-icons/fa";
+import {Link, useLocation, useNavigate} from "react-router";
+import {useAuthStore} from "../../stores/AuthStore.ts";
+import {LoginModal} from "../modals/LoginModal.tsx";
+import {RegisterModal} from "../modals/RegisterModal.tsx";
 import "../../assets/css/layout/Navbar.css";
+import logo from "../../assets/imgs/logo.webp";
 
 export const Navbar = () => {
     const { isAuthenticated } = useAuthStore();
@@ -16,7 +16,6 @@ export const Navbar = () => {
     const [registerModal, setRegisterModal] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // Blocca lo scroll quando il menu è aperto
     useEffect(() => {
         const body = document.body;
         if (isMenuOpen) body.classList.add("no-scroll");
@@ -57,8 +56,6 @@ export const Navbar = () => {
                     <div className="navbar-center-logo">
                         <img src={logo} alt="When & Where" className="navbar-logo-img" />
                     </div>
-
-                    {/* Burger NON cambia aspetto: niente classe active */}
                     <button
                         type="button"
                         className="navbar-burger"
@@ -89,11 +86,11 @@ export const Navbar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/calendario"
-                                className={location.pathname === "/calendario" ? "active" : ""}
+                                to="/social"
+                                className={location.pathname === "/social" ? "active" : ""}
                                 onClick={closeMenu}
                             >
-                                Calendario
+                                Social
                             </Link>
                         </li>
                     </ul>

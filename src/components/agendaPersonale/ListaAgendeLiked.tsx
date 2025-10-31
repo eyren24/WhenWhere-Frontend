@@ -1,6 +1,5 @@
-import {useAgendaStore} from "../../stores/AgendaStore.ts";
 import {useEffect, useState} from "react";
-import type {ResLikesDTO} from "../../services/api";
+import type { ResLikesDTO} from "../../services/api";
 import toast from "react-hot-toast";
 import {AgendaPreview} from "./AgendaPreview.tsx";
 import {FaHeart} from "react-icons/fa";
@@ -11,11 +10,8 @@ import {CustomLoader} from "../layout/CustomLoader.tsx";
 
 export const ListaAgendeLiked = () => {
     const {getByUser} = useLikesStore();
-    const {getAgendaById} = useAgendaStore();
-    const {tokenInfo} = useAuthStore();
-    const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
-    const {tokenInfo} = useAuthStore();
     const [agende, setAgende] = useState<ResLikesDTO[]>([]);
+    const {tokenInfo} = useAuthStore();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

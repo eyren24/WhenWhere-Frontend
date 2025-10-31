@@ -1,0 +1,166 @@
+/* === CREATE AGENDA MODAL === */
+.cam-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.cam-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.cam-label {
+    font-weight: 600;
+    color: var(--vulcan);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.cam-input,
+.cam-textarea {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--bombay);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    background-color: white;
+    color: var(--vulcan);
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.cam-input::placeholder,
+.cam-textarea::placeholder {
+    color: var(--bombay);
+    font-style: italic;
+}
+
+.cam-input:focus,
+.cam-textarea:focus {
+    outline: none;
+    border-color: var(--cerulean);
+    box-shadow: 0 0 0 3px rgba(3, 172, 228, 0.15);
+    background-color: var(--polar);
+}
+
+.cam-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.cam-toggle input[type="checkbox"] {
+    accent-color: var(--cerulean);
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+.cam-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.cam-btn-primary {
+    background: var(--cerulean);
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cam-btn-primary:hover {
+    background: var(--eastern-blue);
+    transform: translateY(-1px);
+}
+
+.cam-btn-secondary {
+    background: white;
+    border: 1px solid var(--bombay);
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+    color: var(--shuttle-gray);
+    transition: all 0.2s ease;
+}
+
+.cam-btn-secondary:hover {
+    border-color: var(--cerulean);
+    color: var(--cerulean);
+}
+
+.cam-icon {
+    vertical-align: middle;
+    color: var(--cerulean);
+    font-size: 1rem;
+}
+
+/* === Mobile Responsive === */
+@media (max-width: 480px) {
+    .cam-form {
+        gap: 1rem;
+    }
+
+    .cam-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .cam-btn-primary,
+    .cam-btn-secondary {
+        width: 100%;
+    }
+}
+
+
+/* === COLOR PICKER === */
+.cam-color-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.cam-color-input {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: transparent;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.cam-color-swatch {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 2px solid var(--bombay);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    transition: background 0.2s ease;
+}
+
+.cam-color-code {
+    font-size: 0.9rem;
+    color: var(--shuttle-gray);
+    font-family: monospace;
+}

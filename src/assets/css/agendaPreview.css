@@ -6,8 +6,7 @@
     grid-template-rows: auto 1fr auto;
     gap: 12px;
     border-radius: 16px;
-    background: #fff;
-    color: var(--vulcan);
+    color: white;
     border: 1px solid rgba(0,0,0,0.06);
     box-shadow: 0 10px 24px rgba(14,22,31,0.10), 0 2px 8px rgba(14,22,31,0.06);
     padding: 16px;
@@ -39,9 +38,9 @@
     display: grid;
     place-items: center;
     font-weight: 700;
-    letter-spacing: .5px;
-    background: linear-gradient(135deg, var(--charlotte), var(--aquamarine-blue));
-    color: var(--vulcan);
+    letter-spacing: 1px;
+    color: white;
+    font-size: 12px;
 }
 
 .agendapreview-headings { min-width: 0; }
@@ -62,6 +61,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: black;
 }
 
 /* Badge privacy con palette */
@@ -70,20 +70,7 @@
     border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid;
     user-select: none;
-}
-
-.agendapreview-badge.is-private {
-    color: var(--eastern-blue);
-    background: color-mix(in srgb, var(--eastern-blue) 12%, transparent);
-    border-color: color-mix(in srgb, var(--eastern-blue) 35%, transparent);
-}
-
-.agendapreview-badge.is-public {
-    color: var(--cerulean);
-    background: color-mix(in srgb, var(--cerulean) 12%, transparent);
-    border-color: color-mix(in srgb, var(--cerulean) 35%, transparent);
 }
 
 /* Description */
@@ -123,10 +110,6 @@
     opacity: .6;
 }
 
-/* State accent solo con palette */
-.agendapreview-wrapper[data-privacy="public"] .agendapreview-dot { color: var(--cerulean); }
-.agendapreview-wrapper[data-privacy="private"] .agendapreview-dot { color: var(--eastern-blue); }
-
 .agendapreview-meta-text {
     font-size: 12px;
     color: var(--shuttle-gray);
@@ -142,21 +125,15 @@
     gap: 8px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--cerulean);
+    color: white;
     padding: 8px 10px;
     border-radius: 10px;
-    border: 1px solid color-mix(in srgb, var(--cerulean) 25%, transparent);
-    background: linear-gradient(180deg,
-    color-mix(in srgb, var(--cerulean) 10%, transparent),
-    color-mix(in srgb, var(--cerulean) 3%, transparent)
-    );
     transition: background .12s ease, transform .12s ease, border-color .12s ease;
 }
 
 .agendapreview-link:hover,
 .agendapreview-link:focus-visible {
     transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--cerulean) 45%, transparent);
 }
 
 .agendapreview-icon { width: 16px; height: 16px; }
