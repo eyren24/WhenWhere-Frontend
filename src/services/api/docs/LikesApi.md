@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**apiLikesAddLikePost**](#apilikesaddlikepost) | **POST** /api/Likes/AddLike | |
-|[**apiLikesGetAllGet**](#apilikesgetallget) | **GET** /api/Likes/GetAll | |
+|[**apiLikesGetLikeByIdGet**](#apilikesgetlikebyidget) | **GET** /api/Likes/GetLikeById | |
 |[**apiLikesGetListByUserIdGet**](#apilikesgetlistbyuseridget) | **GET** /api/Likes/GetListByUserId | |
 |[**apiLikesRemoveDelete**](#apilikesremovedelete) | **DELETE** /api/Likes/Remove | |
 
@@ -60,8 +60,8 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiLikesGetAllGet**
-> Array<ResLikesDTO> apiLikesGetAllGet()
+# **apiLikesGetLikeByIdGet**
+> ResLikesDTO apiLikesGetLikeByIdGet()
 
 
 ### Example
@@ -77,7 +77,7 @@ const apiInstance = new LikesApi(configuration);
 
 let id: number; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.apiLikesGetAllGet(
+const { status, data } = await apiInstance.apiLikesGetLikeByIdGet(
     id
 );
 ```
@@ -91,7 +91,7 @@ const { status, data } = await apiInstance.apiLikesGetAllGet(
 
 ### Return type
 
-**Array<ResLikesDTO>**
+**ResLikesDTO**
 
 ### Authorization
 

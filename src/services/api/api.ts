@@ -555,6 +555,18 @@ export interface ResLikesDTO {
      * @memberof ResLikesDTO
      */
     'agendaid': number;
+    /**
+     * 
+     * @type {ResAgendaDTO}
+     * @memberof ResLikesDTO
+     */
+    'agenda': ResAgendaDTO;
+    /**
+     * 
+     * @type {ResUtenteDTO}
+     * @memberof ResLikesDTO
+     */
+    'utente': ResUtenteDTO;
 }
 /**
  * 
@@ -623,6 +635,97 @@ export interface ResTagDTO {
      * @memberof ResTagDTO
      */
     'nome': string;
+}
+/**
+ * 
+ * @export
+ * @interface ResUtenteDTO
+ */
+export interface ResUtenteDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResUtenteDTO
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'nome'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'cognome'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'email'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'password'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'token'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'tokenExpiration'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'dataNascita'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'genere'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'fotoProfilo'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResUtenteDTO
+     */
+    'lastLogin'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ResUtenteDTO
+     */
+    'preferenzeNotifiche'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ResUtenteDTO
+     */
+    'statoAccount'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResUtenteDTO
+     */
+    'ruoloId'?: number;
 }
 /**
  * 
@@ -1922,8 +2025,8 @@ export const LikesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiLikesGetAllGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/Likes/GetAll`;
+        apiLikesGetLikeByIdGet: async (id?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Likes/GetLikeById`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2062,10 +2165,10 @@ export const LikesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiLikesGetAllGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResLikesDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesGetAllGet(id, options);
+        async apiLikesGetLikeByIdGet(id?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResLikesDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesGetLikeByIdGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesGetAllGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesGetLikeByIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -2117,8 +2220,8 @@ export const LikesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiLikesGetAllGet(id?: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResLikesDTO>> {
-            return localVarFp.apiLikesGetAllGet(id, options).then((request) => request(axios, basePath));
+        apiLikesGetLikeByIdGet(id?: number, options?: RawAxiosRequestConfig): AxiosPromise<ResLikesDTO> {
+            return localVarFp.apiLikesGetLikeByIdGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2166,8 +2269,8 @@ export class LikesApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof LikesApi
      */
-    public apiLikesGetAllGet(id?: number, options?: RawAxiosRequestConfig) {
-        return LikesApiFp(this.configuration).apiLikesGetAllGet(id, options).then((request) => request(this.axios, this.basePath));
+    public apiLikesGetLikeByIdGet(id?: number, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesGetLikeByIdGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

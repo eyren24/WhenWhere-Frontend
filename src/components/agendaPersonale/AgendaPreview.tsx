@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 type Props = { agenda: ResAgendaDTO };
 
 async function copyToClipboard(text: string) {
-    // 1) API moderna se disponibile e in contesto sicuro (https o localhost)
     if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
         return;

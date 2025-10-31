@@ -27,6 +27,7 @@ docs/ResEventoDTO.md
 docs/ResLikesDTO.md
 docs/ResNotaDTO.md
 docs/ResTagDTO.md
+docs/ResUtenteDTO.md
 docs/TagApi.md
 docs/TaggedUsersDTO.md
 docs/TokenInfoDTO.md

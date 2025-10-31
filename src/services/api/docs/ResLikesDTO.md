@@ -8,6 +8,8 @@ Name | Type | Description | Notes
 **id** | **number** |  | [default to undefined]
 **utenteid** | **number** |  | [default to undefined]
 **agendaid** | **number** |  | [default to undefined]
+**agenda** | [**ResAgendaDTO**](ResAgendaDTO.md) |  | [default to undefined]
+**utente** | [**ResUtenteDTO**](ResUtenteDTO.md) |  | [default to undefined]
 
 ## Example
 
@@ -18,6 +20,8 @@ const instance: ResLikesDTO = {
     id,
     utenteid,
     agendaid,
+    agenda,
+    utente,
 };
 ```
 

@@ -1,39 +1,33 @@
-import {useEffect, useState} from "react";
-import {useAuthStore} from "../../stores/AuthStore.ts";
-import {useLikesStore} from "../../stores/LikesStore.ts";
 import {useAgendaStore} from "../../stores/AgendaStore.ts";
-import type {ResAgendaDTO, ResLikesDTO} from "../../services/api";
+import {useEffect, useState} from "react";
+import type {ResLikesDTO} from "../../services/api";
 import toast from "react-hot-toast";
 import {AgendaPreview} from "./AgendaPreview.tsx";
 import {FaHeart} from "react-icons/fa";
 import "../../assets/css/listaAgendeLiked.css";
+import {useLikesStore} from "../../stores/LikesStore.ts";
+import {useAuthStore} from "../../stores/AuthStore.ts";
+import {CustomLoader} from "../layout/CustomLoader.tsx";
 
 export const ListaAgendeLiked = () => {
     const {getByUser} = useLikesStore();
     const {getAgendaById} = useAgendaStore();
     const {tokenInfo} = useAuthStore();
     const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
+    const {tokenInfo} = useAuthStore();
+    const [agende, setAgende] = useState<ResLikesDTO[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (!tokenInfo?.utenteId) return;
-
+        if (!tokenInfo)
+            return;
         getByUser(tokenInfo.utenteId)
-            .then(async (res) => {
-                if (!res.success) {
-                    toast.error(res.message || "Errore di caricamento");
-                    return;
-                }
-
-                const promises = res.agenda.map((like: ResLikesDTO) =>
-                    getAgendaById(like.agendaid).then(r => r.agenda)
-                );
-
-                const results = await Promise.all(promises);
-                const agendasPulite = results.filter((a): a is ResAgendaDTO => a !== undefined);
-                setAgende(agendasPulite);
+            .then((res) => {
+                if (res.success) setAgende(res.agenda || []);
+                else toast.error(res.message || "Errore di caricamento");
             })
-            .catch(console.error);
-    }, [getByUser, getAgendaById, tokenInfo?.utenteId]);
+            .catch(console.error).finally(() => setIsLoading(false));
+    }, [getByUser, tokenInfo]);
 
     const count = agende.length;
 
@@ -46,8 +40,7 @@ export const ListaAgendeLiked = () => {
                 </h2>
                 <p className="likedAgende-subtitle">Le tue preferite, sempre a portata di click.</p>
             </header>
-
-            {count === 0 ? (
+            {isLoading ? <CustomLoader /> : count === 0 ? (
                 <div className="liked-empty" role="status" aria-live="polite">
                     <FaHeart className="liked-empty-icon"/>
                     <h3 className="liked-empty-title">Nessun like ancora</h3>
@@ -57,7 +50,7 @@ export const ListaAgendeLiked = () => {
                 <div className="likedAgende-wrapper">
                     {agende.map((item, i) => (
                         <div className="likedAgende-div" key={i}>
-                            <AgendaPreview agenda={item}/>
+                            <AgendaPreview agenda={item.agenda}/>
                         </div>
                     ))}
                 </div>
