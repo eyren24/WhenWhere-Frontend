@@ -1,18 +1,72 @@
+/* === CONTAINER CARD === */
 .agenda-wrapper {
-    padding: 2rem 1rem;
+    width: 85%;
     max-width: 1200px;
-    margin: auto;
-    background-color: var(--polar, #effafb);
-    border-radius: 16px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
+    margin: 3rem auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow: hidden;
 }
 
-/* === CALENDARIO BASE === */
+/* sfondo generale della pagina */
+body {
+    background-color: var(--polar, #effafb);
+}
+
+/* === HEADER DELLA CARD === */
+.agenda-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 0.8rem;
+}
+
+.agenda-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--vulcan, #0e161f);
+}
+
+/* === ICONA PENNA === */
+.agenda-edit-btn {
+    background: var(--cerulean, #03ace4);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.agenda-edit-btn:hover {
+    background: var(--eastern-blue, #2795ba);
+    transform: scale(1.05);
+}
+
+/* === CONTENUTO === */
+.agenda-content {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* === FULLCALENDAR BASE === */
 .fc {
     font-family: "Inter", sans-serif;
     font-size: 0.95rem;
-    background-color: var(--polar, #effafb);
-    overflow: hidden;
+    background-color: #fff;
+    border-radius: 12px;
 }
 
 /* === TOOLBAR === */
@@ -23,19 +77,13 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
-}
-
-.fc-toolbar-chunk {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    padding: 0 1rem;
 }
 
 .fc-toolbar-title {
     font-weight: 600;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     color: var(--vulcan, #0e161f);
-    text-align: center;
 }
 
 /* === PULSANTI === */
@@ -47,7 +95,6 @@
     font-weight: 500;
     color: #fff;
     border-radius: 10px;
-    min-width: 90px;
     text-transform: capitalize;
     transition: background-color 0.2s ease, transform 0.1s ease;
     white-space: nowrap;
@@ -60,7 +107,6 @@
 
 .fc-button:disabled {
     background-color: #ccc;
-    color: #fff;
     cursor: not-allowed;
 }
 
@@ -68,7 +114,7 @@
     background-color: var(--vulcan, #0e161f) !important;
 }
 
-/* Pulsanti di navigazione */
+/* === NAVIGAZIONE CALENDARIO === */
 .fc-button.fc-prev-button,
 .fc-button.fc-next-button {
     font-size: 1.2rem;
@@ -79,13 +125,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: unset;
 }
-
 
 /* === GIORNI === */
 .fc-daygrid-day {
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0.85);
     transition: background 0.2s ease;
 }
 
@@ -109,40 +153,36 @@
     font-size: 0.8rem;
     font-weight: 500;
     color: #fff;
-    transition: all 0.2s ease-in-out;
-}
-
-.fc-event:hover {
-    filter: brightness(1.05);
 }
 
 /* === BORDI CELLE === */
 .fc-scrollgrid {
     border: 1px solid var(--charlotte, #b2e8f5);
-}
-
-.fc-scrollgrid-section > td {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
 }
 
 /* === MOBILE === */
 @media (max-width: 768px) {
     .agenda-wrapper {
+        width: 92%;
         padding: 1rem;
+    }
+
+    .agenda-title {
+        font-size: 1.3rem;
     }
 
     .fc-toolbar {
         flex-direction: column;
-        align-items: center;
         gap: 0.8rem;
-    }
-
-    .fc-button {
-        min-width: 80px;
-        font-size: 0.85rem;
     }
 
     .fc-toolbar-title {
         font-size: 1.3rem;
+    }
+
+    .agenda-edit-btn {
+        width: 34px;
+        height: 34px;
     }
 }
