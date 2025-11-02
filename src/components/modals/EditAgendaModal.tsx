@@ -1,69 +1,123 @@
-import { useState } from "react";
-import { FaBook, FaPalette } from "react-icons/fa";
-import { BaseModal } from "./BaseModal.tsx";
+import {FaAlignLeft, FaBook, FaLock, FaLockOpen, FaPalette} from "react-icons/fa";
+import {BaseModal} from "./BaseModal.tsx";
+import type {ReqUpdateAgenda, ResAgendaDTO} from "../../services/api";
+import "../../assets/css/modals/editAgendaModal.css";
+import {useState} from "react";
 
 interface Props {
     onClose: () => void;
-    onSave: (data: { nome: string; colore: string }) => void;
-    defaultNome?: string;
-    defaultColore?: string;
+    onSave: (data: ReqUpdateAgenda) => void;
+    agenda: ResAgendaDTO;
 }
 
-export const EditAgendaModal = ({ onClose, onSave, defaultNome = "", defaultColore = "#03ace4" }: Props) => {
-    const [nome, setNome] = useState(defaultNome);
-    const [colore, setColore] = useState(defaultColore);
-
+export const EditAgendaModal = ({
+                                    onClose,
+                                    onSave,
+                                    agenda
+                                }: Props) => {
+    const [isPrivate, setIsPrivate] = useState(agenda.isprivate);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onSave({ nome, colore });
+        const formdata = new FormData(e.currentTarget);
+        const nomeAgenda = formdata.get("nomeAgenda") as string;
+        const descrizione = formdata.get("descrizione") as string;
+        const tema = formdata.get("tema") as string;
+
+        const dto: ReqUpdateAgenda = {
+            nomeAgenda,
+            descrizione,
+            tema,
+            isprivate: isPrivate,
+        }
+        onSave(dto);
         onClose();
     };
 
     return (
-        <BaseModal isOpen={true} onClose={onClose} title="Modifica agenda">
-            <form onSubmit={handleSubmit} className="cam-form">
-                <div className="cam-group">
-                    <label className="cam-label">
-                        <FaBook className="cam-icon" />
+        <BaseModal isOpen={true} onClose={onClose} title="Modifica agenda" width="520px">
+            <form onSubmit={handleSubmit} className="edit-agenda-modal-form">
+                {/* Nome */}
+                <div className="edit-agenda-modal-group">
+                    <label className="edit-agenda-modal-label">
+                        <FaBook className="edit-agenda-modal-icon"/>
                         Nome Agenda
                     </label>
                     <input
                         type="text"
-                        className="cam-input"
-                        value={nome}
-                        onChange={(e) => setNome(e.target.value)}
+                        name="nomeAgenda"
+                        defaultValue={agenda.nomeAgenda}
+                        className="edit-agenda-modal-input"
                         required
                         placeholder="Es. Diario segreto"
                     />
                 </div>
 
-                <div className="cam-group">
-                    <label className="cam-label">
-                        <FaPalette className="cam-icon" />
+                {/* Descrizione */}
+                <div className="edit-agenda-modal-group">
+                    <label className="edit-agenda-modal-label">
+                        <FaAlignLeft className="edit-agenda-modal-icon"/>
+                        Descrizione
+                    </label>
+                    <textarea
+                        name="descrizione"
+                        defaultValue={agenda.descrizione}
+                        className="edit-agenda-modal-textarea"
+                        placeholder="Aggiungi una breve descrizione (opzionale)"
+                        rows={3}
+                    />
+                </div>
+
+                <div className="edit-agenda-modal-group">
+                    <label className="edit-agenda-modal-label">
+                        <FaPalette className="edit-agenda-modal-icon"/>
                         Colore Tema
                     </label>
-
-                    <div className="cam-color-wrapper">
+                    <div className="edit-agenda-modal-color-wrapper">
                         <input
                             type="color"
-                            name="colore"
-                            value={colore}
-                            onChange={(e) => setColore(e.target.value)}
-                            className="cam-color-input"
+                            name="tema"
+                            defaultValue={agenda.tema}
+                            onChange={(e) => (agenda.tema = e.target.value)}
+                            className="edit-agenda-modal-color-input"
                         />
-                        <div
-                            className="cam-color-swatch"
-                            style={{ backgroundColor: colore }}
-                        />
-                        <span className="cam-color-code">{colore}</span>
+                        <span className="edit-agenda-modal-color-code">{agenda.tema}</span>
                     </div>
                 </div>
 
-                <div className="cam-actions">
-                    <button type="submit" className="cam-btn-primary">
+
+                <div className="edit-agenda-modal-group edit-agenda-modal-toggle-group">
+                    <label className="edit-agenda-modal-label">
+                        {isPrivate ? (
+                            <FaLock className="edit-agenda-modal-icon"/>
+                        ) : (
+                            <FaLockOpen className="edit-agenda-modal-icon"/>
+                        )}
+                        Privacy
+                    </label>
+                    <div
+                        className={`edit-agenda-modal-toggle ${isPrivate ? "" : "active"}`}
+                        onClick={() => setIsPrivate((prev) => !prev)}
+                    >
+                        <div className="edit-agenda-modal-toggle-circle"/>
+                        <span className="edit-agenda-modal-toggle-text">
+            {isPrivate ? "Privata" : "Pubblica"}
+        </span>
+                    </div>
+                    <input type="hidden" name="isprivate" onChange={() => setIsPrivate((prev) => !prev)}
+                           defaultValue={String(isPrivate)}/>
+                </div>
+
+
+                {/* Actions */}
+                <div className="edit-agenda-modal-actions">
+                    <button type="submit" className="edit-agenda-modal-btn-primary">
                         Salva
                     </button>
-                    <button type="button" className="cam-btn-secondary" onClick={onClose}>
+                    <button
+                        type="button"
+                        className="edit-agenda-modal-btn-secondary"
+                        onClick={onClose}
+                    >
                         Annulla
                     </button>
                 </div>

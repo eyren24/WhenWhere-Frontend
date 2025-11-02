@@ -19,7 +19,7 @@ export const ListaAgendeLiked = () => {
             return;
         getByUser(tokenInfo.utenteId)
             .then((res) => {
-                if (res.success) setAgende(res.agenda || []);
+                if (res.success) setAgende(res.likes || []);
                 else toast.error(res.message || "Errore di caricamento");
             })
             .catch(console.error).finally(() => setIsLoading(false));

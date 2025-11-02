@@ -3,12 +3,13 @@ import "../../assets/css/home/Slider.css";
 
 type Caption = { title: string; text: string; highlight?: string };
 
-const images = [
-    new URL("../../assets/imgs/slider/1.jpg", import.meta.url).href,
-    new URL("../../assets/imgs/slider/2.jpg", import.meta.url).href,
-    new URL("../../assets/imgs/slider/3.jpg", import.meta.url).href,
-    new URL("../../assets/imgs/slider/4.jpg", import.meta.url).href,
-];
+const imageList: string[] = Object.entries(
+    import.meta.glob<{ default: string }>('/src/assets/imgs/slider/*', {
+        eager: true,
+    })
+)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([, mod]) => mod.default);
 
 const scrollToFeature = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ export function HomeSlider() {
     useEffect(() => {
         if (timerRef.current) clearInterval(timerRef.current);
         timerRef.current = setInterval(() => {
-            setIdx(i => (i + 1) % images.length);
+            setIdx((i) => (i + 1) % imageList.length);
         }, AUTOPLAY_MS);
         return () => { if (timerRef.current) clearInterval(timerRef.current); };
     }, [idx]);
@@ -40,20 +41,24 @@ export function HomeSlider() {
     const cap = captions[idx % captions.length];
 
     const touchStartX = useRef<number | null>(null);
-    const onTouchStart = (e: React.TouchEvent) => { touchStartX.current = e.touches[0].clientX; };
+    const onTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+    };
     const onTouchEnd = (e: React.TouchEvent) => {
         if (touchStartX.current == null) return;
         const dx = e.changedTouches[0].clientX - touchStartX.current;
-        if (Math.abs(dx) > 40) setIdx(i => dx < 0 ? (i + 1) % images.length : (i - 1 + images.length) % images.length);
+        if (Math.abs(dx) > 40) {
+            setIdx(i => dx < 0 ? (i + 1) % imageList.length : (i - 1 + imageList.length) % imageList.length);
+        }
         touchStartX.current = null;
     };
 
     return (
         <section className="slider-wrapper" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <div className="slider-track">
-                {images.map((src, i) => (
-                    <div key={src} className={`slider-frame ${i === idx ? "active" : ""}`}>
-                        <img src={src} alt="" />
+                {imageList.map((src, i) => (
+                    <div key={i} className={`slider-frame ${i === idx ? "active" : ""}`}>
+                        <img src={src} alt={`Slide ${i}`} />
                         <div className="slider-overlay" />
                         <div className="slider-gradient" />
                     </div>

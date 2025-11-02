@@ -7,6 +7,7 @@ import {FaPlus} from "react-icons/fa";
 import "../../assets/css/listaAgende.css";
 import {CustomLoader} from "../layout/CustomLoader.tsx";
 import {CreateAgendaModal} from "../modals/CreateAgendaModal.tsx";
+import {Link} from "react-router";
 
 export const ListaAgende = () => {
     const {getAll, creaAgenda} = useAgendaStore();
@@ -57,7 +58,7 @@ export const ListaAgende = () => {
                         <>
                             {agende.map((item, index) => (
                                 <div className="listaAgende-div" key={index}>
-                                    <AgendaPreview agenda={item}/>
+                                    <Link className="universal-link" to={`/agenda/pubblica/${item.id}`}><AgendaPreview agenda={item}/></Link>
                                 </div>
                             ))}
                             <div className="listaAgende-div">

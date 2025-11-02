@@ -5,7 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**utenteid** | **number** |  | [default to undefined]
 **agendaid** | **number** |  | [default to undefined]
 
 ## Example
@@ -14,7 +13,6 @@ Name | Type | Description | Notes
 import { ReqLikesDTO } from './api';
 
 const instance: ReqLikesDTO = {
-    utenteid,
     agendaid,
 };
 ```

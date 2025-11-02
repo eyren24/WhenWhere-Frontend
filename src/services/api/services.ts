@@ -43,7 +43,7 @@ export const getAllAgende = async () => {
     return agendaApi.apiAgendaGetAllGet();
 }
 export const updateAgenda = async (id: number, agenda: ReqUpdateAgenda) => {
-    return agendaApi.apiAgendaUpdatePut(id, agenda);
+    return agendaApi.apiAgendaUpdateUpdatePut(id, agenda);
 }
 export const createEvent = async (evento: ReqEventoDTO) => {
     return eventoApi.apiEventoAddPost(evento);
@@ -83,9 +83,6 @@ export const deleteNote = async (notaId: number) => {
 export const updateNote = async (notaId: number, nota: ReqNotaDTO) => {
     return noteApi.apiNotaUpdatePut(notaId, nota)
 }
-export const addLike = async (nuovaAgenda: ReqLikesDTO) => {
-    return likesApi.apiLikesAddLikePost(nuovaAgenda)
-}
 export const getByUser = async (userId: number) => {
     return likesApi.apiLikesGetListByUserIdGet(userId);
 }
@@ -94,5 +91,20 @@ export const top10Agende = async () => {
 }
 
 export const getUserByUsername = async (username: string) => {
-    return utenteApi.apiUtenteGetByUsernameGet(username);
+    return socialApi.apiSocialGetUtenteByUsernameGet(username);
+}
+export const getLikeByAgendaId = async (agendaId: number) => {
+    return likesApi.apiLikesGetLikeByAgendaIdGet(agendaId);
+}
+export const getAgendeByOwner = async (username: string) => {
+    return socialApi.apiSocialGetByOwnerGet(username);
+}
+export const addLike = async (like: ReqLikesDTO) => {
+    return likesApi.apiLikesAddLikePost(like);
+}
+export const removeLike = async (like: number) => {
+    return likesApi.apiLikesRemoveDelete(like);
+}
+export const getIfUserGotLike = async (agendaId: number) => {
+    return likesApi.apiLikesGetIfUserLikeAgendaGet(agendaId);
 }

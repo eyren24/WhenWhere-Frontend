@@ -1,18 +1,17 @@
-/* assets/css/agendaPreview.css */
 .agendapreview-wrapper {
-    width: 100%;
-    min-height: 240px;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 12px;
-    border-radius: 16px;
-    color: white;
-    border: 1px solid rgba(0,0,0,0.06);
-    box-shadow: 0 10px 24px rgba(14,22,31,0.10), 0 2px 8px rgba(14,22,31,0.06);
-    padding: 16px;
-    outline: none;
-    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    height: 100%; /* Forza altezza piena nella griglia */
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+    background: var(--polar);
+    color: var(--vulcan);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 24px rgba(14, 22, 31, 0.10), 0 2px 8px rgba(14, 22, 31, 0.06);
+    padding: clamp(1rem, 2vw, 1.5rem);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
     cursor: pointer;
+    overflow: hidden;
+    min-height: 300px; /* altezza minima coerente */
 }
 
 .agendapreview-wrapper:hover,
@@ -20,7 +19,8 @@
     transform: translateY(-2px);
     border-color: color-mix(in srgb, var(--cerulean) 35%, transparent);
     box-shadow: 0 14px 30px color-mix(in srgb, var(--cerulean) 15%, transparent),
-    0 10px 24px rgba(14,22,31,0.10), 0 2px 8px rgba(14,22,31,0.06);
+    0 10px 24px rgba(14, 22, 31, 0.10),
+    0 2px 8px rgba(14, 22, 31, 0.06);
 }
 
 /* Header */
@@ -29,6 +29,7 @@
     grid-template-columns: 48px 1fr auto;
     align-items: center;
     gap: 12px;
+    margin-bottom: 8px;
 }
 
 .agendapreview-avatar {
@@ -40,66 +41,68 @@
     font-weight: 700;
     letter-spacing: 1px;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
-.agendapreview-headings { min-width: 0; }
+.agendapreview-headings {
+    min-width: 0;
+}
 
 .agendapreview-subtitle {
-    display: block;
     font-size: 12px;
     color: var(--shuttle-gray);
-    line-height: 1;
     margin-bottom: 4px;
 }
 
 .agendapreview-title {
     margin: 0;
     font-size: 18px;
-    line-height: 1.25;
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: black;
 }
 
-/* Badge privacy con palette */
 .agendapreview-badge {
     padding: 6px 10px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
+    color: white;
     user-select: none;
+    white-space: nowrap;
 }
 
-/* Description */
+/* Description (grows to fill space) */
 .agendapreview-description {
     font-size: 14px;
     color: var(--shuttle-gray);
     line-height: 1.5;
+    flex-grow: 1;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
+    min-height: 3.5em;
 }
 
-/* Footer */
+/* Footer (always bottom-aligned) */
 .agendapreview-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    border-top: 1px dashed rgba(0,0,0,0.08);
+    margin-top: auto;
     padding-top: 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .agendapreview-meta {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
-    min-width: 0;
 }
 
 .agendapreview-dot {
@@ -107,18 +110,15 @@
     height: 8px;
     border-radius: 50%;
     background: currentColor;
-    opacity: .6;
+    opacity: 0.6;
 }
 
 .agendapreview-meta-text {
     font-size: 12px;
     color: var(--shuttle-gray);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-/* Link condividi usa universal-link + palette */
+/* Buttons */
 .agendapreview-link {
     display: inline-flex;
     align-items: center;
@@ -128,7 +128,7 @@
     color: white;
     padding: 8px 10px;
     border-radius: 10px;
-    transition: background .12s ease, transform .12s ease, border-color .12s ease;
+    transition: background 0.12s ease, transform 0.12s ease, border-color 0.12s ease;
 }
 
 .agendapreview-link:hover,
@@ -136,13 +136,40 @@
     transform: translateY(-1px);
 }
 
-.agendapreview-icon { width: 16px; height: 16px; }
+.agendapreview-icon {
+    width: 16px;
+    height: 16px;
+}
 
 /* Responsive */
-@media (max-width: 480px) {
-    .agendapreview-wrapper { padding: 14px; border-radius: 14px; }
-    .agendapreview-header { grid-template-columns: 40px 1fr auto; }
-    .agendapreview-avatar { width: 40px; height: 40px; border-radius: 10px; }
-    .agendapreview-title { font-size: 16px; }
-    .agendapreview-description { -webkit-line-clamp: 5; }
+@media (max-width: 768px) {
+    .agendapreview-wrapper {
+        border-radius: 14px;
+        min-height: 260px;
+        padding: 1rem;
+    }
+
+    .agendapreview-header {
+        grid-template-columns: 40px 1fr auto;
+    }
+
+    .agendapreview-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 13px;
+        border-radius: 10px;
+    }
+
+    .agendapreview-title {
+        font-size: 16px;
+    }
+
+    .agendapreview-description {
+        -webkit-line-clamp: 4;
+    }
+
+    .agendapreview-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

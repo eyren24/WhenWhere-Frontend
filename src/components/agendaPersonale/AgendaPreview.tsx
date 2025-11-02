@@ -1,18 +1,17 @@
 import "../../assets/css/agendaPreview.css";
-import type {ResAgendaDTO} from "../../services/api";
-import {useNavigate} from "react-router";
-import {FaRegShareSquare} from "react-icons/fa";
-import type {MouseEventHandler} from "react";
+import type { ResAgendaDTO, ResLikesDTO, ResSocialDTO } from "../../services/api";
+import {FaHeart, FaRegHeart, FaRegShareSquare} from "react-icons/fa";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useLikesStore } from "../../stores/LikesStore.ts";
 
-type Props = { agenda: ResAgendaDTO };
+type Props = { agenda: ResAgendaDTO | ResSocialDTO };
 
 async function copyToClipboard(text: string) {
     if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
         return;
     }
-    // 2) Fallback compatibile
     const ta = document.createElement("textarea");
     ta.value = text;
     ta.setAttribute("readonly", "");
@@ -28,17 +27,59 @@ async function copyToClipboard(text: string) {
 }
 
 export const AgendaPreview = ({ agenda }: Props) => {
-    const navigate = useNavigate();
+    const [likes, setLikes] = useState<ResLikesDTO[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [hasLike, setIsLiked] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
-    const handleNav: MouseEventHandler<HTMLElement> = (e) => {
-        if ((e.target as HTMLElement).closest("[data-no-nav]")) return;
-        navigate(`/agenda/${agenda.id}`);
+    const { add, remove, byAgendaId, isLiked } = useLikesStore();
+
+    const handleAddLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const res = await add({ agendaid: agenda.id });
+        if (res.success) {
+            toast.success(res.message);
+        } else {
+            if (res.message?.includes("tua agenda"))
+                toast.error("Non puoi mettere like alla tua agenda");
+            else if (res.message?.includes("già messo"))
+                toast.error("Hai già messo like a questa agenda");
+            else
+                toast.error(res.message || "Errore generico");
+        }
+        setRefresh(prev => !prev);
     };
+
+    const handleRemoveLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const res = await remove(agenda.id);
+        if (res.success) toast.success(res.message);
+        else toast.error(res.message || "Errore generico");
+        setRefresh(prev => !prev);
+    };
+
+    useEffect(() => {
+        setIsLoading(true);
+        Promise.all([byAgendaId(agenda.id), isLiked(agenda.id)])
+            .then(([likesRes, likedRes]) => {
+                if (likesRes.success) setLikes(likesRes.likes || []);
+                else toast.error(likesRes.error || "Errore caricamento like");
+
+                if (likedRes.success) setIsLiked(likedRes.likes);
+                else toast.error(likedRes.error || "Errore caricamento stato like");
+            })
+            .catch(console.error)
+            .finally(() => setIsLoading(false));
+    }, [agenda.id, byAgendaId, isLiked, refresh]);
 
     const handleShareButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        const link = `${window.location.origin}/agenda/${agenda.id}`;
+        const link = `${window.location.origin}/agenda/pubblica/${agenda.id}`;
         try {
             await copyToClipboard(link);
             toast.success("Link copiato negli appunti");
@@ -49,7 +90,6 @@ export const AgendaPreview = ({ agenda }: Props) => {
 
     return (
         <article
-            onClick={handleNav}
             className="agendapreview-wrapper"
             role="button"
             tabIndex={0}
@@ -57,42 +97,63 @@ export const AgendaPreview = ({ agenda }: Props) => {
             data-privacy={agenda.isprivate ? "private" : "public"}
         >
             <header className="agendapreview-header">
-                <div className="agendapreview-avatar" style={{background: agenda.tema}}>{agenda.nomeAgenda}</div>
+                <div className="agendapreview-avatar" style={{ background: agenda.tema }}>
+                    {agenda.nomeAgenda.charAt(0).toUpperCase()}
+                </div>
                 <div className="agendapreview-headings">
                     <span className="agendapreview-subtitle">Nome</span>
                     <h3 className="agendapreview-title" title={agenda.nomeAgenda}>
                         {agenda.nomeAgenda}
                     </h3>
                 </div>
-                <span className={`agendapreview-badge`} style={{background: agenda.tema}}>
-          {agenda.isprivate ? "Privata" : "Pubblica"}
-        </span>
+                <span className="agendapreview-badge" style={{ background: agenda.tema }}>
+                    {agenda.isprivate ? "Privata" : "Pubblica"}
+                </span>
             </header>
 
-            <section className="agendapreview-description">{agenda.descrizione || "Nessuna descrizione"}</section>
+            <section className="agendapreview-description">
+                {agenda.descrizione || "Nessuna descrizione"}
+            </section>
 
             <footer className="agendapreview-footer">
                 <div className="agendapreview-meta">
-                    <span className="agendapreview-dot" style={{color: agenda.tema}} />
+                    <span className="agendapreview-dot" style={{ color: agenda.tema }} />
                     <span className="agendapreview-meta-text">
-            {agenda.isprivate ? "Solo tu e invitati" : "Visibile a tutti"}
-          </span>
+                        {agenda.isprivate ? "Solo tu e invitati" : "Visibile a tutti"}
+                    </span>
                 </div>
-                {!agenda.isprivate &&
-                <button
-                    type="button"
-                    data-no-nav
-                    onClick={handleShareButton}
-                    className="agendapreview-link universal-link"
-                    style={{
-                        background: agenda.tema,
-                        border: `1px solid color-mix(in srgb, ${agenda.tema} 25%, transparent);`
-                    }}
-                >
-                    <FaRegShareSquare className="agendapreview-icon icons" />
-                    Condividi
-                </button>
-                }
+
+                {!agenda.isprivate && (
+                    <div className="agendapreview-actions">
+                        <button
+                            type="button"
+                            data-no-nav
+                            onClick={handleShareButton}
+                            className="agendapreview-link universal-link"
+                            style={{
+                                background: agenda.tema,
+                                border: `1px solid color-mix(in srgb, ${agenda.tema} 25%, transparent)`
+                            }}
+                        >
+                            <FaRegShareSquare className="agendapreview-icon icons" />
+                            Condividi
+                        </button>
+
+                        <button
+                            type="button"
+                            data-no-nav
+                            onClick={hasLike ? handleRemoveLike : handleAddLike}
+                            className={`agendapreview-link`}
+                            style={{
+                                background: agenda.tema,
+                                border: `1px solid color-mix(in srgb, ${agenda.tema} 25%, transparent)`,
+                                opacity: hasLike ? 0.7 : 1,
+                            }}
+                        >
+                            {hasLike ? <FaRegHeart /> : <FaHeart /> }
+                        </button>
+                    </div>
+                )}
             </footer>
         </article>
     );

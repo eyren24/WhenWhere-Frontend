@@ -202,12 +202,6 @@ export interface ReqLikesDTO {
      * @type {number}
      * @memberof ReqLikesDTO
      */
-    'utenteid': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ReqLikesDTO
-     */
     'agendaid': number;
 }
 /**
@@ -488,6 +482,30 @@ export interface ResAgendaDTO {
      * @memberof ResAgendaDTO
      */
     'isprivate': boolean;
+    /**
+     * 
+     * @type {Array<ResLikesDTO>}
+     * @memberof ResAgendaDTO
+     */
+    'likes': Array<ResLikesDTO>;
+    /**
+     * 
+     * @type {ResUtenteDTO}
+     * @memberof ResAgendaDTO
+     */
+    'utente': ResUtenteDTO;
+    /**
+     * 
+     * @type {Array<ResEventoDTO>}
+     * @memberof ResAgendaDTO
+     */
+    'eventi': Array<ResEventoDTO>;
+    /**
+     * 
+     * @type {Array<ResNotaDTO>}
+     * @memberof ResAgendaDTO
+     */
+    'note': Array<ResNotaDTO>;
 }
 /**
  * 
@@ -1017,46 +1035,6 @@ export const AgendaApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @param {string} username 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAgendaGetByOwnerGet: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'username' is not null or undefined
-            assertParamExists('apiAgendaGetByOwnerGet', 'username', username)
-            const localVarPath = `/api/Agenda/GetByOwner`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (username !== undefined) {
-                localVarQueryParameter['username'] = username;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1102,12 +1080,12 @@ export const AgendaApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAgendaUpdatePut: async (agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiAgendaUpdateUpdatePut: async (agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'agendaId' is not null or undefined
-            assertParamExists('apiAgendaUpdatePut', 'agendaId', agendaId)
+            assertParamExists('apiAgendaUpdateUpdatePut', 'agendaId', agendaId)
             // verify required parameter 'reqUpdateAgenda' is not null or undefined
-            assertParamExists('apiAgendaUpdatePut', 'reqUpdateAgenda', reqUpdateAgenda)
-            const localVarPath = `/api/Agenda/Update`;
+            assertParamExists('apiAgendaUpdateUpdatePut', 'reqUpdateAgenda', reqUpdateAgenda)
+            const localVarPath = `/api/Agenda/Update/Update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -1188,18 +1166,6 @@ export const AgendaApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} username 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiAgendaGetByOwnerGet(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResAgendaDTO>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaGetByOwnerGet(username, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaGetByOwnerGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1217,10 +1183,10 @@ export const AgendaApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAgendaUpdatePut(agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaUpdatePut(agendaId, reqUpdateAgenda, options);
+        async apiAgendaUpdateUpdatePut(agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaUpdateUpdatePut(agendaId, reqUpdateAgenda, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaUpdatePut']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaUpdateUpdatePut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -1261,15 +1227,6 @@ export const AgendaApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
-         * @param {string} username 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiAgendaGetByOwnerGet(username: string, options?: RawAxiosRequestConfig): AxiosPromise<ResAgendaDTO> {
-            return localVarFp.apiAgendaGetByOwnerGet(username, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1284,8 +1241,8 @@ export const AgendaApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAgendaUpdatePut(agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiAgendaUpdatePut(agendaId, reqUpdateAgenda, options).then((request) => request(axios, basePath));
+        apiAgendaUpdateUpdatePut(agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiAgendaUpdateUpdatePut(agendaId, reqUpdateAgenda, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1331,17 +1288,6 @@ export class AgendaApi extends BaseAPI {
 
     /**
      * 
-     * @param {string} username 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AgendaApi
-     */
-    public apiAgendaGetByOwnerGet(username: string, options?: RawAxiosRequestConfig) {
-        return AgendaApiFp(this.configuration).apiAgendaGetByOwnerGet(username, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @param {number} agendaId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1359,8 +1305,8 @@ export class AgendaApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AgendaApi
      */
-    public apiAgendaUpdatePut(agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options?: RawAxiosRequestConfig) {
-        return AgendaApiFp(this.configuration).apiAgendaUpdatePut(agendaId, reqUpdateAgenda, options).then((request) => request(this.axios, this.basePath));
+    public apiAgendaUpdateUpdatePut(agendaId: number, reqUpdateAgenda: ReqUpdateAgenda, options?: RawAxiosRequestConfig) {
+        return AgendaApiFp(this.configuration).apiAgendaUpdateUpdatePut(agendaId, reqUpdateAgenda, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2146,6 +2092,84 @@ export const LikesApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @param {number} [agendaId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetIfUserLikeAgendaGet: async (agendaId?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Likes/GetIfUserLikeAgenda`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (agendaId !== undefined) {
+                localVarQueryParameter['agendaId'] = agendaId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetLikeByAgendaIdGet: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiLikesGetLikeByAgendaIdGet', 'id', id)
+            const localVarPath = `/api/Likes/GetLikeByAgendaId`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2286,6 +2310,30 @@ export const LikesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {number} [agendaId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiLikesGetIfUserLikeAgendaGet(agendaId?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesGetIfUserLikeAgendaGet(agendaId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesGetIfUserLikeAgendaGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiLikesGetLikeByAgendaIdGet(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResLikesDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiLikesGetLikeByAgendaIdGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['LikesApi.apiLikesGetLikeByAgendaIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2341,6 +2389,24 @@ export const LikesApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
+         * @param {number} [agendaId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetIfUserLikeAgendaGet(agendaId?: number, options?: RawAxiosRequestConfig): AxiosPromise<boolean> {
+            return localVarFp.apiLikesGetIfUserLikeAgendaGet(agendaId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiLikesGetLikeByAgendaIdGet(id: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResLikesDTO>> {
+            return localVarFp.apiLikesGetLikeByAgendaIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} [id] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2385,6 +2451,28 @@ export class LikesApi extends BaseAPI {
      */
     public apiLikesAddLikePost(reqLikesDTO: ReqLikesDTO, options?: RawAxiosRequestConfig) {
         return LikesApiFp(this.configuration).apiLikesAddLikePost(reqLikesDTO, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} [agendaId] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public apiLikesGetIfUserLikeAgendaGet(agendaId?: number, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesGetIfUserLikeAgendaGet(agendaId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LikesApi
+     */
+    public apiLikesGetLikeByAgendaIdGet(id: number, options?: RawAxiosRequestConfig) {
+        return LikesApiFp(this.configuration).apiLikesGetLikeByAgendaIdGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2777,6 +2865,46 @@ export const SocialApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        apiSocialGetByOwnerGet: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('apiSocialGetByOwnerGet', 'username', username)
+            const localVarPath = `/api/Social/GetByOwner`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         apiSocialGetUtenteByUsernameGet: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
             assertParamExists('apiSocialGetUtenteByUsernameGet', 'username', username)
@@ -2860,6 +2988,18 @@ export const SocialApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async apiSocialGetByOwnerGet(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResSocialDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiSocialGetByOwnerGet(username, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['SocialApi.apiSocialGetByOwnerGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async apiSocialGetUtenteByUsernameGet(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResUtenteDTO>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiSocialGetUtenteByUsernameGet(username, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -2893,6 +3033,15 @@ export const SocialApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        apiSocialGetByOwnerGet(username: string, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResSocialDTO>> {
+            return localVarFp.apiSocialGetByOwnerGet(username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} username 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         apiSocialGetUtenteByUsernameGet(username: string, options?: RawAxiosRequestConfig): AxiosPromise<ResUtenteDTO> {
             return localVarFp.apiSocialGetUtenteByUsernameGet(username, options).then((request) => request(axios, basePath));
         },
@@ -2914,6 +3063,17 @@ export const SocialApiFactory = function (configuration?: Configuration, basePat
  * @extends {BaseAPI}
  */
 export class SocialApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} username 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SocialApi
+     */
+    public apiSocialGetByOwnerGet(username: string, options?: RawAxiosRequestConfig) {
+        return SocialApiFp(this.configuration).apiSocialGetByOwnerGet(username, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {string} username 

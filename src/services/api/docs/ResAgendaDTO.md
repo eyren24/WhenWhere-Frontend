@@ -11,6 +11,10 @@ Name | Type | Description | Notes
 **descrizione** | **string** |  | [default to undefined]
 **tema** | **string** |  | [default to undefined]
 **isprivate** | **boolean** |  | [default to undefined]
+**likes** | [**Array&lt;ResLikesDTO&gt;**](ResLikesDTO.md) |  | [default to undefined]
+**utente** | [**ResUtenteDTO**](ResUtenteDTO.md) |  | [default to undefined]
+**eventi** | [**Array&lt;ResEventoDTO&gt;**](ResEventoDTO.md) |  | [default to undefined]
+**note** | [**Array&lt;ResNotaDTO&gt;**](ResNotaDTO.md) |  | [default to undefined]
 
 ## Example
 
@@ -24,6 +28,10 @@ const instance: ResAgendaDTO = {
     descrizione,
     tema,
     isprivate,
+    likes,
+    utente,
+    eventi,
+    note,
 };
 ```
 

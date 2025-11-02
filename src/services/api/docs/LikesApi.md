@@ -5,6 +5,8 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**apiLikesAddLikePost**](#apilikesaddlikepost) | **POST** /api/Likes/AddLike | |
+|[**apiLikesGetIfUserLikeAgendaGet**](#apilikesgetifuserlikeagendaget) | **GET** /api/Likes/GetIfUserLikeAgenda | |
+|[**apiLikesGetLikeByAgendaIdGet**](#apilikesgetlikebyagendaidget) | **GET** /api/Likes/GetLikeByAgendaId | |
 |[**apiLikesGetLikeByIdGet**](#apilikesgetlikebyidget) | **GET** /api/Likes/GetLikeById | |
 |[**apiLikesGetListByUserIdGet**](#apilikesgetlistbyuseridget) | **GET** /api/Likes/GetListByUserId | |
 |[**apiLikesRemoveDelete**](#apilikesremovedelete) | **DELETE** /api/Likes/Remove | |
@@ -51,6 +53,106 @@ void (empty response body)
 
  - **Content-Type**: application/json, text/json, application/*+json
  - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiLikesGetIfUserLikeAgendaGet**
+> boolean apiLikesGetIfUserLikeAgendaGet()
+
+
+### Example
+
+```typescript
+import {
+    LikesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new LikesApi(configuration);
+
+let agendaId: number; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.apiLikesGetIfUserLikeAgendaGet(
+    agendaId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **agendaId** | [**number**] |  | (optional) defaults to undefined|
+
+
+### Return type
+
+**boolean**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiLikesGetLikeByAgendaIdGet**
+> Array<ResLikesDTO> apiLikesGetLikeByAgendaIdGet()
+
+
+### Example
+
+```typescript
+import {
+    LikesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new LikesApi(configuration);
+
+let id: number; // (default to undefined)
+
+const { status, data } = await apiInstance.apiLikesGetLikeByAgendaIdGet(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**Array<ResLikesDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

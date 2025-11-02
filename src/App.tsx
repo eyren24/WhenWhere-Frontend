@@ -1,17 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router";
-import { Layout } from "./pages/Layout.tsx";
-import { AreaPersonaleLayout } from "./pages/AreaPersonaleLayout.tsx"; // ✅ nuovo layout fisso
-import { Home } from "./pages/Home.tsx";
-import { AreaPersonale } from "./pages/AreaPersonale.tsx";
-import { Social } from "./pages/Social.tsx"
+import {BrowserRouter, Route, Routes} from "react-router";
+import {Layout} from "./pages/Layout.tsx";
+import {AreaPersonaleLayout} from "./pages/AreaPersonaleLayout.tsx"; // ✅ nuovo layout fisso
+import {Home} from "./pages/Home.tsx";
+import {AreaPersonale} from "./pages/AreaPersonale.tsx";
+import {Social} from "./pages/Social.tsx"
 import AboutUs from "./pages/AboutUs.tsx";
-import { PageNotFound } from "./pages/PageNotFound.tsx";
+import {PageNotFound} from "./pages/PageNotFound.tsx";
 
 import "./assets/css/index.css";
-import { useAuthStore } from "./stores/AuthStore.ts";
-import { useEffect, useState } from "react";
-import { UserProvider } from "./context/UserProvider";
+import {useAuthStore} from "./stores/AuthStore.ts";
+import {useEffect, useState} from "react";
+import {UserProvider} from "./context/UserProvider";
 import {Agenda} from "./components/agendaPersonale/Agenda.tsx";
+import {AgendaPubblica} from "./components/layout/AgendaPubblica.tsx";
+import {ProtectedRoute} from "./components/routes/ProtectedRoute.tsx";
 
 function App() {
     const { isAuthenticated, getTokenInfo } = useAuthStore();
@@ -43,7 +45,8 @@ function App() {
                             <Route element={<AreaPersonaleLayout />}>
                                 <Route path="/areapersonale" element={<AreaPersonale />} />
                                 <Route path={"/social"} element={<Social />}/>
-                                <Route path="/agenda/:id" element={<Agenda />} />
+                                <Route path="/agenda/:id" element={<ProtectedRoute><Agenda/></ProtectedRoute>}/>
+                                <Route path="/agenda/pubblica/:id" element={<AgendaPubblica/>}/>
                             </Route>
                         </Routes>
                     </BrowserRouter>

@@ -106,6 +106,7 @@ body.no-scroll {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
 }
 
 .login-body label,
@@ -220,17 +221,42 @@ body.no-scroll {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+
 }
 .register-form-column {
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+
+}
+#gender {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+
+#gender option {
+    color: #000;
+    background-color: #fff;
+}
+
+#birthday {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+
+#birthday option {
+    color: #000;
+    background-color: #fff;
 }
 .register-form-full {
     display: flex;
     flex-direction: column;
     gap: 12px;
     width: 100%;
+
 }
 
 /* =============================== */
