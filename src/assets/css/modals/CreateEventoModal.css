@@ -1,0 +1,153 @@
+.create-evento-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    color: var(--vulcan);
+    font-size: 0.95rem;
+}
+
+/* === LABEL E INPUT === */
+.create-evento-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    gap: 0.4rem;
+}
+
+/* Titolo etichetta con icona accanto */
+.create-evento-form label > .label-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--cerulean);
+    font-weight: 600;
+}
+
+/* === INPUTS, TEXTAREA, SELECT === */
+.create-evento-form input,
+.create-evento-form textarea,
+.create-evento-form select {
+    border: 1px solid var(--bombay);
+    border-radius: 10px;
+    padding: 0.65rem 0.8rem;
+    font-size: 0.95rem;
+    background: #fff;
+    color: var(--vulcan);
+    transition: all 0.2s ease;
+}
+
+.create-evento-form input:focus,
+.create-evento-form textarea:focus,
+.create-evento-form select:focus {
+    outline: none;
+    border-color: var(--cerulean);
+    box-shadow: 0 0 0 2px rgba(3, 172, 228, 0.15);
+}
+
+/* === LAYOUT FLEX === */
+.date-row,
+.checkbox-row,
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* === CHECKBOX === */
+.checkbox-row label {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    user-select: none;
+}
+
+.checkbox-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--cerulean);
+}
+
+/* === RATING === */
+.rating-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.rating-row span {
+    color: var(--cerulean);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.stars {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.star {
+    font-size: 1.4rem;
+    color: var(--bombay);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.star:hover {
+    transform: scale(1.1);
+    color: var(--cerulean);
+}
+
+.star.active {
+    color: var(--cerulean);
+}
+
+/* === BUTTON === */
+.create-evento-submit {
+    align-self: flex-end;
+    background: linear-gradient(90deg, var(--cerulean), var(--aquamarine-blue));
+    color: #fff;
+    border: none;
+    padding: 0.9rem 1.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(3, 172, 228, 0.25);
+}
+
+.create-evento-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(3, 172, 228, 0.3);
+}
+
+/* === DISABLED FIELD === */
+.create-evento-form input:disabled {
+    background: #f5f7f9;
+    color: var(--shuttle-gray);
+    cursor: not-allowed;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+    .date-row,
+    .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rating-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .create-evento-submit {
+        width: 100%;
+        margin-top: 0.8rem;
+    }
+}

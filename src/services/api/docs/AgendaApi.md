@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**apiAgendaAddAgendaPost**](#apiagendaaddagendapost) | **POST** /api/Agenda/AddAgenda | |
 |[**apiAgendaGetAllAgendeGet**](#apiagendagetallagendeget) | **GET** /api/Agenda/GetAllAgende | |
+|[**apiAgendaGetAllLikedGet**](#apiagendagetalllikedget) | **GET** /api/Agenda/GetAllLiked | |
 |[**apiAgendaGetByIdGet**](#apiagendagetbyidget) | **GET** /api/Agenda/GetById | |
 |[**apiAgendaGetByOwnerGet**](#apiagendagetbyownerget) | **GET** /api/Agenda/GetByOwner | |
 |[**apiAgendaGetPersonalAgendaGet**](#apiagendagetpersonalagendaget) | **GET** /api/Agenda/GetPersonalAgenda | |
@@ -80,6 +81,49 @@ const configuration = new Configuration();
 const apiInstance = new AgendaApi(configuration);
 
 const { status, data } = await apiInstance.apiAgendaGetAllAgendeGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<ResAgendaDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiAgendaGetAllLikedGet**
+> Array<ResAgendaDTO> apiAgendaGetAllLikedGet()
+
+
+### Example
+
+```typescript
+import {
+    AgendaApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AgendaApi(configuration);
+
+const { status, data } = await apiInstance.apiAgendaGetAllLikedGet();
 ```
 
 ### Parameters

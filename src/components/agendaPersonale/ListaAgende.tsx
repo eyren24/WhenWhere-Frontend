@@ -8,10 +8,9 @@ import "../../assets/css/listaAgende.css";
 import {CustomLoader} from "../layout/CustomLoader.tsx";
 import {CreateAgendaModal} from "../modals/CreateAgendaModal.tsx";
 import {Link} from "react-router";
-import {useLikesStore} from "../../stores/LikesStore.ts";
 
 export const ListaAgende = () => {
-    const {getUserAll, creaAgenda} = useLikesStore();
+    const {getUserAll, creaAgenda} = useAgendaStore();
     const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -59,7 +58,7 @@ export const ListaAgende = () => {
                         <>
                             {agende.map((item, index) => (
                                 <div className="listaAgende-div" key={index}>
-                                    <Link className="universal-link" to={`/agenda/pubblica/${item.id}`}><AgendaPreview
+                                    <Link className="universal-link" to={`/agenda/${item.id}`}><AgendaPreview
                                         agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
                                 </div>
                             ))}

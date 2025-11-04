@@ -6,7 +6,7 @@ import {
     deleteAgenda,
     getAgendaById,
     getAgendeByOwner,
-    getAllAgende,
+    getAllAgende, getAllLiked,
     getPersonalAgende,
     getTop10Agende,
     updateAgenda
@@ -17,6 +17,7 @@ interface AgendaStore {
     getAll: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
     getTop10: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
     getUserAll: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
+    getUserAllLiked: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
     creaAgenda: (agenda: ReqAgendaDTO) => Promise<{ success: boolean; message?: string; error?: string }>;
     getAgendaById: (agendaId: number) => Promise<{ success: boolean; agenda?: ResAgendaDTO; error?: string }>;
     deleteAgenda: (agendaId: number) => Promise<{ success: boolean; message?: string; error?: string }>;
@@ -63,6 +64,17 @@ export const useAgendaStore = create<AgendaStore>((set) => ({
         set({isLoading: true});
         try {
             const res = await getPersonalAgende();
+            return {success: true, agenda: res.data};
+        } catch (e) {
+            return {success: false, agenda: [], error: handleError(e)};
+        } finally {
+            set({isLoading: false});
+        }
+    },
+    getUserAllLiked: async () => {
+        set({isLoading: true});
+        try {
+            const res = await getAllLiked();
             return {success: true, agenda: res.data};
         } catch (e) {
             return {success: false, agenda: [], error: handleError(e)};

@@ -13,7 +13,6 @@ Name | Type | Description | Notes
 **luogo** | **string** |  | [default to undefined]
 **stato** | **string** |  | [default to undefined]
 **notifica** | **boolean** |  | [default to undefined]
-**dataCreazione** | **string** |  | [default to undefined]
 **titolo** | **string** |  | [default to undefined]
 **tagId** | **number** |  | [default to undefined]
 
@@ -31,7 +30,6 @@ const instance: ReqEventoDTO = {
     luogo,
     stato,
     notifica,
-    dataCreazione,
     titolo,
     tagId,
 };

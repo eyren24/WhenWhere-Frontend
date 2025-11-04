@@ -15,7 +15,7 @@ import {
     type ReqNotaDTO,
     type ReqRegisterUser,
     type ReqUpdateAgenda,
-    type ReqUpdateEventoDTO
+    type ReqUpdateEventoDTO, type ReqUpdateNotaDTO
 } from "./api.ts";
 import { apiClient } from "./Interceptor.ts";
 import { apiConfig, URL_PATH } from "./config.ts";
@@ -41,6 +41,7 @@ export const updateAgenda = (id: number, agenda: ReqUpdateAgenda) => agendaApi.a
 export const deleteAgenda = (id: number) => agendaApi.apiAgendaRemoveAgendaDelete(id);
 export const getAgendaById = (id: number) => agendaApi.apiAgendaGetByIdGet(id);
 export const getAllAgende = () => agendaApi.apiAgendaGetAllAgendeGet();
+export const getAllLiked = () => agendaApi.apiAgendaGetAllLikedGet();
 export const getPersonalAgende = () => agendaApi.apiAgendaGetPersonalAgendaGet();
 export const getAgendeByOwner = (username: string) => agendaApi.apiAgendaGetByOwnerGet(username);
 export const getTop10Agende = () => agendaApi.apiAgendaListTopAgendeGet();
@@ -54,7 +55,7 @@ export const getAllEventi = (agendaId: number, filtri: FiltriAgendaDTO) =>
 
 // === NOTE ===
 export const createNota = (nota: ReqNotaDTO) => notaApi.apiNotaAddPost(nota);
-export const updateNota = (notaId: number, nota: ReqNotaDTO) => notaApi.apiNotaUpdatePut(notaId, nota);
+export const updateNota = (notaId: number, nota: ReqUpdateNotaDTO) => notaApi.apiNotaUpdatePut(notaId, nota);
 export const deleteNota = (notaId: number) => notaApi.apiNotaRemoveDelete(notaId);
 export const getNote = (agendaId: number, filtri: FiltriAgendaDTO) =>
     notaApi.apiNotaGetAllGet(agendaId, filtri);

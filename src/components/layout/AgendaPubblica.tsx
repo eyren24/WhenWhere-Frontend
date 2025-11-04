@@ -2,50 +2,52 @@ import "../../assets/css/AreaPersonale/Agenda.css";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router";
-import {useAgendaStore} from "../../stores/AgendaStore.ts";
+import { useEffect, useState, useMemo } from "react";
+import { useParams } from "react-router";
+import { useAgendaStore } from "../../stores/AgendaStore.ts";
 import toast from "react-hot-toast";
-import type {ResAgendaDTO} from "../../services/api";
-import {CustomLoader} from "./CustomLoader.tsx";
+import type { ResAgendaDTO } from "../../services/api";
+import { CustomLoader } from "./CustomLoader.tsx";
 
 export const AgendaPubblica = () => {
-    const {getAgendaById} = useAgendaStore();
+    const { getAgendaById } = useAgendaStore();
     const [agenda, setAgenda] = useState<ResAgendaDTO>();
     const [isLoading, setIsLoading] = useState(true);
-    const {id} = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>();
 
+    // === Fetch ===
     useEffect(() => {
+        setIsLoading(true);
         getAgendaById(Number(id))
             .then((res) => {
                 if (res.success) setAgenda(res.agenda);
                 else toast.error(res.error || "Errore generale!");
             })
-            .catch((err) => console.log(err))
+            .catch(console.error)
             .finally(() => setIsLoading(false));
     }, [getAgendaById, id]);
 
-    const mapAgendaToEvents = () => {
+    // === Map ===
+    const events = useMemo(() => {
         if (!agenda) return [];
 
-        const eventi = (agenda.eventi ?? []).map(e => ({
+        const eventi = (agenda.evento ?? []).map((e) => ({
             id: `evento-${e.id}`,
             title: e.titolo,
             start: e.dataInizio,
             end: e.dataFine,
-            color: agenda.tema,
+            color: agenda.tema, // colore agenda
         }));
 
-        const note = (agenda.note ?? []).map(n => ({
+        const note = (agenda.nota ?? []).map((n) => ({
             id: `nota-${n.id}`,
             title: n.titolo || "Nota",
             start: n.dataCreazione,
-            color: "#bbb",
+            color: n.tema || "#bbb", // colore tema nota
         }));
 
         return [...eventi, ...note];
-    };
-
+    }, [agenda]);
 
     return (
         <section className="agenda-wrapper">
@@ -59,7 +61,7 @@ export const AgendaPubblica = () => {
             </div>
 
             {isLoading ? (
-                <CustomLoader/>
+                <CustomLoader />
             ) : (
                 <div className="agenda-content">
                     <FullCalendar
@@ -74,7 +76,7 @@ export const AgendaPubblica = () => {
                             center: "title",
                             right: "dayGridMonth,dayGridWeek",
                         }}
-                        events={mapAgendaToEvents()}
+                        events={events}
                         selectable={false}
                         editable={false}
                         dayMaxEvents={true}

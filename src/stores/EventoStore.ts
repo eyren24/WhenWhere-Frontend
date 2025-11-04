@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import axios from "axios";
 import type { FiltriAgendaDTO, ReqEventoDTO, ReqUpdateEventoDTO, ResEventoDTO, ResTagDTO } from "../services/api";
-import { createEvent, deleteEvento, getAllEventi, getTags, updateEvento } from "../services/api/services";
+import { createEvento, deleteEvento, getAllEventi, getTags, updateEvento } from "../services/api/services";
 
 interface EventoStore {
     isLoading: boolean;
     getAllEventi: (agendaId: number, filtri: FiltriAgendaDTO) => Promise<{ success: boolean; events?: ResEventoDTO[]; error?: string }>;
-    createEvent: (evento: ReqEventoDTO) => Promise<{ success: boolean; message?: string; error?: string }>;
+    createEvent: (evento: ReqEventoDTO) => Promise<{ success: boolean; message: string; }>;
     aggiornaEvento: (eventoId: number, nuovoEvento: ReqUpdateEventoDTO) => Promise<{ success: boolean; message?: string; error?: string }>;
     deleteEvento: (eventoId: number) => Promise<{ success: boolean; message?: string; error?: string }>;
     getTags: () => Promise<{ success: boolean; tags?: ResTagDTO[]; error?: string }>;
@@ -33,10 +33,10 @@ export const useEventoStore = create<EventoStore>((set) => ({
     createEvent: async (evento) => {
         set({ isLoading: true });
         try {
-            await createEvent(evento);
+            await createEvento(evento);
             return { success: true, message: "Evento creato con successo!" };
         } catch (e) {
-            return { success: false, error: handleError(e) };
+            return { success: false, message: handleError(e) };
         } finally {
             set({ isLoading: false });
         }

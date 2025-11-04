@@ -177,12 +177,6 @@ export interface ReqEventoDTO {
      * @type {string}
      * @memberof ReqEventoDTO
      */
-    'dataCreazione': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqEventoDTO
-     */
     'titolo': string;
     /**
      * 
@@ -393,6 +387,37 @@ export interface ReqUpdateEventoDTO {
      * 
      * @type {number}
      * @memberof ReqUpdateEventoDTO
+     */
+    'tagId': number;
+}
+/**
+ * 
+ * @export
+ * @interface ReqUpdateNotaDTO
+ */
+export interface ReqUpdateNotaDTO {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateNotaDTO
+     */
+    'titolo'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateNotaDTO
+     */
+    'descrizione': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateNotaDTO
+     */
+    'tema'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqUpdateNotaDTO
      */
     'tagId': number;
 }
@@ -952,6 +977,39 @@ export const AgendaApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAgendaGetAllLikedGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Agenda/GetAllLiked`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1217,6 +1275,17 @@ export const AgendaApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAgendaGetAllLikedGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResAgendaDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAgendaGetAllLikedGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AgendaApi.apiAgendaGetAllLikedGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1315,6 +1384,14 @@ export const AgendaApiFactory = function (configuration?: Configuration, basePat
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAgendaGetAllLikedGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ResAgendaDTO>> {
+            return localVarFp.apiAgendaGetAllLikedGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {number} agendaId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1395,6 +1472,16 @@ export class AgendaApi extends BaseAPI {
      */
     public apiAgendaGetAllAgendeGet(options?: RawAxiosRequestConfig) {
         return AgendaApiFp(this.configuration).apiAgendaGetAllAgendeGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AgendaApi
+     */
+    public apiAgendaGetAllLikedGet(options?: RawAxiosRequestConfig) {
+        return AgendaApiFp(this.configuration).apiAgendaGetAllLikedGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2796,15 +2883,15 @@ export const NotaApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @param {number} notaId 
-         * @param {ReqNotaDTO} reqNotaDTO 
+         * @param {ReqUpdateNotaDTO} reqUpdateNotaDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiNotaUpdatePut: async (notaId: number, reqNotaDTO: ReqNotaDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiNotaUpdatePut: async (notaId: number, reqUpdateNotaDTO: ReqUpdateNotaDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'notaId' is not null or undefined
             assertParamExists('apiNotaUpdatePut', 'notaId', notaId)
-            // verify required parameter 'reqNotaDTO' is not null or undefined
-            assertParamExists('apiNotaUpdatePut', 'reqNotaDTO', reqNotaDTO)
+            // verify required parameter 'reqUpdateNotaDTO' is not null or undefined
+            assertParamExists('apiNotaUpdatePut', 'reqUpdateNotaDTO', reqUpdateNotaDTO)
             const localVarPath = `/api/Nota/Update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2832,7 +2919,7 @@ export const NotaApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(reqNotaDTO, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(reqUpdateNotaDTO, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2889,12 +2976,12 @@ export const NotaApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} notaId 
-         * @param {ReqNotaDTO} reqNotaDTO 
+         * @param {ReqUpdateNotaDTO} reqUpdateNotaDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiNotaUpdatePut(notaId: number, reqNotaDTO: ReqNotaDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResNotaDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiNotaUpdatePut(notaId, reqNotaDTO, options);
+        async apiNotaUpdatePut(notaId: number, reqUpdateNotaDTO: ReqUpdateNotaDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResNotaDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiNotaUpdatePut(notaId, reqUpdateNotaDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['NotaApi.apiNotaUpdatePut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -2940,12 +3027,12 @@ export const NotaApiFactory = function (configuration?: Configuration, basePath?
         /**
          * 
          * @param {number} notaId 
-         * @param {ReqNotaDTO} reqNotaDTO 
+         * @param {ReqUpdateNotaDTO} reqUpdateNotaDTO 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiNotaUpdatePut(notaId: number, reqNotaDTO: ReqNotaDTO, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResNotaDTO>> {
-            return localVarFp.apiNotaUpdatePut(notaId, reqNotaDTO, options).then((request) => request(axios, basePath));
+        apiNotaUpdatePut(notaId: number, reqUpdateNotaDTO: ReqUpdateNotaDTO, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResNotaDTO>> {
+            return localVarFp.apiNotaUpdatePut(notaId, reqUpdateNotaDTO, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2994,13 +3081,13 @@ export class NotaApi extends BaseAPI {
     /**
      * 
      * @param {number} notaId 
-     * @param {ReqNotaDTO} reqNotaDTO 
+     * @param {ReqUpdateNotaDTO} reqUpdateNotaDTO 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof NotaApi
      */
-    public apiNotaUpdatePut(notaId: number, reqNotaDTO: ReqNotaDTO, options?: RawAxiosRequestConfig) {
-        return NotaApiFp(this.configuration).apiNotaUpdatePut(notaId, reqNotaDTO, options).then((request) => request(this.axios, this.basePath));
+    public apiNotaUpdatePut(notaId: number, reqUpdateNotaDTO: ReqUpdateNotaDTO, options?: RawAxiosRequestConfig) {
+        return NotaApiFp(this.configuration).apiNotaUpdatePut(notaId, reqUpdateNotaDTO, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

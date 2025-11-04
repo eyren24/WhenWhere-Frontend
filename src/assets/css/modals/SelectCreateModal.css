@@ -1,0 +1,33 @@
+.select-modal-content {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.select-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.select-btn.evento {
+    background: var(--cerulean);
+    color: #fff;
+}
+
+.select-btn.nota {
+    background: var(--bombay);
+    color: var(--vulcan);
+}
+
+.select-btn:hover {
+    transform: scale(1.05);
+}

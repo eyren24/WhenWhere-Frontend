@@ -165,7 +165,7 @@ const { status, data } = await apiInstance.apiNotaRemoveDelete(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiNotaUpdatePut**
-> Array<ResNotaDTO> apiNotaUpdatePut(reqNotaDTO)
+> Array<ResNotaDTO> apiNotaUpdatePut(reqUpdateNotaDTO)
 
 
 ### Example
@@ -174,18 +174,18 @@ const { status, data } = await apiInstance.apiNotaRemoveDelete(
 import {
     NotaApi,
     Configuration,
-    ReqNotaDTO
+    ReqUpdateNotaDTO
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new NotaApi(configuration);
 
 let notaId: number; // (default to undefined)
-let reqNotaDTO: ReqNotaDTO; //
+let reqUpdateNotaDTO: ReqUpdateNotaDTO; //
 
 const { status, data } = await apiInstance.apiNotaUpdatePut(
     notaId,
-    reqNotaDTO
+    reqUpdateNotaDTO
 );
 ```
 
@@ -193,7 +193,7 @@ const { status, data } = await apiInstance.apiNotaUpdatePut(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **reqNotaDTO** | **ReqNotaDTO**|  | |
+| **reqUpdateNotaDTO** | **ReqUpdateNotaDTO**|  | |
 | **notaId** | [**number**] |  | defaults to undefined|
 
 

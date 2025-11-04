@@ -21,6 +21,7 @@ docs/ReqRegisterUser.md
 docs/ReqTagDTO.md
 docs/ReqUpdateAgenda.md
 docs/ReqUpdateEventoDTO.md
+docs/ReqUpdateNotaDTO.md
 docs/ReqUpdateTagDTO.md
 docs/ReqUpdateUtenteDTO.md
 docs/ResAgendaDTO.md

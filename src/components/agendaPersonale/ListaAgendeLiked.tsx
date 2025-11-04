@@ -6,21 +6,22 @@ import {FaHeart} from "react-icons/fa";
 import "../../assets/css/listaAgendeLiked.css";
 import {CustomLoader} from "../layout/CustomLoader.tsx";
 import {useAgendaStore} from "../../stores/AgendaStore.ts";
+import {Link} from "react-router";
 
 export const ListaAgendeLiked = () => {
-    const {getUserAll} = useAgendaStore();
+    const {getUserAllLiked} = useAgendaStore();
     const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [refresh, setRefresh] = useState<boolean>(false);
 
     useEffect(() => {
-        getUserAll()
+        getUserAllLiked()
             .then((res) => {
                 if (res.success) setAgende(res.agenda);
                 else toast.error(res.error || "Errore di caricamento");
             })
             .catch(console.error).finally(() => setIsLoading(false));
-    }, [getUserAll, refresh]);
+    }, [getUserAllLiked, refresh]);
 
     const count = agende.length;
 
@@ -43,7 +44,7 @@ export const ListaAgendeLiked = () => {
                 <div className="likedAgende-wrapper">
                     {agende.map((item, i) => (
                         <div className="likedAgende-div" key={i}>
-                            <AgendaPreview agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/>
+                            <Link to={`/agenda/pubblica/${item.id}`} className="universal-link"><AgendaPreview agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
                         </div>
                     ))}
                 </div>
