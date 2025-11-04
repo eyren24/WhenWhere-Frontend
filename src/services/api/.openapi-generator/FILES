@@ -4,6 +4,7 @@ api.ts
 base.ts
 common.ts
 configuration.ts
+docs/AdminApi.md
 docs/AgendaApi.md
 docs/AuthApi.md
 docs/ERuolo.md
@@ -24,6 +25,9 @@ docs/ReqUpdateEventoDTO.md
 docs/ReqUpdateNotaDTO.md
 docs/ReqUpdateTagDTO.md
 docs/ReqUpdateUtenteDTO.md
+docs/ResAdminAgendeStatsDTO.md
+docs/ResAdminStatsDTO.md
+docs/ResAdminTopAgendaDTO.md
 docs/ResAgendaDTO.md
 docs/ResAuthToken.md
 docs/ResEventoDTO.md

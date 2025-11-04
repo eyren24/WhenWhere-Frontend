@@ -1,0 +1,46 @@
+.StatsCard {
+    flex: 1;
+    min-width: 200px;
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: white;
+    font-family: "Inter", sans-serif;
+    box-shadow: 0 3px 10px rgba(14, 22, 31, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.StatsCard:hover {
+    transform: translateY(-4px);
+}
+
+.StatsCard__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-bottom: 0.4rem;
+}
+
+.StatsCard__value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.StatsCard--blue {
+    background: linear-gradient(135deg, var(--cerulean), var(--eastern-blue));
+}
+
+.StatsCard--green {
+    background: linear-gradient(135deg, #28a745, #48c774);
+}
+
+.StatsCard--red {
+    background: linear-gradient(135deg, #d44, #ff6b6b);
+}
+
+.StatsCard--gray {
+    background: linear-gradient(135deg, var(--shuttle-gray), var(--bombay));
+}

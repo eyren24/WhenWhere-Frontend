@@ -8,7 +8,7 @@ import "../../assets/css/layout/Navbar.css";
 import logo from "../../assets/imgs/logo.webp";
 
 export const Navbar = () => {
-    const { isAuthenticated } = useAuthStore();
+    const {getTokenInfo} = useAuthStore();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -25,8 +25,20 @@ export const Navbar = () => {
 
     const handleUserClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (isAuthenticated) navigate("/areaPersonale");
-        else setLoginModal(true);
+        getTokenInfo().then(token => {
+            if (token.success && token.info) {
+                if (token.info.ruolo == "Amministratore") {
+                    navigate("/admin");
+                } else {
+                    navigate("/areaPersonale");
+                }
+            } else {
+                setLoginModal(true);
+            }
+        }).catch(error => {
+            console.log(error);
+            setLoginModal(true);
+        });
     };
 
     const handleOpenRegister = () => {
@@ -96,9 +108,9 @@ export const Navbar = () => {
                     </ul>
 
                     <div className="navbar-side">
-                        <a href="#" onClick={handleUserClick} className="navbar-login-icon" aria-label="Area personale">
+                        <div onClick={handleUserClick} className="navbar-login-icon" aria-label="Area personale">
                             <FaRegUser />
-                        </a>
+                        </div>
                     </div>
                 </nav>
             </header>

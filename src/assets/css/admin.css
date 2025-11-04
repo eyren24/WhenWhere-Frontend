@@ -1,0 +1,218 @@
+/* ======== ADMIN GLOBAL WRAPPER ======== */
+.Admin__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem clamp(1rem, 3vw, 3rem);
+    background: var(--polar);
+    min-height: 100vh;
+    color: var(--vulcan);
+    font-family: "Inter", sans-serif;
+}
+
+/* ======== SECTION TITLES ======== */
+.Admin__title,
+.AdminDashboard__title,
+.AdminUsersSection__title {
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    font-weight: 700;
+    color: var(--cerulean);
+    margin-bottom: 1rem;
+    border-left: 5px solid var(--cerulean);
+    padding-left: 0.6rem;
+}
+
+/* ======== DASHBOARD GRID ======== */
+.AdminDashboard__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+}
+
+/* ======== STAT CARDS ======== */
+.StatsCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 1.5rem 1.2rem;
+    border-radius: 16px;
+    color: white;
+    box-shadow: 0 4px 10px rgba(14, 22, 31, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.StatsCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(14, 22, 31, 0.15);
+}
+
+.StatsCard__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.StatsCard__value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.StatsCard--blue {
+    background: linear-gradient(135deg, var(--cerulean), var(--eastern-blue));
+}
+
+.StatsCard--green {
+    background: linear-gradient(135deg, #3bb273, #6fe6a0);
+}
+
+.StatsCard--red {
+    background: linear-gradient(135deg, #e63946, #ff7b7b);
+}
+
+.StatsCard--gray {
+    background: linear-gradient(135deg, var(--shuttle-gray), var(--bombay));
+}
+
+/* ======== USERS SECTION ======== */
+.AdminUsersSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.AdminUsersSection__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(14, 22, 31, 0.08);
+}
+
+.AdminUsersSection__filters input,
+.AdminUsersSection__filters select {
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--bombay);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--vulcan);
+    background: var(--polar);
+    transition: border 0.15s ease;
+}
+
+.AdminUsersSection__filters input:focus,
+.AdminUsersSection__filters select:focus {
+    outline: none;
+    border-color: var(--cerulean);
+}
+
+.AdminUsersSection__searchBtn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    background: var(--cerulean);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.AdminUsersSection__searchBtn:hover {
+    background: var(--eastern-blue);
+    transform: scale(1.02);
+}
+
+/* ======== TABLE ======== */
+.UsersTable__container {
+    overflow-x: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(14, 22, 31, 0.08);
+}
+
+.UsersTable__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    color: var(--vulcan);
+}
+
+.UsersTable__table th {
+    background: var(--vulcan);
+    color: white;
+    text-align: left;
+    padding: 0.8rem;
+    font-weight: 600;
+}
+
+.UsersTable__table td {
+    padding: 0.7rem 0.8rem;
+    border-top: 1px solid var(--bombay);
+}
+
+.UsersTable__row:nth-child(even) {
+    background: var(--polar);
+}
+
+.UsersTable__row--disabled {
+    opacity: 0.65;
+}
+
+.UsersTable__status {
+    padding: 0.3rem 0.6rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.UsersTable__status--active {
+    background: var(--charlotte);
+    color: var(--eastern-blue);
+}
+
+.UsersTable__status--disabled {
+    background: #fdeaea;
+    color: #e63946;
+}
+
+.UsersTable__actions {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.UsersTable__btn {
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.UsersTable__btn:hover {
+    transform: scale(1.15);
+}
+
+.UsersTable__btn.status {
+    color: var(--cerulean);
+}
+
+.UsersTable__btn.delete {
+    color: #e63946;
+}
+
+.UsersTable__loader {
+    color: var(--cerulean);
+}
+
+.UsersTable__empty,
+.AdminUsersSection__loading {
+    text-align: center;
+    color: var(--shuttle-gray);
+    font-size: 1rem;
+    margin-top: 1.2rem;
+}

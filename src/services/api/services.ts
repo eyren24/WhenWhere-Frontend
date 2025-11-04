@@ -15,7 +15,7 @@ import {
     type ReqNotaDTO,
     type ReqRegisterUser,
     type ReqUpdateAgenda,
-    type ReqUpdateEventoDTO, type ReqUpdateNotaDTO
+    type ReqUpdateEventoDTO, type ReqUpdateNotaDTO, type FiltriUtenteDTO, AdminApi
 } from "./api.ts";
 import { apiClient } from "./Interceptor.ts";
 import { apiConfig, URL_PATH } from "./config.ts";
@@ -29,6 +29,7 @@ export const notaApi = new NotaApi(apiConfig, URL_PATH, apiClient);
 export const likesApi = new LikesApi(apiConfig, URL_PATH, apiClient);
 export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient);
 export const socialApi = new SocialApi(apiConfig, URL_PATH, apiClient);
+export const adminApi = new AdminApi(apiConfig, URL_PATH, apiClient);
 
 // === AUTH ===
 export const login = (loginField: ReqLoginUser) => authApi.apiAuthLoginPost(loginField);
@@ -75,3 +76,9 @@ export const getUserByUsername = (username: string) => socialApi.apiSocialGetUte
 
 // === UTENTE ===
 export const getUtenteById = (id: number) => utenteApi.apiUtenteGetByIdGet(id);
+export const getAllUsers = (filtri: FiltriUtenteDTO) => utenteApi.apiUtenteGetAllPost(filtri);
+export const toggleStatusUtente = (utenteId: number) => utenteApi.apiUtenteToggleStatusDelete(utenteId);
+
+// === ADMIN ===
+export const getStats = () => adminApi.apiAdminGetStatsGet();
+export const getAgendeStats = () => adminApi.apiAdminGetAgendeStatsGet();

@@ -87,5 +87,4 @@ export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     delete apiClient.defaults.headers.common['Authorization'];
-    window.location.href = '/login';
 };

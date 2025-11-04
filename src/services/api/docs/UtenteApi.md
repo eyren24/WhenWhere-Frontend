@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**apiUtenteGetAllGet**](#apiutentegetallget) | **GET** /api/Utente/GetAll | |
+|[**apiUtenteGetAllPost**](#apiutentegetallpost) | **POST** /api/Utente/GetAll | |
 |[**apiUtenteGetByIdGet**](#apiutentegetbyidget) | **GET** /api/Utente/GetById | |
 |[**apiUtenteToggleStatusDelete**](#apiutentetogglestatusdelete) | **DELETE** /api/Utente/ToggleStatus | |
 |[**apiUtenteUpdatePut**](#apiutenteupdateput) | **PUT** /api/Utente/Update | |
 
-# **apiUtenteGetAllGet**
-> Array<ResUtenteDTO> apiUtenteGetAllGet()
+# **apiUtenteGetAllPost**
+> Array<ResUtenteDTO> apiUtenteGetAllPost()
 
 
 ### Example
@@ -25,11 +25,9 @@ import {
 const configuration = new Configuration();
 const apiInstance = new UtenteApi(configuration);
 
-let agendaId: number; // (default to undefined)
 let filtriUtenteDTO: FiltriUtenteDTO; // (optional)
 
-const { status, data } = await apiInstance.apiUtenteGetAllGet(
-    agendaId,
+const { status, data } = await apiInstance.apiUtenteGetAllPost(
     filtriUtenteDTO
 );
 ```
@@ -39,7 +37,6 @@ const { status, data } = await apiInstance.apiUtenteGetAllGet(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **filtriUtenteDTO** | **FiltriUtenteDTO**|  | |
-| **agendaId** | [**number**] |  | defaults to undefined|
 
 
 ### Return type
@@ -114,7 +111,7 @@ const { status, data } = await apiInstance.apiUtenteGetByIdGet(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUtenteToggleStatusDelete**
-> Array<ResUtenteDTO> apiUtenteToggleStatusDelete()
+> string apiUtenteToggleStatusDelete()
 
 
 ### Example
@@ -144,7 +141,7 @@ const { status, data } = await apiInstance.apiUtenteToggleStatusDelete(
 
 ### Return type
 
-**Array<ResUtenteDTO>**
+**string**
 
 ### Authorization
 

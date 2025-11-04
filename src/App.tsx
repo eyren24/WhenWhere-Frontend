@@ -14,6 +14,7 @@ import {UserProvider} from "./context/UserProvider";
 import {Agenda} from "./components/agendaPersonale/Agenda.tsx";
 import {AgendaPubblica} from "./components/layout/AgendaPubblica.tsx";
 import {ProtectedRoute} from "./components/routes/ProtectedRoute.tsx";
+import {Admin} from "./pages/Admin.tsx";
 
 function App() {
     const { isAuthenticated, getTokenInfo } = useAuthStore();
@@ -47,6 +48,7 @@ function App() {
                                 <Route path={"/social"} element={<Social />}/>
                                 <Route path="/agenda/:id" element={<ProtectedRoute><Agenda/></ProtectedRoute>}/>
                                 <Route path="/agenda/pubblica/:id" element={<AgendaPubblica/>}/>
+                                <Route path="/admin" element={<Admin/>}/>
                             </Route>
                         </Routes>
                     </BrowserRouter>

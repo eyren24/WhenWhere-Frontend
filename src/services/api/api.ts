@@ -85,7 +85,7 @@ export interface FiltriUtenteDTO {
      * @type {boolean}
      * @memberof FiltriUtenteDTO
      */
-    'statoAccount'?: boolean;
+    'statoAccount'?: boolean | null;
 }
 /**
  * 
@@ -468,6 +468,123 @@ export interface ReqUpdateUtenteDTO {
 /**
  * 
  * @export
+ * @interface ResAdminAgendeStatsDTO
+ */
+export interface ResAdminAgendeStatsDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminAgendeStatsDTO
+     */
+    'totaleAgende': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminAgendeStatsDTO
+     */
+    'agendePubbliche': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminAgendeStatsDTO
+     */
+    'agendePrivate': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminAgendeStatsDTO
+     */
+    'totaleLikes': number;
+    /**
+     * 
+     * @type {Array<ResAdminTopAgendaDTO>}
+     * @memberof ResAdminAgendeStatsDTO
+     */
+    'topAgende': Array<ResAdminTopAgendaDTO>;
+}
+/**
+ * 
+ * @export
+ * @interface ResAdminStatsDTO
+ */
+export interface ResAdminStatsDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminStatsDTO
+     */
+    'totaleUtenti': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminStatsDTO
+     */
+    'utentiAttivi': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminStatsDTO
+     */
+    'utentiDisabilitati': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminStatsDTO
+     */
+    'nuoviUtentiUltimi7Giorni': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminStatsDTO
+     */
+    'ultimoLoginMedioGiorni': number;
+}
+/**
+ * 
+ * @export
+ * @interface ResAdminTopAgendaDTO
+ */
+export interface ResAdminTopAgendaDTO {
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminTopAgendaDTO
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResAdminTopAgendaDTO
+     */
+    'nomeAgenda': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResAdminTopAgendaDTO
+     */
+    'utente': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ResAdminTopAgendaDTO
+     */
+    'likesCount': number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ResAdminTopAgendaDTO
+     */
+    'isPrivate': boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResAdminTopAgendaDTO
+     */
+    'tema': string;
+}
+/**
+ * 
+ * @export
  * @interface ResAgendaDTO
  */
 export interface ResAgendaDTO {
@@ -764,91 +881,73 @@ export interface ResUtenteDTO {
      * @type {number}
      * @memberof ResUtenteDTO
      */
-    'id'?: number;
+    'id': number;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'nome'?: string | null;
+    'nome': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'cognome'?: string | null;
+    'cognome': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'email'?: string | null;
+    'email': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'username'?: string | null;
+    'username': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'password'?: string | null;
+    'dataNascita': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'token'?: string | null;
+    'genere': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'tokenExpiration'?: string | null;
+    'fotoProfilo': string;
     /**
      * 
      * @type {string}
      * @memberof ResUtenteDTO
      */
-    'dataNascita'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResUtenteDTO
-     */
-    'genere'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResUtenteDTO
-     */
-    'fotoProfilo'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResUtenteDTO
-     */
-    'lastLogin'?: string;
+    'lastLogin': string;
     /**
      * 
      * @type {boolean}
      * @memberof ResUtenteDTO
      */
-    'preferenzeNotifiche'?: boolean;
+    'preferenzeNotifiche': boolean;
     /**
      * 
      * @type {boolean}
      * @memberof ResUtenteDTO
      */
-    'statoAccount'?: boolean;
+    'statoAccount': boolean;
     /**
      * 
      * @type {number}
      * @memberof ResUtenteDTO
      */
-    'ruoloId'?: number;
+    'ruoloId': number;
 }
 /**
  * 
@@ -893,6 +992,169 @@ export interface TokenInfoDTO {
      * @memberof TokenInfoDTO
      */
     'ruolo': ERuolo;
+}
+
+
+
+/**
+ * AdminApi - axios parameter creator
+ * @export
+ */
+export const AdminApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAdminGetAgendeStatsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Admin/GetAgendeStats`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAdminGetStatsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Admin/GetStats`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AdminApi - functional programming interface
+ * @export
+ */
+export const AdminApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AdminApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAdminGetAgendeStatsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResAdminAgendeStatsDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAdminGetAgendeStatsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.apiAdminGetAgendeStatsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAdminGetStatsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResAdminStatsDTO>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiAdminGetStatsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AdminApi.apiAdminGetStatsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AdminApi - factory interface
+ * @export
+ */
+export const AdminApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AdminApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAdminGetAgendeStatsGet(options?: RawAxiosRequestConfig): AxiosPromise<ResAdminAgendeStatsDTO> {
+            return localVarFp.apiAdminGetAgendeStatsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAdminGetStatsGet(options?: RawAxiosRequestConfig): AxiosPromise<ResAdminStatsDTO> {
+            return localVarFp.apiAdminGetStatsGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * AdminApi - object-oriented interface
+ * @export
+ * @class AdminApi
+ * @extends {BaseAPI}
+ */
+export class AdminApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public apiAdminGetAgendeStatsGet(options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).apiAdminGetAgendeStatsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AdminApi
+     */
+    public apiAdminGetStatsGet(options?: RawAxiosRequestConfig) {
+        return AdminApiFp(this.configuration).apiAdminGetStatsGet(options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 
@@ -3533,14 +3795,11 @@ export const UtenteApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {number} agendaId 
          * @param {FiltriUtenteDTO} [filtriUtenteDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUtenteGetAllGet: async (agendaId: number, filtriUtenteDTO?: FiltriUtenteDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'agendaId' is not null or undefined
-            assertParamExists('apiUtenteGetAllGet', 'agendaId', agendaId)
+        apiUtenteGetAllPost: async (filtriUtenteDTO?: FiltriUtenteDTO, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Utente/GetAll`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3549,17 +3808,13 @@ export const UtenteApiAxiosParamCreator = function (configuration?: Configuratio
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (agendaId !== undefined) {
-                localVarQueryParameter['agendaId'] = agendaId;
-            }
 
 
     
@@ -3713,15 +3968,14 @@ export const UtenteApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {number} agendaId 
          * @param {FiltriUtenteDTO} [filtriUtenteDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUtenteGetAllGet(agendaId: number, filtriUtenteDTO?: FiltriUtenteDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResUtenteDTO>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUtenteGetAllGet(agendaId, filtriUtenteDTO, options);
+        async apiUtenteGetAllPost(filtriUtenteDTO?: FiltriUtenteDTO, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResUtenteDTO>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUtenteGetAllPost(filtriUtenteDTO, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UtenteApi.apiUtenteGetAllGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UtenteApi.apiUtenteGetAllPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -3742,7 +3996,7 @@ export const UtenteApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUtenteToggleStatusDelete(utenteId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ResUtenteDTO>>> {
+        async apiUtenteToggleStatusDelete(utenteId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiUtenteToggleStatusDelete(utenteId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UtenteApi.apiUtenteToggleStatusDelete']?.[localVarOperationServerIndex]?.url;
@@ -3773,13 +4027,12 @@ export const UtenteApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
-         * @param {number} agendaId 
          * @param {FiltriUtenteDTO} [filtriUtenteDTO] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUtenteGetAllGet(agendaId: number, filtriUtenteDTO?: FiltriUtenteDTO, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResUtenteDTO>> {
-            return localVarFp.apiUtenteGetAllGet(agendaId, filtriUtenteDTO, options).then((request) => request(axios, basePath));
+        apiUtenteGetAllPost(filtriUtenteDTO?: FiltriUtenteDTO, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResUtenteDTO>> {
+            return localVarFp.apiUtenteGetAllPost(filtriUtenteDTO, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3796,7 +4049,7 @@ export const UtenteApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUtenteToggleStatusDelete(utenteId: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<ResUtenteDTO>> {
+        apiUtenteToggleStatusDelete(utenteId: number, options?: RawAxiosRequestConfig): AxiosPromise<string> {
             return localVarFp.apiUtenteToggleStatusDelete(utenteId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -3821,14 +4074,13 @@ export const UtenteApiFactory = function (configuration?: Configuration, basePat
 export class UtenteApi extends BaseAPI {
     /**
      * 
-     * @param {number} agendaId 
      * @param {FiltriUtenteDTO} [filtriUtenteDTO] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UtenteApi
      */
-    public apiUtenteGetAllGet(agendaId: number, filtriUtenteDTO?: FiltriUtenteDTO, options?: RawAxiosRequestConfig) {
-        return UtenteApiFp(this.configuration).apiUtenteGetAllGet(agendaId, filtriUtenteDTO, options).then((request) => request(this.axios, this.basePath));
+    public apiUtenteGetAllPost(filtriUtenteDTO?: FiltriUtenteDTO, options?: RawAxiosRequestConfig) {
+        return UtenteApiFp(this.configuration).apiUtenteGetAllPost(filtriUtenteDTO, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

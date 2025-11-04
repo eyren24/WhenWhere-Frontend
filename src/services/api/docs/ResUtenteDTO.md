@@ -5,21 +5,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **number** |  | [optional] [default to undefined]
-**nome** | **string** |  | [optional] [default to undefined]
-**cognome** | **string** |  | [optional] [default to undefined]
-**email** | **string** |  | [optional] [default to undefined]
-**username** | **string** |  | [optional] [default to undefined]
-**password** | **string** |  | [optional] [default to undefined]
-**token** | **string** |  | [optional] [default to undefined]
-**tokenExpiration** | **string** |  | [optional] [default to undefined]
-**dataNascita** | **string** |  | [optional] [default to undefined]
-**genere** | **string** |  | [optional] [default to undefined]
-**fotoProfilo** | **string** |  | [optional] [default to undefined]
-**lastLogin** | **string** |  | [optional] [default to undefined]
-**preferenzeNotifiche** | **boolean** |  | [optional] [default to undefined]
-**statoAccount** | **boolean** |  | [optional] [default to undefined]
-**ruoloId** | **number** |  | [optional] [default to undefined]
+**id** | **number** |  | [default to undefined]
+**nome** | **string** |  | [default to undefined]
+**cognome** | **string** |  | [default to undefined]
+**email** | **string** |  | [default to undefined]
+**username** | **string** |  | [default to undefined]
+**dataNascita** | **string** |  | [default to undefined]
+**genere** | **string** |  | [default to undefined]
+**fotoProfilo** | **string** |  | [default to undefined]
+**lastLogin** | **string** |  | [default to undefined]
+**preferenzeNotifiche** | **boolean** |  | [default to undefined]
+**statoAccount** | **boolean** |  | [default to undefined]
+**ruoloId** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -32,9 +29,6 @@ const instance: ResUtenteDTO = {
     cognome,
     email,
     username,
-    password,
-    token,
-    tokenExpiration,
     dataNascita,
     genere,
     fotoProfilo,

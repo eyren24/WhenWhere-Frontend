@@ -86,6 +86,7 @@
 /* Lato destro */
 .navbar-side a,
 .navbar-login-icon {
+    cursor: pointer;
     color: var(--charlotte);
     font-size: 1.4rem;
     transition: color .2s ease;
