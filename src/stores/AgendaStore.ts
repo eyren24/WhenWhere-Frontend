@@ -1,18 +1,22 @@
 import {create} from "zustand";
 import axios from "axios";
-import type {ReqAgendaDTO, ReqUpdateAgenda, ResAgendaDTO, ResSocialDTO} from "../services/api";
+import type {ReqAgendaDTO, ReqUpdateAgenda, ResAgendaDTO} from "../services/api";
 import {
     createAgenda,
     deleteAgenda,
     getAgendaById,
     getAgendeByOwner,
     getAllAgende,
+    getPersonalAgende,
+    getTop10Agende,
     updateAgenda
 } from "../services/api/services";
 
 interface AgendaStore {
     isLoading: boolean;
-    getAll: () => Promise<{ success: boolean; agenda?: ResAgendaDTO[]; error?: string }>;
+    getAll: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
+    getTop10: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
+    getUserAll: () => Promise<{ success: boolean; agenda: ResAgendaDTO[]; error?: string }>;
     creaAgenda: (agenda: ReqAgendaDTO) => Promise<{ success: boolean; message?: string; error?: string }>;
     getAgendaById: (agendaId: number) => Promise<{ success: boolean; agenda?: ResAgendaDTO; error?: string }>;
     deleteAgenda: (agendaId: number) => Promise<{ success: boolean; message?: string; error?: string }>;
@@ -23,7 +27,7 @@ interface AgendaStore {
     }>;
     byOwner: (username: string) => Promise<{
         success: boolean;
-        agende: ResSocialDTO[];
+        agende: ResAgendaDTO[];
         error?: string
     }>;
 }
@@ -33,19 +37,39 @@ const handleError = (e: unknown): string =>
 
 export const useAgendaStore = create<AgendaStore>((set) => ({
     isLoading: false,
-
     getAll: async () => {
         set({ isLoading: true });
         try {
             const res = await getAllAgende();
             return { success: true, agenda: res.data };
         } catch (e) {
-            return { success: false, error: handleError(e) };
+            return {success: false, agenda: [], error: handleError(e)};
         } finally {
             set({ isLoading: false });
         }
     },
-
+    getTop10: async () => {
+        set({isLoading: true});
+        try {
+            const res = await getTop10Agende();
+            return {success: true, agenda: res.data};
+        } catch (e) {
+            return {success: false, agenda: [], error: handleError(e)};
+        } finally {
+            set({isLoading: false});
+        }
+    },
+    getUserAll: async () => {
+        set({isLoading: true});
+        try {
+            const res = await getPersonalAgende();
+            return {success: true, agenda: res.data};
+        } catch (e) {
+            return {success: false, agenda: [], error: handleError(e)};
+        } finally {
+            set({isLoading: false});
+        }
+    },
     creaAgenda: async (agenda) => {
         set({ isLoading: true });
         try {

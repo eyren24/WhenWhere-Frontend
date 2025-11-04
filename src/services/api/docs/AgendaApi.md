@@ -5,10 +5,13 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**apiAgendaAddAgendaPost**](#apiagendaaddagendapost) | **POST** /api/Agenda/AddAgenda | |
-|[**apiAgendaGetAllGet**](#apiagendagetallget) | **GET** /api/Agenda/GetAll | |
+|[**apiAgendaGetAllAgendeGet**](#apiagendagetallagendeget) | **GET** /api/Agenda/GetAllAgende | |
 |[**apiAgendaGetByIdGet**](#apiagendagetbyidget) | **GET** /api/Agenda/GetById | |
-|[**apiAgendaRemoveDelete**](#apiagendaremovedelete) | **DELETE** /api/Agenda/Remove | |
-|[**apiAgendaUpdateUpdatePut**](#apiagendaupdateupdateput) | **PUT** /api/Agenda/Update/Update | |
+|[**apiAgendaGetByOwnerGet**](#apiagendagetbyownerget) | **GET** /api/Agenda/GetByOwner | |
+|[**apiAgendaGetPersonalAgendaGet**](#apiagendagetpersonalagendaget) | **GET** /api/Agenda/GetPersonalAgenda | |
+|[**apiAgendaListTopAgendeGet**](#apiagendalisttopagendeget) | **GET** /api/Agenda/ListTopAgende | |
+|[**apiAgendaRemoveAgendaDelete**](#apiagendaremoveagendadelete) | **DELETE** /api/Agenda/RemoveAgenda | |
+|[**apiAgendaUpdateAgendaPut**](#apiagendaupdateagendaput) | **PUT** /api/Agenda/UpdateAgenda | |
 
 # **apiAgendaAddAgendaPost**
 > apiAgendaAddAgendaPost(reqAgendaDTO)
@@ -61,8 +64,8 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiAgendaGetAllGet**
-> Array<ResAgendaDTO> apiAgendaGetAllGet()
+# **apiAgendaGetAllAgendeGet**
+> Array<ResAgendaDTO> apiAgendaGetAllAgendeGet()
 
 
 ### Example
@@ -76,7 +79,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AgendaApi(configuration);
 
-const { status, data } = await apiInstance.apiAgendaGetAllGet();
+const { status, data } = await apiInstance.apiAgendaGetAllAgendeGet();
 ```
 
 ### Parameters
@@ -154,8 +157,144 @@ const { status, data } = await apiInstance.apiAgendaGetByIdGet(
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiAgendaRemoveDelete**
-> apiAgendaRemoveDelete()
+# **apiAgendaGetByOwnerGet**
+> Array<ResAgendaDTO> apiAgendaGetByOwnerGet()
+
+
+### Example
+
+```typescript
+import {
+    AgendaApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AgendaApi(configuration);
+
+let username: string; // (default to undefined)
+
+const { status, data } = await apiInstance.apiAgendaGetByOwnerGet(
+    username
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **username** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**Array<ResAgendaDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiAgendaGetPersonalAgendaGet**
+> Array<ResAgendaDTO> apiAgendaGetPersonalAgendaGet()
+
+
+### Example
+
+```typescript
+import {
+    AgendaApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AgendaApi(configuration);
+
+const { status, data } = await apiInstance.apiAgendaGetPersonalAgendaGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<ResAgendaDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiAgendaListTopAgendeGet**
+> Array<ResAgendaDTO> apiAgendaListTopAgendeGet()
+
+
+### Example
+
+```typescript
+import {
+    AgendaApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AgendaApi(configuration);
+
+const { status, data } = await apiInstance.apiAgendaListTopAgendeGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<ResAgendaDTO>**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiAgendaRemoveAgendaDelete**
+> apiAgendaRemoveAgendaDelete()
 
 
 ### Example
@@ -171,7 +310,7 @@ const apiInstance = new AgendaApi(configuration);
 
 let agendaId: number; // (default to undefined)
 
-const { status, data } = await apiInstance.apiAgendaRemoveDelete(
+const { status, data } = await apiInstance.apiAgendaRemoveAgendaDelete(
     agendaId
 );
 ```
@@ -204,8 +343,8 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiAgendaUpdateUpdatePut**
-> apiAgendaUpdateUpdatePut(reqUpdateAgenda)
+# **apiAgendaUpdateAgendaPut**
+> apiAgendaUpdateAgendaPut(reqUpdateAgenda)
 
 
 ### Example
@@ -223,7 +362,7 @@ const apiInstance = new AgendaApi(configuration);
 let agendaId: number; // (default to undefined)
 let reqUpdateAgenda: ReqUpdateAgenda; //
 
-const { status, data } = await apiInstance.apiAgendaUpdateUpdatePut(
+const { status, data } = await apiInstance.apiAgendaUpdateAgendaPut(
     agendaId,
     reqUpdateAgenda
 );

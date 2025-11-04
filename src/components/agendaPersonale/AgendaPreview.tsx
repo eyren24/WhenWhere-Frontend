@@ -1,11 +1,10 @@
 import "../../assets/css/agendaPreview.css";
-import type { ResAgendaDTO, ResLikesDTO, ResSocialDTO } from "../../services/api";
+import type {ResAgendaDTO} from "../../services/api";
 import {FaHeart, FaRegHeart, FaRegShareSquare} from "react-icons/fa";
-import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useLikesStore } from "../../stores/LikesStore.ts";
+import {useLikesStore} from "../../stores/LikesStore.ts";
 
-type Props = { agenda: ResAgendaDTO | ResSocialDTO };
+type Props = { agenda: ResAgendaDTO, onRefresh: () => void };
 
 async function copyToClipboard(text: string) {
     if (navigator.clipboard && window.isSecureContext) {
@@ -26,55 +25,42 @@ async function copyToClipboard(text: string) {
     }
 }
 
-export const AgendaPreview = ({ agenda }: Props) => {
-    const [likes, setLikes] = useState<ResLikesDTO[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [hasLike, setIsLiked] = useState(false);
-    const [refresh, setRefresh] = useState(false);
-
-    const { add, remove, byAgendaId, isLiked } = useLikesStore();
+export const AgendaPreview = ({agenda, onRefresh}: Props) => {
+    const {add, remove} = useLikesStore();
 
     const handleAddLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
-        const res = await add({ agendaid: agenda.id });
-        if (res.success) {
-            toast.success(res.message);
-        } else {
-            if (res.message?.includes("tua agenda"))
-                toast.error("Non puoi mettere like alla tua agenda");
-            else if (res.message?.includes("già messo"))
-                toast.error("Hai già messo like a questa agenda");
-            else
-                toast.error(res.message || "Errore generico");
-        }
-        setRefresh(prev => !prev);
+        add({agendaid: agenda.id}).then((res) => {
+            if (res.success) {
+                toast.success(res.message);
+            } else {
+                if (res.message?.includes("tua agenda"))
+                    toast.error("Non puoi mettere like alla tua agenda");
+                else if (res.message?.includes("già messo"))
+                    toast.error("Hai già messo like a questa agenda");
+                else
+                    toast.error(res.message || "Errore generico");
+
+            }
+        }).catch(console.error)
+            .finally(() => {
+                onRefresh();
+            });
     };
 
     const handleRemoveLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
-        const res = await remove(agenda.id);
-        if (res.success) toast.success(res.message);
-        else toast.error(res.message || "Errore generico");
-        setRefresh(prev => !prev);
+        remove(agenda.id).then((res) => {
+            if (res.success) toast.success(res.message);
+            else toast.error(res.message || "Errore generico");
+        }).catch(console.error)
+            .finally(() =>
+                onRefresh())
     };
-
-    useEffect(() => {
-        setIsLoading(true);
-        Promise.all([byAgendaId(agenda.id), isLiked(agenda.id)])
-            .then(([likesRes, likedRes]) => {
-                if (likesRes.success) setLikes(likesRes.likes || []);
-                else toast.error(likesRes.error || "Errore caricamento like");
-
-                if (likedRes.success) setIsLiked(likedRes.likes);
-                else toast.error(likedRes.error || "Errore caricamento stato like");
-            })
-            .catch(console.error)
-            .finally(() => setIsLoading(false));
-    }, [agenda.id, byAgendaId, isLiked, refresh]);
 
     const handleShareButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -142,15 +128,16 @@ export const AgendaPreview = ({ agenda }: Props) => {
                         <button
                             type="button"
                             data-no-nav
-                            onClick={hasLike ? handleRemoveLike : handleAddLike}
+                            onClick={agenda.hasLiked ? handleRemoveLike : handleAddLike}
                             className={`agendapreview-link`}
                             style={{
                                 background: agenda.tema,
                                 border: `1px solid color-mix(in srgb, ${agenda.tema} 25%, transparent)`,
-                                opacity: hasLike ? 0.7 : 1,
+                                opacity: agenda.hasLiked ? 0.7 : 1,
                             }}
                         >
-                            {hasLike ? <FaRegHeart /> : <FaHeart /> }
+                            {agenda.hasLiked ? <FaHeart/> : <FaRegHeart/>}
+                            {agenda.likesCount}
                         </button>
                     </div>
                 )}

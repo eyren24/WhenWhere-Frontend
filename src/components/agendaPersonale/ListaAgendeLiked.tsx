@@ -1,29 +1,26 @@
 import {useEffect, useState} from "react";
-import type { ResLikesDTO} from "../../services/api";
+import type {ResAgendaDTO} from "../../services/api";
 import toast from "react-hot-toast";
 import {AgendaPreview} from "./AgendaPreview.tsx";
 import {FaHeart} from "react-icons/fa";
 import "../../assets/css/listaAgendeLiked.css";
-import {useLikesStore} from "../../stores/LikesStore.ts";
-import {useAuthStore} from "../../stores/AuthStore.ts";
 import {CustomLoader} from "../layout/CustomLoader.tsx";
+import {useAgendaStore} from "../../stores/AgendaStore.ts";
 
 export const ListaAgendeLiked = () => {
-    const {getByUser} = useLikesStore();
-    const [agende, setAgende] = useState<ResLikesDTO[]>([]);
-    const {tokenInfo} = useAuthStore();
+    const {getUserAll} = useAgendaStore();
+    const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [refresh, setRefresh] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!tokenInfo)
-            return;
-        getByUser(tokenInfo.utenteId)
+        getUserAll()
             .then((res) => {
-                if (res.success) setAgende(res.likes || []);
-                else toast.error(res.message || "Errore di caricamento");
+                if (res.success) setAgende(res.agenda);
+                else toast.error(res.error || "Errore di caricamento");
             })
             .catch(console.error).finally(() => setIsLoading(false));
-    }, [getByUser, tokenInfo]);
+    }, [getUserAll, refresh]);
 
     const count = agende.length;
 
@@ -46,7 +43,7 @@ export const ListaAgendeLiked = () => {
                 <div className="likedAgende-wrapper">
                     {agende.map((item, i) => (
                         <div className="likedAgende-div" key={i}>
-                            <AgendaPreview agenda={item.agenda}/>
+                            <AgendaPreview agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/>
                         </div>
                     ))}
                 </div>

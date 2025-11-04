@@ -8,13 +8,15 @@ Name | Type | Description | Notes
 **id** | **number** |  | [default to undefined]
 **utenteId** | **number** |  | [default to undefined]
 **nomeAgenda** | **string** |  | [default to undefined]
-**descrizione** | **string** |  | [default to undefined]
+**descrizione** | **string** |  | [optional] [default to undefined]
 **tema** | **string** |  | [default to undefined]
 **isprivate** | **boolean** |  | [default to undefined]
-**likes** | [**Array&lt;ResLikesDTO&gt;**](ResLikesDTO.md) |  | [default to undefined]
 **utente** | [**ResUtenteDTO**](ResUtenteDTO.md) |  | [default to undefined]
-**eventi** | [**Array&lt;ResEventoDTO&gt;**](ResEventoDTO.md) |  | [default to undefined]
-**note** | [**Array&lt;ResNotaDTO&gt;**](ResNotaDTO.md) |  | [default to undefined]
+**evento** | [**Array&lt;ResEventoDTO&gt;**](ResEventoDTO.md) |  | [optional] [default to undefined]
+**nota** | [**Array&lt;ResNotaDTO&gt;**](ResNotaDTO.md) |  | [optional] [default to undefined]
+**likes** | [**Array&lt;ResLikesDTO&gt;**](ResLikesDTO.md) |  | [optional] [default to undefined]
+**likesCount** | **number** |  | [optional] [default to undefined]
+**hasLiked** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -28,10 +30,12 @@ const instance: ResAgendaDTO = {
     descrizione,
     tema,
     isprivate,
-    likes,
     utente,
-    eventi,
-    note,
+    evento,
+    nota,
+    likes,
+    likesCount,
+    hasLiked,
 };
 ```
 

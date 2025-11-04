@@ -8,9 +8,10 @@ import "../../assets/css/listaAgende.css";
 import {CustomLoader} from "../layout/CustomLoader.tsx";
 import {CreateAgendaModal} from "../modals/CreateAgendaModal.tsx";
 import {Link} from "react-router";
+import {useLikesStore} from "../../stores/LikesStore.ts";
 
 export const ListaAgende = () => {
-    const {getAll, creaAgenda} = useAgendaStore();
+    const {getUserAll, creaAgenda} = useLikesStore();
     const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -18,7 +19,7 @@ export const ListaAgende = () => {
     const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        getAll()
+        getUserAll()
             .then((res) => {
                 if (res.success) setAgende(res.agenda || []);
                 else toast.error(res.error || "Errore generico");
@@ -26,7 +27,7 @@ export const ListaAgende = () => {
             .catch(console.error).finally(() => {
             setIsLoading(false);
         });
-    }, [getAll, refresh]);
+    }, [getUserAll, refresh]);
 
     const handleCreate = (data: ReqAgendaDTO) => {
         setIsLoading(true);
@@ -58,7 +59,8 @@ export const ListaAgende = () => {
                         <>
                             {agende.map((item, index) => (
                                 <div className="listaAgende-div" key={index}>
-                                    <Link className="universal-link" to={`/agenda/pubblica/${item.id}`}><AgendaPreview agenda={item}/></Link>
+                                    <Link className="universal-link" to={`/agenda/pubblica/${item.id}`}><AgendaPreview
+                                        agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
                                 </div>
                             ))}
                             <div className="listaAgende-div">

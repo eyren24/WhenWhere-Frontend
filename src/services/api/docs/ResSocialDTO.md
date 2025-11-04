@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **tema** | **string** |  | [default to undefined]
 **isprivate** | **boolean** |  | [default to undefined]
 **utente** | [**ResUtenteDTO**](ResUtenteDTO.md) |  | [default to undefined]
-**likesCount** | **number** |  | [default to undefined]
+**likesCount** | **number** |  | [optional] [default to undefined]
 
 ## Example
 

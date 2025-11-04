@@ -2,9 +2,12 @@ import {
     AgendaApi,
     AuthApi,
     EventoApi,
-    type FiltriAgendaDTO,
     LikesApi,
     NotaApi,
+    SocialApi,
+    TagApi,
+    UtenteApi,
+    type FiltriAgendaDTO,
     type ReqAgendaDTO,
     type ReqEventoDTO,
     type ReqLikesDTO,
@@ -12,99 +15,62 @@ import {
     type ReqNotaDTO,
     type ReqRegisterUser,
     type ReqUpdateAgenda,
-    type ReqUpdateEventoDTO,
-    SocialApi,
-    TagApi,
-    UtenteApi
+    type ReqUpdateEventoDTO
 } from "./api.ts";
-import {apiClient} from "./Interceptor.ts";
-import {apiConfig, URL_PATH} from "./config.ts";
+import { apiClient } from "./Interceptor.ts";
+import { apiConfig, URL_PATH } from "./config.ts";
 
-export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient)
-export const utenteApi = new UtenteApi(apiConfig, URL_PATH, apiClient)
-export const agendaApi = new AgendaApi(apiConfig, URL_PATH, apiClient)
-export const eventoApi = new EventoApi(apiConfig, URL_PATH, apiClient)
-export const noteApi = new NotaApi(apiConfig, URL_PATH, apiClient)
-export const likesApi = new LikesApi(apiConfig, URL_PATH, apiClient)
-export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient)
-export const socialApi = new SocialApi(apiConfig, URL_PATH, apiClient)
+// === ISTANZE API ===
+export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient);
+export const utenteApi = new UtenteApi(apiConfig, URL_PATH, apiClient);
+export const agendaApi = new AgendaApi(apiConfig, URL_PATH, apiClient);
+export const eventoApi = new EventoApi(apiConfig, URL_PATH, apiClient);
+export const notaApi = new NotaApi(apiConfig, URL_PATH, apiClient);
+export const likesApi = new LikesApi(apiConfig, URL_PATH, apiClient);
+export const tagsApi = new TagApi(apiConfig, URL_PATH, apiClient);
+export const socialApi = new SocialApi(apiConfig, URL_PATH, apiClient);
 
+// === AUTH ===
+export const login = (loginField: ReqLoginUser) => authApi.apiAuthLoginPost(loginField);
+export const register = (registerField: ReqRegisterUser) => authApi.apiAuthRegisterPost(registerField);
+export const getUserInfo = () => authApi.apiAuthGetUserInfoGet();
 
-export const login = (loginField: ReqLoginUser) => {
-    return authApi.apiAuthLoginPost(loginField);
-}
-export const register = (registerField: ReqRegisterUser) => {
-    return authApi.apiAuthRegisterPost(registerField);
-}
-export const getUserInfo = async () => {
-    return authApi.apiAuthGetUserInfoGet()
-}
-export const getAllAgende = async () => {
-    return agendaApi.apiAgendaGetAllGet();
-}
-export const updateAgenda = async (id: number, agenda: ReqUpdateAgenda) => {
-    return agendaApi.apiAgendaUpdateUpdatePut(id, agenda);
-}
-export const createEvent = async (evento: ReqEventoDTO) => {
-    return eventoApi.apiEventoAddPost(evento);
-}
-export const deleteEvento = async (eventoId: number) => {
-    return eventoApi.apiEventoRemoveDelete(eventoId);
-}
-export const getAllEventi = async (agenda: number, filtri: FiltriAgendaDTO) => {
-    return eventoApi.apiEventoGetAllPost(agenda, filtri);
-}
-export const updateEvento = async (evento: number, nuovoEvento: ReqUpdateEventoDTO) => {
-    return eventoApi.apiEventoUpdatePut(evento, nuovoEvento);
-}
-export const createAgenda = async (agenda: ReqAgendaDTO) => {
-    return agendaApi.apiAgendaAddAgendaPost(agenda)
-}
-export const deleteAgenda = async (agenda: number) => {
-    return agendaApi.apiAgendaRemoveDelete(agenda)
-}
-export const getAgendaById = async (agendaId: number) => {
-    return agendaApi.apiAgendaGetByIdGet(agendaId)
-}
+// === AGENDA ===
+export const createAgenda = (agenda: ReqAgendaDTO) => agendaApi.apiAgendaAddAgendaPost(agenda);
+export const updateAgenda = (id: number, agenda: ReqUpdateAgenda) => agendaApi.apiAgendaUpdateAgendaPut(id, agenda);
+export const deleteAgenda = (id: number) => agendaApi.apiAgendaRemoveAgendaDelete(id);
+export const getAgendaById = (id: number) => agendaApi.apiAgendaGetByIdGet(id);
+export const getAllAgende = () => agendaApi.apiAgendaGetAllAgendeGet();
+export const getPersonalAgende = () => agendaApi.apiAgendaGetPersonalAgendaGet();
+export const getAgendeByOwner = (username: string) => agendaApi.apiAgendaGetByOwnerGet(username);
+export const getTop10Agende = () => agendaApi.apiAgendaListTopAgendeGet();
 
-export const getTags = async () => {
-    return tagsApi.apiTagGetListGet()
-}
-export const creaNote = async (nota: ReqNotaDTO) => {
-    return noteApi.apiNotaAddPost(nota);
-}
-export const getNote = async (agendaId: number, filtri: FiltriAgendaDTO) => {
-    return noteApi.apiNotaGetAllGet(agendaId, filtri);
-}
+// === EVENTI ===
+export const createEvento = (evento: ReqEventoDTO) => eventoApi.apiEventoAddPost(evento);
+export const updateEvento = (id: number, evento: ReqUpdateEventoDTO) => eventoApi.apiEventoUpdatePut(id, evento);
+export const deleteEvento = (id: number) => eventoApi.apiEventoRemoveDelete(id);
+export const getAllEventi = (agendaId: number, filtri: FiltriAgendaDTO) =>
+    eventoApi.apiEventoGetAllPost(agendaId, filtri);
 
-export const deleteNote = async (notaId: number) => {
-    return noteApi.apiNotaRemoveDelete(notaId);
-}
-export const updateNote = async (notaId: number, nota: ReqNotaDTO) => {
-    return noteApi.apiNotaUpdatePut(notaId, nota)
-}
-export const getByUser = async (userId: number) => {
-    return likesApi.apiLikesGetListByUserIdGet(userId);
-}
-export const top10Agende = async () => {
-    return socialApi.apiSocialListTopAgendeGet();
-}
+// === NOTE ===
+export const createNota = (nota: ReqNotaDTO) => notaApi.apiNotaAddPost(nota);
+export const updateNota = (notaId: number, nota: ReqNotaDTO) => notaApi.apiNotaUpdatePut(notaId, nota);
+export const deleteNota = (notaId: number) => notaApi.apiNotaRemoveDelete(notaId);
+export const getNote = (agendaId: number, filtri: FiltriAgendaDTO) =>
+    notaApi.apiNotaGetAllGet(agendaId, filtri);
 
-export const getUserByUsername = async (username: string) => {
-    return socialApi.apiSocialGetUtenteByUsernameGet(username);
-}
-export const getLikeByAgendaId = async (agendaId: number) => {
-    return likesApi.apiLikesGetLikeByAgendaIdGet(agendaId);
-}
-export const getAgendeByOwner = async (username: string) => {
-    return socialApi.apiSocialGetByOwnerGet(username);
-}
-export const addLike = async (like: ReqLikesDTO) => {
-    return likesApi.apiLikesAddLikePost(like);
-}
-export const removeLike = async (like: number) => {
-    return likesApi.apiLikesRemoveDelete(like);
-}
-export const getIfUserGotLike = async (agendaId: number) => {
-    return likesApi.apiLikesGetIfUserLikeAgendaGet(agendaId);
-}
+// === LIKES ===
+export const addLike = (like: ReqLikesDTO) => likesApi.apiLikesAddLikePost(like);
+export const removeLike = (agendaId: number) => likesApi.apiLikesRemoveDelete(agendaId);
+export const getLikesByUser = (userId: number) => likesApi.apiLikesGetListByUserIdGet(userId);
+export const getLikeByAgendaId = (agendaId: number) => likesApi.apiLikesGetLikeByAgendaIdGet(agendaId);
+export const getIfUserLikedAgenda = (agendaId: number) => likesApi.apiLikesGetIfUserLikeAgendaGet(agendaId);
+
+// === TAGS ===
+export const getTags = () => tagsApi.apiTagGetListGet();
+
+// === SOCIAL ===
+export const getUserByUsername = (username: string) => socialApi.apiSocialGetUtenteByUsernameGet(username);
+
+// === UTENTE ===
+export const getUtenteById = (id: number) => utenteApi.apiUtenteGetByIdGet(id);
