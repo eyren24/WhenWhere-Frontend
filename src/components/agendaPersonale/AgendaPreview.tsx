@@ -67,23 +67,24 @@ export const AgendaPreview = ({agenda, onRefresh}: Props) => {
                     <h3 className="agendapreview-title" title={agenda.nomeAgenda}>
                         {agenda.nomeAgenda}
                     </h3>
-                    <button
-                        type="button"
-                        className="agendapreview-author"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            navigate(`/profilo/${agenda.utente?.id}`);
-                        }}
-                    >
-                        <FaUser className="author-icon"/>
-                        {agenda.utente?.username ?? "Utente sconosciuto"}
-                    </button>
                 </div>
 
                 <span className="agendapreview-badge" style={{ background: agenda.tema }}>
                     {agenda.isprivate ? "Privata" : "Pubblica"}
                 </span>
+
+                <button
+                    type="button"
+                    className="agendapreview-author"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigate(`/profilo/${agenda.utente?.id}`);
+                    }}
+                >
+                    <FaUser className="author-icon"/>
+                    {agenda.utente?.username ?? "Utente sconosciuto"}
+                </button>
             </header>
 
             <section className="agendapreview-description">

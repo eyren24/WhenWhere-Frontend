@@ -1,6 +1,5 @@
 .social-wrapper {
     width: 100%;
-    min-height: 100vh;
     background: var(--polar);
     color: var(--vulcan);
     padding: clamp(1.5rem, 3vw, 3rem);

@@ -101,11 +101,6 @@
     padding-bottom: 6px;
 }
 
-.agendapreview-description {
-    border-bottom: 1px dashed color-mix(in srgb, var(--bombay) 20%, transparent);
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {

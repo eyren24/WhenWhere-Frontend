@@ -1,127 +1,143 @@
 .about-us-container {
-    padding: 60px 20px;
+    color: var(--vulcan);
     text-align: center;
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto;
-    color: var(--polar);
-    background-color: var(--vulcan);
-    min-height: 100vh;
+    padding: clamp(2rem, 4vw, 5rem) 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: visible;
 }
 
+/* === TITLE === */
 .fancy-underline {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 700;
     position: relative;
     display: inline-block;
-    font-size: 2.5rem;
-    color: var(--polar);
-    margin-bottom: 40px;
-    padding-bottom: 0.5em;
-    opacity: 0;
-    transform: translateY(10px);
+    color: var(--cerulean);
+    margin-bottom: 2.5rem;
     animation: fadeIn 0.8s ease-out forwards;
 }
 
 .fancy-underline::after {
-    content: '';
+    content: "";
     position: absolute;
+    bottom: -0.4rem;
     left: 0;
-    bottom: 0;
     width: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--eastern-blue), var(--cerulean));
+    background: linear-gradient(90deg, var(--cerulean), var(--aquamarine-blue));
     border-radius: 2px;
-    animation: drawLine 1s ease-out 0.5s forwards;
+    animation: drawLine 0.9s ease-out 0.4s forwards;
 }
 
-/* === GRID === */
-.P-card-grid {
+/* === GRID (5 fisse, mai a capo) === */
+.profile-grid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
     justify-content: center;
-    align-items: center;
-    margin-top: 40px;
+    align-items: stretch;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1400px;
+    overflow: visible;
+    flex-wrap: nowrap;
 }
 
-/* === PROFILE CARD === */
+/* === CARD === */
 .profile-card {
-    width: 270px;
-    height: 380px;
-    background: linear-gradient(to bottom, var(--aquamarine-blue) 0%, var(--polar) 100%);
-    border: 1px solid var(--bombay);
+    flex: 1 1 calc(20% - 2rem); /* 5 card perfette in linea */
+    background: var(--polar);
     border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(14, 22, 31, 0.15);
+    padding: 1.8rem 1.2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding: 24px 16px;
     text-align: center;
-    transition: all 0.4s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeUp 0.6s ease-out forwards;
+    animation: fadeUp 0.5s ease forwards;
 }
 
 .profile-card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 0 20px rgba(3, 172, 228, 0.4);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 28px rgba(3, 172, 228, 0.35);
 }
 
-.profile-photo-wrapper {
+/* === PHOTO === */
+.photo-wrapper {
     position: relative;
+    margin-bottom: 1rem;
 }
 
 .profile-photo {
-    width: 112px;
-    height: 112px;
-    object-fit: cover;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    border: 4px solid var(--cerulean);
-    transition: transform 0.3s ease;
+    border: 3px solid var(--cerulean);
+    object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .profile-card:hover .profile-photo {
-    transform: scale(1.05);
+    transform: scale(1.07);
+    box-shadow: 0 0 12px rgba(3, 172, 228, 0.4);
 }
 
-.card-details h2 {
+/* === INFO === */
+.profile-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.profile-info h2 {
     font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0.8rem 0 0.3rem;
     color: var(--vulcan);
-    margin: 16px 0 6px;
 }
 
-.card-details p {
-    font-size: 0.9rem;
+.profile-info p {
     color: var(--shuttle-gray);
-    margin: 0 0 16px;
+    font-size: 0.9rem;
+    margin: 0 0 1.2rem;
 }
 
 /* === BUTTON === */
-.card-button {
-    display: inline-block;
-    width: 70%;
-    padding: 10px 16px;
-    background: var(--cerulean);
-    color: var(--vulcan);
-    border-radius: 10px;
+.profile-btn {
+    background: linear-gradient(90deg, var(--cerulean), var(--aquamarine-blue));
+    color: var(--polar);
     font-weight: 600;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 8px rgba(3, 172, 228, 0.3);
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(3, 172, 228, 0.3);
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    margin-top: auto;
 }
 
-.card-button:hover {
-    background-color: var(--eastern-blue);
-    color: var(--polar);
-    transform: scale(1.03);
+.profile-btn:hover {
+    transform: scale(1.05);
+    background: var(--eastern-blue);
     box-shadow: 0 6px 16px rgba(3, 172, 228, 0.5);
 }
 
-.card-button:active {
-    transform: scale(0.97);
+.profile-btn:active {
+    transform: scale(0.96);
 }
 
 /* === ANIMATIONS === */
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -135,35 +151,33 @@
     }
 }
 
-@keyframes fadeUp {
-    0% {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
+/* === RESPONSIVE === */
+@media (max-width: 1200px) {
+    .profile-card {
+        flex: 1 1 calc(20% - 1.2rem);
     }
 }
 
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-    .P-card-grid {
-        flex-direction: column;
-    }
-
+@media (max-width: 1024px) {
     .profile-card {
-        width: 100%;
-        max-width: 320px;
-        height: auto;
+        flex: 1 1 calc(25% - 1rem);
     }
+}
 
-    .profile-photo {
-        width: 90px;
-        height: 90px;
+@media (max-width: 900px) {
+    .profile-card {
+        flex: 1 1 calc(33.33% - 1rem);
     }
+}
 
-    .card-button {
-        width: 90%;
+@media (max-width: 600px) {
+    .profile-card {
+        flex: 1 1 calc(50% - 0.8rem);
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-card {
+        flex: 1 1 100%;
     }
 }

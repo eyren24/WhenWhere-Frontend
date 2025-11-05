@@ -20,6 +20,7 @@ import {ProfiloEdit} from "./pages/ProfiloEdit.tsx";
 import {VerifyEmail} from "./pages/VerifyEmail.tsx";
 import {ProtectedLogged} from "./components/routes/ProtectedLogged.tsx";
 import {ProtectedAdmin} from "./components/routes/ProtectedAdmin.tsx";
+import {CustomLoader} from "./components/layout/CustomLoader.tsx";
 
 function App() {
     const { isAuthenticated, getTokenInfo } = useAuthStore();
@@ -36,7 +37,7 @@ function App() {
         <>
             {isCheckingAuth ? (
                 <div className="loader" style={{ minHeight: "100vh" }}>
-                    loading..
+                    <CustomLoader />
                 </div>
             ) : (
                 <UserProvider>
