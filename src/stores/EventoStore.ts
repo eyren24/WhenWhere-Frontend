@@ -36,6 +36,7 @@ export const useEventoStore = create<EventoStore>((set) => ({
             await createEvento(evento);
             return { success: true, message: "Evento creato con successo!" };
         } catch (e) {
+            console.log(e)
             return { success: false, message: handleError(e) };
         } finally {
             set({ isLoading: false });

@@ -72,7 +72,7 @@ export function HomeSlider() {
                     {cap.highlight && <div className="slider-pill">🏷️ {cap.highlight}</div>}
 
                     <div className="slider-cta">
-                        <a href="/agende" className="cta cta--solid">📅 Crea Agenda</a>
+                        <a href="/areaPersonale" className="cta cta--solid">📅 Crea Agenda</a>
                         <a href="#feature-spotlight" onClick={scrollToFeature} className="cta cta--soft">⭐ Scopri la Novità</a>
                     </div>
 

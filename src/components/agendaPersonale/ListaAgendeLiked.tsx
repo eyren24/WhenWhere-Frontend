@@ -44,7 +44,7 @@ export const ListaAgendeLiked = () => {
                 <div className="likedAgende-wrapper">
                     {agende.map((item, i) => (
                         <div className="likedAgende-div" key={i}>
-                            <Link to={`/agenda/pubblica/${item.id}`} className="universal-link"><AgendaPreview agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
+                            <Link style={{width: '100%'}} to={`/agenda/pubblica/${item.id}`} className="universal-link"><AgendaPreview agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
                         </div>
                     ))}
                 </div>

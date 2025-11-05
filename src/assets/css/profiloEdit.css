@@ -1,0 +1,145 @@
+.profilocard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: var(--polar);
+    min-height: calc(100vh - 120px);
+}
+
+.profilocard {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(14, 22, 31, 0.08);
+    width: 100%;
+    max-width: 500px;
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.profilocard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profilocard-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--vulcan);
+}
+
+.profilocard-togglebtn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--cerulean);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.profilocard-togglebtn:hover {
+    background: var(--eastern-blue);
+    transform: translateY(-1px);
+}
+
+/* === Info Mode === */
+.profilocard-info {
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: var(--shuttle-gray);
+}
+
+.profilocard-info p {
+    margin: 0;
+}
+
+/* === Form Mode === */
+.profilocard-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.profilocard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+.profilocard-grid label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85rem;
+    color: var(--vulcan);
+}
+
+.profilocard-grid input,
+.profilocard-grid select {
+    margin-top: 0.3rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid var(--bombay);
+    background: var(--polar);
+    font-size: 0.85rem;
+    color: var(--vulcan);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profilocard-grid input:focus,
+.profilocard-grid select:focus {
+    border-color: var(--cerulean);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--cerulean) 25%, transparent);
+    outline: none;
+}
+
+.profilocard-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.profilocard-savebtn {
+    align-self: flex-end;
+    background: var(--cerulean);
+    color: white;
+    font-weight: 600;
+    padding: 0.55rem 1.1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    transition: background 0.2s ease, transform 0.1s ease;
+    cursor: pointer;
+}
+
+.profilocard-savebtn:hover {
+    background: var(--eastern-blue);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .profilocard {
+        padding: 1.2rem;
+        border-radius: 12px;
+    }
+
+    .profilocard-title {
+        font-size: 1.1rem;
+    }
+
+    .profilocard-togglebtn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+}

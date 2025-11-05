@@ -91,7 +91,7 @@ export const AgendePopolari = () => {
                     <>Nessuna agenda trovata</>
                 ) : (
                     filtered.map((agenda, index) => (
-                        <Link key={index} className="universal-link" to={`/agenda/pubblica/${agenda.id}`}><AgendaPreview
+                        <Link style={{width: '100%'}} key={index} className="universal-link" to={`/agenda/pubblica/${agenda.id}`}><AgendaPreview
                             key={agenda.id} agenda={agenda} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
                     ))
                 )}

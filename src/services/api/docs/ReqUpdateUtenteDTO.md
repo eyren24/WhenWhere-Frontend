@@ -5,10 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**nome** | **string** |  | [optional] [default to undefined]
-**cognome** | **string** |  | [optional] [default to undefined]
-**fotoProfilo** | **string** |  | [optional] [default to undefined]
-**preferenzeNotifiche** | **boolean** |  | [optional] [default to undefined]
+**nome** | **string** |  | [default to undefined]
+**cognome** | **string** |  | [default to undefined]
+**preferenzeNotifiche** | **boolean** |  | [default to undefined]
+**genere** | **string** |  | [default to undefined]
+**dataNascita** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -18,8 +19,9 @@ import { ReqUpdateUtenteDTO } from './api';
 const instance: ReqUpdateUtenteDTO = {
     nome,
     cognome,
-    fotoProfilo,
     preferenzeNotifiche,
+    genere,
+    dataNascita,
 };
 ```
 

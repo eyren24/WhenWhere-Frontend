@@ -1,13 +1,12 @@
 import {
+    AdminApi,
     AgendaApi,
     AuthApi,
     EventoApi,
+    type FiltriAgendaDTO,
+    type FiltriUtenteDTO,
     LikesApi,
     NotaApi,
-    SocialApi,
-    TagApi,
-    UtenteApi,
-    type FiltriAgendaDTO,
     type ReqAgendaDTO,
     type ReqEventoDTO,
     type ReqLikesDTO,
@@ -15,10 +14,15 @@ import {
     type ReqNotaDTO,
     type ReqRegisterUser,
     type ReqUpdateAgenda,
-    type ReqUpdateEventoDTO, type ReqUpdateNotaDTO, type FiltriUtenteDTO, AdminApi
+    type ReqUpdateEventoDTO,
+    type ReqUpdateNotaDTO,
+    type ReqUpdateUtenteDTO,
+    SocialApi,
+    TagApi,
+    UtenteApi
 } from "./api.ts";
-import { apiClient } from "./Interceptor.ts";
-import { apiConfig, URL_PATH } from "./config.ts";
+import {apiClient} from "./Interceptor.ts";
+import {apiConfig, URL_PATH} from "./config.ts";
 
 // === ISTANZE API ===
 export const authApi = new AuthApi(apiConfig, URL_PATH, apiClient);
@@ -35,6 +39,7 @@ export const adminApi = new AdminApi(apiConfig, URL_PATH, apiClient);
 export const login = (loginField: ReqLoginUser) => authApi.apiAuthLoginPost(loginField);
 export const register = (registerField: ReqRegisterUser) => authApi.apiAuthRegisterPost(registerField);
 export const getUserInfo = () => authApi.apiAuthGetUserInfoGet();
+export const verify = (email: string, code: string) => authApi.apiAuthVerifyTokenGet(email, code);
 
 // === AGENDA ===
 export const createAgenda = (agenda: ReqAgendaDTO) => agendaApi.apiAgendaAddAgendaPost(agenda);
@@ -78,6 +83,7 @@ export const getUserByUsername = (username: string) => socialApi.apiSocialGetUte
 export const getUtenteById = (id: number) => utenteApi.apiUtenteGetByIdGet(id);
 export const getAllUsers = (filtri: FiltriUtenteDTO) => utenteApi.apiUtenteGetAllPost(filtri);
 export const toggleStatusUtente = (utenteId: number) => utenteApi.apiUtenteToggleStatusDelete(utenteId);
+export const updateUtente = (utenteId: number, nuovoUtente: ReqUpdateUtenteDTO) => utenteApi.apiUtenteUpdatePut(utenteId, nuovoUtente);
 
 // === ADMIN ===
 export const getStats = () => adminApi.apiAdminGetStatsGet();

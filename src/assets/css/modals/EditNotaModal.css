@@ -47,10 +47,38 @@
     line-height: 1.4;
 }
 
-/* === Bottone === */
+.edit-nota-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+}
+/* === Pulsante === */
 .edit-nota-submit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
     align-self: flex-end;
     background: linear-gradient(90deg, var(--cerulean), var(--aquamarine-blue));
+    color: #fff;
+    border: none;
+    padding: 0.9rem 1.6rem;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(3, 172, 228, 0.25);
+}
+.edit-nota-delete{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+    align-self: flex-end;
+    background: linear-gradient(90deg, darkred, red);
     color: #fff;
     border: none;
     padding: 0.9rem 1.6rem;

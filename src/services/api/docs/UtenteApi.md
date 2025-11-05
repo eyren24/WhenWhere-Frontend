@@ -161,7 +161,7 @@ const { status, data } = await apiInstance.apiUtenteToggleStatusDelete(
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUtenteUpdatePut**
-> Array<ResUtenteDTO> apiUtenteUpdatePut(reqUpdateUtenteDTO)
+> string apiUtenteUpdatePut(reqUpdateUtenteDTO)
 
 
 ### Example
@@ -195,7 +195,7 @@ const { status, data } = await apiInstance.apiUtenteUpdatePut(
 
 ### Return type
 
-**Array<ResUtenteDTO>**
+**string**
 
 ### Authorization
 

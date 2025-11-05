@@ -60,7 +60,7 @@ export const EditAgendaModal = ({
                     </label>
                     <textarea
                         name="descrizione"
-                        defaultValue={agenda.descrizione}
+                        defaultValue={agenda.descrizione || "Nessuna descrizione"}
                         className="edit-agenda-modal-textarea"
                         placeholder="Aggiungi una breve descrizione (opzionale)"
                         rows={3}

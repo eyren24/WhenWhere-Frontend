@@ -84,7 +84,8 @@
 
 .AdminUsersSection__filters {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 0.8rem;
     background: white;
@@ -95,6 +96,8 @@
 
 .AdminUsersSection__filters input,
 .AdminUsersSection__filters select {
+    width: 100%;
+    flex-direction: row;
     padding: 0.55rem 0.8rem;
     border: 1px solid var(--bombay);
     border-radius: 8px;

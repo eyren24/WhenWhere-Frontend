@@ -58,7 +58,7 @@ export const ListaAgende = () => {
                         <>
                             {agende.map((item, index) => (
                                 <div className="listaAgende-div" key={index}>
-                                    <Link className="universal-link" to={`/agenda/${item.id}`}><AgendaPreview
+                                    <Link style={{width: '100%'}} className="universal-link" to={`/agenda/${item.id}`}><AgendaPreview
                                         agenda={item} onRefresh={() => setRefresh((prev) => !prev)}/></Link>
                                 </div>
                             ))}

@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import axios from "axios";
-import type {ReqLikesDTO, ResAgendaDTO, ResLikesDTO, ResUtenteDTO} from "../services/api";
+import type {ReqLikesDTO, ResLikesDTO, ResUtenteDTO} from "../services/api";
 import {addLike, getLikeByAgendaId, getUserByUsername, removeLike} from "../services/api/services.ts";
 
 interface AgendaStore {
@@ -9,7 +9,6 @@ interface AgendaStore {
     remove: (likeId: number) => Promise<{ success: boolean, message: string }>;
     getByUsername: (username: string) => Promise<{ success: boolean, utente?: ResUtenteDTO, error?: string }>;
     byAgendaId: (ganedaId: number) => Promise<{ success: boolean, likes?: ResLikesDTO[], error?: string }>;
-    getUserLikes: () => Promise<{ success: boolean, agende: ResAgendaDTO[], error?: string }>;
 }
 
 const handleError = (e: unknown): string =>
@@ -58,24 +57,6 @@ export const useLikesStore = create<AgendaStore>((set) => ({
         }
     },
     byAgendaId: async (agendaId) => {
-        set({isLoading: true});
-        try {
-            const response = await getLikeByAgendaId(agendaId);
-            return {success: true, likes: response.data}
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                return {success: false, error: error.response?.data}
-            } else if (error instanceof Error) {
-                return {success: false, error: error.message}
-            } else {
-                // Errore
-                return {success: false, error: 'Errore sconosciuto durante il login'}
-            }
-        } finally {
-            set({isLoading: false})
-        }
-    },
-    getUserLikes: async () => {
         set({isLoading: true});
         try {
             const response = await getLikeByAgendaId(agendaId);

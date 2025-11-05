@@ -17,6 +17,8 @@ Name | Type | Description | Notes
 **preferenzeNotifiche** | **boolean** |  | [default to undefined]
 **statoAccount** | **boolean** |  | [default to undefined]
 **ruoloId** | **number** |  | [default to undefined]
+**dataCreazione** | **string** |  | [default to undefined]
+**verificato** | **boolean** |  | [default to undefined]
 
 ## Example
 
@@ -36,6 +38,8 @@ const instance: ResUtenteDTO = {
     preferenzeNotifiche,
     statoAccount,
     ruoloId,
+    dataCreazione,
+    verificato,
 };
 ```
 

@@ -13,8 +13,13 @@ import {useEffect, useState} from "react";
 import {UserProvider} from "./context/UserProvider";
 import {Agenda} from "./components/agendaPersonale/Agenda.tsx";
 import {AgendaPubblica} from "./components/layout/AgendaPubblica.tsx";
-import {ProtectedRoute} from "./components/routes/ProtectedRoute.tsx";
+import {ProtectedOwnAgenda} from "./components/routes/ProtectedOwnAgenda.tsx";
 import {Admin} from "./pages/Admin.tsx";
+import {ProfiloPreview} from "./pages/ProfiloPreview.tsx";
+import {ProfiloEdit} from "./pages/ProfiloEdit.tsx";
+import {VerifyEmail} from "./pages/VerifyEmail.tsx";
+import {ProtectedLogged} from "./components/routes/ProtectedLogged.tsx";
+import {ProtectedAdmin} from "./components/routes/ProtectedAdmin.tsx";
 
 function App() {
     const { isAuthenticated, getTokenInfo } = useAuthStore();
@@ -44,11 +49,14 @@ function App() {
                             </Route>
 
                             <Route element={<AreaPersonaleLayout />}>
-                                <Route path="/areapersonale" element={<AreaPersonale />} />
+                                <Route path="/areapersonale" element={<ProtectedLogged><AreaPersonale /></ProtectedLogged>} />
                                 <Route path={"/social"} element={<Social />}/>
-                                <Route path="/agenda/:id" element={<ProtectedRoute><Agenda/></ProtectedRoute>}/>
+                                <Route path="/agenda/:id" element={<ProtectedOwnAgenda><Agenda/></ProtectedOwnAgenda>}/>
                                 <Route path="/agenda/pubblica/:id" element={<AgendaPubblica/>}/>
-                                <Route path="/admin" element={<Admin/>}/>
+                                <Route path="/admin" element={<ProtectedAdmin><Admin/></ProtectedAdmin>}/>
+                                <Route path="/profilo/:id" element={<ProfiloPreview/>}/>
+                                <Route path="/profilo" element={<ProtectedLogged><ProfiloEdit/></ProtectedLogged>}/>
+                                <Route path="/verify" element={<ProtectedLogged><VerifyEmail/></ProtectedLogged>}/>
                             </Route>
                         </Routes>
                     </BrowserRouter>

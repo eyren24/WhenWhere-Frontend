@@ -1,7 +1,7 @@
 import {create} from "zustand/react";
 import axios from "axios";
-import type {ReqLoginUser, ReqRegisterUser, TokenInfoDTO} from "../services/api";
-import {getUserInfo, login, register} from "../services/api/services.ts";
+import type {ReqLoginUser, ReqRegisterUser, ReqUpdateUtenteDTO, ResUtenteDTO, TokenInfoDTO} from "../services/api";
+import {getUserInfo, getUtenteById, login, register, updateUtente, verify} from "../services/api/services.ts";
 import {logout} from "../services/api/Interceptor.ts";
 
 
@@ -14,6 +14,9 @@ interface AuthStore {
     logout: () => Promise<void>;
     getTokenInfo: () => Promise<{ success: boolean, info?: TokenInfoDTO, error?: string }>;
     signup: (registerField: ReqRegisterUser) => Promise<{ success: boolean, error?: string }>;
+    getUtenteById: (userId: number) => Promise<{ success: boolean, utente?: ResUtenteDTO, error?: string }>;
+    updateUtente: (userId: number, nuovoUtente:ReqUpdateUtenteDTO) => Promise<{ success: boolean, message: string }>;
+    verifyEmail: (email: string, code:string) => Promise<{ success: boolean, message: string }>;
 }
 
 
@@ -89,6 +92,63 @@ export const useAuthStore = create<AuthStore>((set) => ({
                 // Errore
                 return {success: false, error: 'Errore sconosciuto durante il login'}
             }
+        }
+    },
+    getUtenteById: async (userId) => {
+        set({isLoading: true});
+        try {
+            const response = await getUtenteById(userId);
+            return {success: true, utente: response.data}
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return {success: false, error: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, error: error.message}
+            } else {
+                // Errore
+                return {success: false, error: 'Errore sconosciuto durante il login'}
+            }
+        } finally {
+            set({isLoading: false});
+        }
+    },
+    updateUtente: async (userId, nuovoUtente) => {
+        set({isLoading: true});
+        try {
+            const response = await updateUtente(userId, nuovoUtente);
+            return {success: true, message: response.data}
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return {success: false, message: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, message: error.message}
+            } else {
+                // Errore
+                return {success: false, message: 'Errore sconosciuto durante il login'}
+            }
+        } finally {
+            set({isLoading: false});
+        }
+    },
+    verifyEmail: async (email, code) => {
+        set({isLoading: true});
+        try {
+            const response = await verify(email, code);
+            return {success: true, message: response.data}
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return {success: false, message: error.response?.data}
+            } else if (error instanceof Error) {
+                // Errore generico
+                return {success: false, message: error.message}
+            } else {
+                // Errore
+                return {success: false, message: 'Errore sconosciuto durante il login'}
+            }
+        } finally {
+            set({isLoading: false});
         }
     }
 }));

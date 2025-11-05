@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BaseModal } from "./BaseModal";
 import "../../assets/css/modals/EditNotaModal.css";
-import { FaPalette, FaStickyNote, FaTag } from "react-icons/fa";
+import {FaPalette, FaStickyNote, FaTag, FaTrash} from "react-icons/fa";
 import toast from "react-hot-toast";
 import type { ReqUpdateNotaDTO, ResNotaDTO, ResTagDTO } from "../../services/api";
 import { useNoteStore } from "../../stores/NoteStore.ts";
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const EditNotaModal = ({ isOpen, onClose, nota, onSave }: Props) => {
-    const { updateNote } = useNoteStore();
+    const { updateNote, deleteNote } = useNoteStore();
     const { getTags } = useEventoStore();
     const [tags, setTags] = useState<ResTagDTO[]>([]);
 
@@ -32,7 +32,20 @@ export const EditNotaModal = ({ isOpen, onClose, nota, onSave }: Props) => {
             })
             .catch(console.error);
     }, [getTags]);
-
+    const handleDelete = () => {
+        deleteNote(nota.id).then((res) => {
+            if (res.success) {
+                toast.success(res.message || "Evento eliminato con success")
+            } else {
+                toast.error(res.error || "Errore eliminato eliminato");
+            }
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
+            onSave();
+            onClose();
+        });
+    }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -116,10 +129,16 @@ export const EditNotaModal = ({ isOpen, onClose, nota, onSave }: Props) => {
                         ))}
                     </select>
                 </label>
+                <div className="edit-nota-footer">
 
-                <button type="submit" className="edit-nota-submit">
-                    Aggiorna nota
-                </button>
+                    <button type="button" onClick={handleDelete} className="edit-nota-delete">
+                        <FaTrash className="icons"/>
+                        <span>Elimina nota</span>
+                    </button>
+                    <button type="submit" className="edit-nota-submit">
+                        Aggiorna nota
+                    </button>
+                </div>
             </form>
         </BaseModal>
     );
