@@ -45,11 +45,12 @@ function App() {
                         <Routes>
                             <Route element={<Layout />}>
                                 <Route path="/" index element={<Home />} />
-                                <Route path="/aboutus" element={<AboutUs />} />
+
                                 <Route path="*" element={<PageNotFound />} />
                             </Route>
 
                             <Route element={<AreaPersonaleLayout />}>
+                                <Route path="/aboutus" element={<AboutUs />} />
                                 <Route path="/areapersonale" element={<ProtectedLogged><AreaPersonale /></ProtectedLogged>} />
                                 <Route path={"/social"} element={<Social />}/>
                                 <Route path="/agenda/:id" element={<ProtectedOwnAgenda><Agenda/></ProtectedOwnAgenda>}/>

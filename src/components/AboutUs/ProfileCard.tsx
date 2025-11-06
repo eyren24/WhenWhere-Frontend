@@ -1,3 +1,4 @@
+// TeamPage.tsx
 import React from "react";
 
 type Person = {
@@ -15,45 +16,32 @@ const people: Person[] = [
     { name: "Alessio Giovannucci", role: "Frontend Developer", cv: "/cv/cv-giulia.pdf", photo: "/photos/giulia.jpg" },
 ];
 
-const ProfileCard: React.FC = () => {
+const TeamPage: React.FC = () => {
     return (
-        <section className="about-us-container">
-            <h1 className="fancy-underline">Il nostro team</h1>
-
-            <div className="profile-grid">
+        <section className="team-section">
+            <h1 className="section-title">Il nostro team</h1>
+            <div className="team-grid">
                 {people.map((person, index) => (
-                    <article
+                    <a
+                        href={person.cv}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="card"
+                        style={{ animationDelay: `${index * 0.1}s` }}
                         key={index}
-                        className="profile-card"
-                        style={{ animationDelay: `${index * 0.12}s` }}
                     >
-                        <div className="photo-wrapper">
-                            <img
-                                src={person.photo}
-                                alt={person.name}
-                                className="profile-photo"
-                                loading="lazy"
-                            />
+                        <div className="card-photo">
+                            <img src={person.photo} alt={person.name} loading="lazy" />
                         </div>
-
-                        <div className="profile-info">
+                        <div className="card-info">
                             <h2>{person.name}</h2>
                             <p>{person.role}</p>
                         </div>
-
-                        <a
-                            href={person.cv}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="profile-btn"
-                        >
-                            Visualizza CV
-                        </a>
-                    </article>
+                    </a>
                 ))}
             </div>
         </section>
     );
 };
 
-export default ProfileCard;
+export default TeamPage;

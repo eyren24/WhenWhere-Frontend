@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useAuthStore } from "../stores/AuthStore.ts";
+import { useAuthStore } from "../stores/AuthStore";
 import type { ResUtenteDTO } from "../services/api";
-import "../assets/css/profiloEdit.css";
 import toast from "react-hot-toast";
 import { FaUserEdit } from "react-icons/fa";
+import "../assets/css/profiloEdit.css";
 
 export const ProfiloEdit = () => {
     const { getTokenInfo, getUtenteById, updateUtente } = useAuthStore();
-
     const [utente, setUtente] = useState<ResUtenteDTO | null>(null);
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState(false);
@@ -26,18 +25,14 @@ export const ProfiloEdit = () => {
                         if (res.success && res.utente) setUtente(res.utente);
                         else toast.error(res.error || "Impossibile caricare i dati utente.");
                     })
-                    .catch((err) => {
-                        console.log(err);
-                        toast.error("Errore durante il caricamento del profilo utente.");
-                    })
+                    .catch(() => toast.error("Errore durante il caricamento del profilo."))
                     .finally(() => setLoading(false));
             })
-            .catch((err) => {
-                console.log(err);
-                toast.error("Errore nel recupero del token utente.");
+            .catch(() => {
+                toast.error("Errore nel recupero del token.");
                 setLoading(false);
             });
-    }, [getTokenInfo, getUtenteById]);
+    }, []);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -59,112 +54,81 @@ export const ProfiloEdit = () => {
                     setEditing(false);
                 } else toast.error(res.message || "Errore durante l'aggiornamento.");
             })
-            .catch((err) => {
-                console.log(err);
-                toast.error("Errore imprevisto durante l'aggiornamento.");
-            });
+            .catch(() => toast.error("Errore imprevisto durante l'aggiornamento."));
     };
 
+    if (loading) return <p className="profilo-loader">Caricamento profilo...</p>;
+    if (!utente) return <p className="profilo-loader">Utente non trovato.</p>;
+
     return (
-        <div className="profilocard-container">
-            {loading ? (
-                <div className="profilocard-loader">
-                    <p>Caricamento profilo...</p>
-                </div>
-            ) : !utente ? (
-                <div className="profilocard-loader">
-                    <p>Utente non trovato.</p>
-                </div>
+        <div className="profilo-card">
+            <header className="profilo-header">
+                <h2 className="profilo-username">{utente.username}</h2>
+                <button onClick={() => setEditing(!editing)} className="profilo-edit-btn">
+                    <FaUserEdit />
+                    {editing ? "Annulla" : "Modifica"}
+                </button>
+            </header>
+
+            {editing ? (
+                <form ref={formRef} onSubmit={handleSubmit} className="profilo-form">
+                    <div className="profilo-grid">
+                        <label>
+                            Nome
+                            <input type="text" name="nome" defaultValue={utente.nome || ""} />
+                        </label>
+                        <label>
+                            Cognome
+                            <input type="text" name="cognome" defaultValue={utente.cognome || ""} />
+                        </label>
+                        <label>
+                            Genere
+                            <select name="genere" defaultValue={utente.genere || ""}>
+                                <option value="">—</option>
+                                <option value="maschio">Maschio</option>
+                                <option value="femmina">Femmina</option>
+                                <option value="altro">Altro</option>
+                            </select>
+                        </label>
+                        <label>
+                            Data di nascita
+                            <input
+                                type="date"
+                                name="dataNascita"
+                                defaultValue={utente.dataNascita?.split("T")[0] || ""}
+                            />
+                        </label>
+                        <label className="profilo-switch">
+                            <span>Ricevi notifiche email</span>
+                            <input
+                                type="checkbox"
+                                name="preferenzeNotifiche"
+                                defaultChecked={utente.preferenzeNotifiche ?? false}
+                            />
+                            <span className="slider" />
+                        </label>
+                    </div>
+
+                    <button type="submit" className="profilo-save-btn">
+                        Salva modifiche
+                    </button>
+                </form>
             ) : (
-                <div className="profilocard">
-                    <header className="profilocard-header">
-                        <h2 className="profilocard-title">{utente.username}</h2>
-                        <button
-                            type="button"
-                            className="profilocard-togglebtn"
-                            onClick={() => setEditing((prev) => !prev)}
-                        >
-                            <FaUserEdit />
-                            {editing ? "Annulla" : "Modifica"}
-                        </button>
-                    </header>
-
-                    {editing ? (
-                        <form ref={formRef} className="profilocard-form" onSubmit={handleSubmit}>
-                            <div className="profilocard-grid">
-                                <label>
-                                    Nome
-                                    <input
-                                        type="text"
-                                        name="nome"
-                                        defaultValue={utente.nome || ""}
-                                    />
-                                </label>
-
-                                <label>
-                                    Cognome
-                                    <input
-                                        type="text"
-                                        name="cognome"
-                                        defaultValue={utente.cognome || ""}
-                                    />
-                                </label>
-
-                                <label>
-                                    Genere
-                                    <select name="genere" defaultValue={utente.genere || ""}>
-                                        <option value="">—</option>
-                                        <option value="maschio">Maschio</option>
-                                        <option value="femmina">Femmina</option>
-                                        <option value="altro">Altro</option>
-                                    </select>
-                                </label>
-
-                                <label>
-                                    Data di nascita
-                                    <input
-                                        type="date"
-                                        name="dataNascita"
-                                        defaultValue={
-                                            utente.dataNascita
-                                                ? utente.dataNascita.split("T")[0]
-                                                : ""
-                                        }
-                                    />
-                                </label>
-
-                                <label className="profilocard-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        name="preferenzeNotifiche"
-                                        defaultChecked={utente.preferenzeNotifiche ?? false}
-                                    />
-                                    Ricevi notifiche email
-                                </label>
-                            </div>
-
-                            <button type="submit" className="profilocard-savebtn">
-                                Salva modifiche
-                            </button>
-                        </form>
-                    ) : (
-                        <div className="profilocard-info">
-                            <p><strong>Nome:</strong> {utente.nome || "—"}</p>
-                            <p><strong>Cognome:</strong> {utente.cognome || "—"}</p>
-                            <p><strong>Email:</strong> {utente.email}</p>
-                            <p><strong>Genere:</strong> {utente.genere || "—"}</p>
-                            <p>
-                                <strong>Data di nascita:</strong>{" "}
-                                {utente.dataNascita
-                                    ? new Date(utente.dataNascita).toLocaleDateString("it-IT")
-                                    : "—"}
-                            </p>
-                            <p>
-                                <strong>Notifiche:</strong>{" "}
-                                {utente.preferenzeNotifiche ? "Attive" : "Disattivate"}
-                            </p>
-                        </div>
-                    )}
+                <div className="profilo-info">
+                    <p><strong>Nome:</strong> {utente.nome || "—"}</p>
+                    <p><strong>Cognome:</strong> {utente.cognome || "—"}</p>
+                    <p><strong>Email:</strong> {utente.email}</p>
+                    <p><strong>Genere:</strong> {utente.genere || "—"}</p>
+                    <p>
+                        <strong>Data di nascita:</strong>{" "}
+                        {utente.dataNascita
+                            ? new Date(utente.dataNascita).toLocaleDateString("it-IT")
+                            : "—"}
+                    </p>
+                    <p>
+                        <strong>Notifiche:</strong>{" "}
+                        {utente.preferenzeNotifiche ? "Attive" : "Disattivate"}
+                    </p>
                 </div>
             )}
         </div>
