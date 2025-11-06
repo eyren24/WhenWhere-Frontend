@@ -6,6 +6,7 @@ import {LoginModal} from "../modals/LoginModal.tsx";
 import {RegisterModal} from "../modals/RegisterModal.tsx";
 import "../../assets/css/layout/Navbar.css";
 import logo from "../../assets/imgs/logo.webp";
+import toast from "react-hot-toast";
 
 export const Navbar = () => {
     const {getTokenInfo, logout} = useAuthStore();
@@ -19,7 +20,6 @@ export const Navbar = () => {
 
     const ruolo = useAuthStore.getState().tokenInfo?.ruolo;
 
-    // Lock scroll su menu mobile
     useEffect(() => {
         const body = document.body;
         if (isMenuOpen) body.classList.add("no-scroll");
@@ -27,12 +27,10 @@ export const Navbar = () => {
         return () => body.classList.remove("no-scroll");
     }, [isMenuOpen]);
 
-    // Chiudi dropdown su cambio pagina
     useEffect(() => {
         setShowDropdown(false);
     }, [location.pathname]);
 
-    // Chiudi dropdown al click fuori
     useEffect(() => {
         const closeDropdownOnClickOutside = (e: MouseEvent) => {
             const dropdown = document.querySelector(".navbar-dropdown");
@@ -52,11 +50,11 @@ export const Navbar = () => {
 
     const handleUserClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        setIsMenuOpen(false); // chiudi menu mobile
+        setIsMenuOpen(false);
 
         getTokenInfo().then(token => {
             if (token.success && token.info) {
-                setShowDropdown(prev => !prev); // toggle
+                setShowDropdown(prev => !prev);
             } else {
                 setLoginModal(true);
             }
@@ -67,7 +65,7 @@ export const Navbar = () => {
 
     const toggleMenu = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setShowDropdown(false); // chiudi menu utente
+        setShowDropdown(false);
         setIsMenuOpen(prev => !prev);
     };
 
@@ -83,7 +81,6 @@ export const Navbar = () => {
         <>
             <LoginModal show={loginModal} onClose={handleCloseLogin} onRegisterClick={handleOpenRegister} />
             <RegisterModal show={registerModal} onClose={handleCloseRegister} />
-            <div className={`navbar-overlay ${isMenuOpen ? "active" : ""}`} onClick={() => setIsMenuOpen(false)} />
 
             <header className="navbar-container">
                 <nav className="navbar-glass" aria-label="Main navigation">
@@ -158,10 +155,12 @@ export const Navbar = () => {
                                     </button>
                                 )}
                                 <button
+                                    className="logout-btn"
                                     onClick={() => {
                                         logout().then(() => {
                                             navigate("/");
                                             setShowDropdown(false);
+                                            toast.success("Logout effettuato con successo");
                                         });
                                     }}
                                 >
