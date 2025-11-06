@@ -1,37 +1,46 @@
+/* === WRAPPER === */
 .slider-wrapper {
     position: relative;
     width: 100%;
     height: 82vh;
-    background: #0e161f;
+    background: var(--vulcan);
     overflow: hidden;
 }
 
+/* === SLIDE TRACK === */
 .slider-track {
     position: absolute;
     inset: 0;
 }
 
+/* === SLIDE FRAME === */
 .slider-frame {
     position: absolute;
     inset: 0;
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.6s ease, transform 1s ease;
+    will-change: opacity, transform;
 }
 
 .slider-frame.active {
     opacity: 1;
+    z-index: 2;
 }
 
 .slider-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    filter: brightness(0.92);
 }
 
+/* === OVERLAY EFFECT === */
 .slider-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(14, 22, 31, 0.75));
+    z-index: 1;
 }
 
 .slider-gradient {
@@ -39,10 +48,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 35vh;
+    height: 36vh;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+    z-index: 2;
 }
 
+/* === SLIDE CONTENT === */
 .slider-content {
     position: absolute;
     left: 50%;
@@ -51,52 +62,56 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    z-index: 3;
     pointer-events: none;
-    z-index: 10;
 }
 
 .slider-card {
     pointer-events: auto;
     width: 100%;
     max-width: 720px;
-    padding: 20px 24px;
+    padding: 24px 28px;
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #effafb;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--polar);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     text-align: left;
 }
 
+/* === TEXT === */
 .slider-title {
     font-size: clamp(1.4rem, 3vw, 2rem);
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 0.6rem;
 }
 
 .slider-text {
-    margin-top: 0.5rem;
-    line-height: 1.5;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 .slider-pill {
-    margin-top: 0.75rem;
+    margin-top: 0.9rem;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-size: 0.85rem;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
 }
 
+/* === CALL TO ACTION === */
 .slider-cta {
-    margin-top: 14px;
+    margin-top: 18px;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
 }
 
 .cta {
@@ -104,11 +119,11 @@
     align-items: center;
     gap: 6px;
     border-radius: 10px;
-    padding: 8px 14px;
+    padding: 10px 16px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     text-decoration: none;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, background 0.3s ease;
 }
 
 .cta:hover {
@@ -116,88 +131,103 @@
 }
 
 .cta--solid {
-    background: #effafb;
-    color: #0e161f;
+    background: var(--polar);
+    color: var(--vulcan);
 }
 
 .cta--soft {
     background: rgba(255, 255, 255, 0.15);
     color: #effafb;
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.cta--ghost {
-    background: transparent;
-    color: #effafb;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.cta--solid:focus,
+.cta--soft:focus {
+    outline: 2px solid var(--cerulean);
+    outline-offset: 2px;
 }
 
+/* === PROGRESS BAR === */
 .slider-progress {
     margin-top: 12px;
     height: 6px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 999px;
     overflow: hidden;
 }
 
 .slider-bar {
     height: 100%;
-    background: #effafb;
+    background: var(--polar);
     width: 0%;
     animation: grow linear forwards;
 }
 
 @keyframes grow {
-    from { width: 0%; }
-    to { width: 100%; }
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
 }
 
-/* Overlay e gradiente più leggeri su mobile */
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
-    .slider-wrapper { height: 72vh; }
+    .slider-wrapper {
+        height: 72vh;
+    }
 
-    .slider-content { bottom: 28px; }
+    .slider-content {
+        bottom: 1.5rem;
+    }
 
     .slider-card {
-        max-width: 92%;
-        padding: 14px 16px;
+        max-width: 90%;
+        padding: 18px 20px;
         text-align: center;
     }
 
-    .slider-title { font-size: 1.4rem; }
+    .slider-title {
+        font-size: 1.5rem;
+    }
 
-    .slider-text { font-size: 0.95rem; }
+    .slider-text {
+        font-size: 0.95rem;
+    }
 
-    .slider-cta { justify-content: center; }
+    .slider-cta {
+        justify-content: center;
+    }
 
-    .slider-pill { font-size: 0.8rem; }
+    .slider-pill {
+        font-size: 0.8rem;
+    }
 
-    .slider-overlay { background: rgba(0, 0, 0, 0.25); }
+    .slider-overlay {
+        background: rgba(0, 0, 0, 0.35);
+    }
+
     .slider-gradient {
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.35), transparent);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent);
     }
 }
 
 @media (max-width: 480px) {
-    .slider-content { bottom: 44px; }
-
-    .slider-frame {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
+    .slider-content {
+        bottom: 2rem;
     }
 
     .slider-frame img {
-        position: relative;
         width: auto;
         height: 100%;
-        min-width: 1200px;
-        max-width: none;
+        min-width: 100vw;
         object-fit: cover;
         object-position: center;
     }
 
-    .slider-gradient { height: 50vh; }
+    .slider-gradient {
+        height: 48vh;
+    }
 }

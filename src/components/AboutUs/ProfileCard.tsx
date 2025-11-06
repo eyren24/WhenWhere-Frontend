@@ -13,7 +13,7 @@ const people: Person[] = [
     { name: "Matteo Martelli", role: "SQL Server / Frontend Developer", cv: "/cv/cv-anna.pdf", photo: "/photos/anna.jpg" },
     { name: "Federico Renghi", role: "Backend Developer", cv: "/cv/Federicorenghi.pdf", photo: "/photos/federicorenghi.png" },
     { name: "Emiliano Della Ciana", role: "Project Manager / Backend Developer", cv: "/cv/emilianodellaciana.pdf", photo: "/photos/emilianodellaciana.jpg" },
-    { name: "Alessio Giovannucci", role: "Frontend Developer", cv: "/cv/cv-giulia.pdf", photo: "/photos/giulia.jpg" },
+    { name: "Alessio Giovannucci", role: "Frontend Developer", cv: "/cv/Alessiogiovannucci.pdf", photo: "/photos/Alessiogiovannucci.png" },
 ];
 
 const TeamPage: React.FC = () => {

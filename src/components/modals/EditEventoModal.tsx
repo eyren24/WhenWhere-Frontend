@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react";
 import { BaseModal } from "./BaseModal";
 import "../../assets/css/modals/EditEventoModal.css";
-import { FaCalendarCheck, FaInfoCircle, FaStickyNote, FaTag, FaTrash } from "react-icons/fa";
+import {
+    FaCalendarCheck,
+    FaInfoCircle,
+    FaStickyNote,
+    FaTag,
+    FaTrash
+} from "react-icons/fa";
 import toast from "react-hot-toast";
-import type { ReqUpdateEventoDTO, ResEventoDTO, ResTagDTO } from "../../services/api";
+import type {
+    ReqUpdateEventoDTO,
+    ResEventoDTO,
+    ResTagDTO
+} from "../../services/api";
 import { useEventoStore } from "../../stores/EventoStore.ts";
 
 interface Props {
@@ -70,53 +80,65 @@ export const EditEventoModal = ({ isOpen, onClose, evento, onSave }: Props) => {
             isOpen={isOpen}
             onClose={onClose}
             title={`Modifica evento - ${evento.titolo}`}
-            width="min(95%, 600px)"
+            width="min(95%, 640px)"
         >
             <form className="edit-evento-form" onSubmit={handleSubmit}>
-                <div className="edit-grid">
+                <div className="edit-grid modal-content">
+                    {/* Titolo */}
                     <label>
                         <div className="edit-evento-label">
-                            <FaCalendarCheck className="edit-evento-icon" /> Titolo
+                            <FaCalendarCheck className="edit-evento-icon" />
+                            Titolo
                         </div>
                         <input
                             type="text"
                             value={titolo}
                             onChange={(e) => setTitolo(e.target.value)}
                             placeholder="Titolo evento"
+                            required
                         />
                     </label>
 
+                    {/* Stato */}
                     <label>
                         <div className="edit-evento-label">
-                            <FaInfoCircle className="edit-evento-icon" /> Stato
+                            <FaInfoCircle className="edit-evento-icon" />
+                            Stato
                         </div>
                         <input
                             type="text"
                             value={stato}
                             onChange={(e) => setStato(e.target.value)}
                             placeholder="Esempio: in corso / annullato"
+                            required
                         />
                     </label>
 
+                    {/* Descrizione */}
                     <label className="full-width">
                         <div className="edit-evento-label">
-                            <FaStickyNote className="edit-evento-icon" /> Descrizione
+                            <FaStickyNote className="edit-evento-icon" />
+                            Descrizione
                         </div>
                         <textarea
                             value={descrizione}
                             onChange={(e) => setDescrizione(e.target.value)}
                             placeholder="Descrizione breve..."
                             rows={3}
+                            required
                         />
                     </label>
 
+                    {/* Tag */}
                     <label className="full-width">
                         <div className="edit-evento-label">
-                            <FaTag className="edit-evento-icon" /> Tag
+                            <FaTag className="edit-evento-icon" />
+                            Tag
                         </div>
                         <select
                             value={tagId}
                             onChange={(e) => setTagId(Number(e.target.value))}
+                            required
                         >
                             <option value="">-- Seleziona un tag --</option>
                             {tags.map((tag) => (
@@ -127,7 +149,8 @@ export const EditEventoModal = ({ isOpen, onClose, evento, onSave }: Props) => {
                         </select>
                     </label>
 
-                    <div className="edit-evento-footer">
+                    {/* Footer Buttons */}
+                    <div className="edit-evento-footer full-width">
                         <button
                             type="button"
                             onClick={handleDelete}
@@ -136,6 +159,7 @@ export const EditEventoModal = ({ isOpen, onClose, evento, onSave }: Props) => {
                             <FaTrash />
                             <span>Elimina</span>
                         </button>
+
                         <button type="submit" className="edit-evento-submit">
                             Aggiorna evento
                         </button>
