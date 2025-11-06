@@ -8,14 +8,18 @@ import "../../assets/css/layout/Navbar.css";
 import logo from "../../assets/imgs/logo.webp";
 
 export const Navbar = () => {
-    const {getTokenInfo} = useAuthStore();
+    const {getTokenInfo, logout} = useAuthStore();
     const navigate = useNavigate();
     const location = useLocation();
 
     const [loginModal, setLoginModal] = useState(false);
     const [registerModal, setRegisterModal] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
 
+    const ruolo = useAuthStore.getState().tokenInfo?.ruolo;
+
+    // Lock scroll su menu mobile
     useEffect(() => {
         const body = document.body;
         if (isMenuOpen) body.classList.add("no-scroll");
@@ -23,22 +27,48 @@ export const Navbar = () => {
         return () => body.classList.remove("no-scroll");
     }, [isMenuOpen]);
 
+    // Chiudi dropdown su cambio pagina
+    useEffect(() => {
+        setShowDropdown(false);
+    }, [location.pathname]);
+
+    // Chiudi dropdown al click fuori
+    useEffect(() => {
+        const closeDropdownOnClickOutside = (e: MouseEvent) => {
+            const dropdown = document.querySelector(".navbar-dropdown");
+            const icon = document.querySelector(".navbar-login-icon");
+            if (
+                dropdown &&
+                !dropdown.contains(e.target as Node) &&
+                icon &&
+                !icon.contains(e.target as Node)
+            ) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener("click", closeDropdownOnClickOutside);
+        return () => document.removeEventListener("click", closeDropdownOnClickOutside);
+    }, []);
+
     const handleUserClick = (e: React.MouseEvent) => {
         e.preventDefault();
+        setIsMenuOpen(false); // chiudi menu mobile
+
         getTokenInfo().then(token => {
             if (token.success && token.info) {
-                if (token.info.ruolo == "Amministratore") {
-                    navigate("/admin");
-                } else {
-                    navigate("/areaPersonale");
-                }
+                setShowDropdown(prev => !prev); // toggle
             } else {
                 setLoginModal(true);
             }
-        }).catch(error => {
-            console.log(error);
+        }).catch(() => {
             setLoginModal(true);
         });
+    };
+
+    const toggleMenu = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setShowDropdown(false); // chiudi menu utente
+        setIsMenuOpen(prev => !prev);
     };
 
     const handleOpenRegister = () => {
@@ -49,25 +79,18 @@ export const Navbar = () => {
     const handleCloseLogin = () => setLoginModal(false);
     const handleCloseRegister = () => setRegisterModal(false);
 
-    const closeMenu = () => setIsMenuOpen(false);
-    const toggleMenu = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setIsMenuOpen((v) => !v);
-    };
-
     return (
         <>
             <LoginModal show={loginModal} onClose={handleCloseLogin} onRegisterClick={handleOpenRegister} />
             <RegisterModal show={registerModal} onClose={handleCloseRegister} />
-
-            {/* Overlay cliccabile per chiudere */}
-            <div className={`navbar-overlay ${isMenuOpen ? "active" : ""}`} onClick={closeMenu} />
+            <div className={`navbar-overlay ${isMenuOpen ? "active" : ""}`} onClick={() => setIsMenuOpen(false)} />
 
             <header className="navbar-container">
                 <nav className="navbar-glass" aria-label="Main navigation">
                     <div className="navbar-center-logo">
                         <img src={logo} alt="When & Where" className="navbar-logo-img" />
                     </div>
+
                     <button
                         type="button"
                         className="navbar-burger"
@@ -83,7 +106,7 @@ export const Navbar = () => {
 
                     <ul id="navbar-links" className={`navbar-links ${isMenuOpen ? "active" : ""}`}>
                         <li>
-                            <Link to="/" className={location.pathname === "/" ? "active" : ""} onClick={closeMenu}>
+                            <Link to="/" className={location.pathname === "/" ? "active" : ""} onClick={() => setIsMenuOpen(false)}>
                                 Home
                             </Link>
                         </li>
@@ -91,7 +114,7 @@ export const Navbar = () => {
                             <Link
                                 to="/aboutus"
                                 className={location.pathname === "/aboutus" ? "active" : ""}
-                                onClick={closeMenu}
+                                onClick={() => setIsMenuOpen(false)}
                             >
                                 Chi Siamo
                             </Link>
@@ -100,7 +123,7 @@ export const Navbar = () => {
                             <Link
                                 to="/social"
                                 className={location.pathname === "/social" ? "active" : ""}
-                                onClick={closeMenu}
+                                onClick={() => setIsMenuOpen(false)}
                             >
                                 Social
                             </Link>
@@ -111,6 +134,41 @@ export const Navbar = () => {
                         <div onClick={handleUserClick} className="navbar-login-icon" aria-label="Area personale">
                             <FaRegUser />
                         </div>
+
+                        {showDropdown && (
+                            <div className="navbar-dropdown">
+                                <button
+                                    className={location.pathname === "/profilo" ? "active" : ""}
+                                    onClick={() => navigate("/profilo")}
+                                >
+                                    Profilo
+                                </button>
+                                <button
+                                    className={location.pathname === "/areaPersonale" ? "active" : ""}
+                                    onClick={() => navigate("/areaPersonale")}
+                                >
+                                    Area Personale
+                                </button>
+                                {ruolo === "Amministratore" && (
+                                    <button
+                                        className={location.pathname === "/admin" ? "active" : ""}
+                                        onClick={() => navigate("/admin")}
+                                    >
+                                        Amministrazione
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => {
+                                        logout().then(() => {
+                                            navigate("/");
+                                            setShowDropdown(false);
+                                        });
+                                    }}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </nav>
             </header>

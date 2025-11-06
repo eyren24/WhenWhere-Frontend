@@ -51,8 +51,15 @@ export const useAuthStore = create<AuthStore>((set) => ({
     logout: async () => {
         set({isLoading: true});
         logout();
-        set({isLoading: false});
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        set({
+            isLoading: false,
+            isAuthenticated: false,
+            tokenInfo: null,
+        });
     },
+
     signup: async (registerField) => {
         set({isLoading: true});
         try {
