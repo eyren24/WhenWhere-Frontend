@@ -213,6 +213,11 @@ export const CreateEventoModal = ({
                             rows={3}
                         />
                     </label>
+                    <label className="full-width">
+                        <div className="label-header">Stato</div>
+                        <input type="text" name="stato" placeholder="In Corso, Terminato, Annullato"/>
+
+                    </label>
 
                     {terminato && (
                         <div className="rating-row full-width">
