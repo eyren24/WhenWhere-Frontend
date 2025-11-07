@@ -10,7 +10,7 @@ type Person = {
 
 const people: Person[] = [
     { name: "Francesco Arronenzi", role: "Frontend Developer", cv: "/cv/Francescoarronenzi.pdf", photo: "/photos/Francescoarronenzi.jpg" },
-    { name: "Matteo Martelli", role: "SQL Server / Frontend Developer", cv: "/cv/cv-anna.pdf", photo: "/photos/anna.jpg" },
+    { name: "Matteo Martelli", role: "SQL Server / Frontend Developer", cv: "/cv/Matteomartelli.pdf", photo: "/photos/Matteomartelli.jpg" },
     { name: "Federico Renghi", role: "Backend Developer", cv: "/cv/Federicorenghi.pdf", photo: "/photos/federicorenghi.png" },
     { name: "Emiliano Della Ciana", role: "Project Manager / Backend Developer", cv: "/cv/emilianodellaciana.pdf", photo: "/photos/emilianodellaciana.jpg" },
     { name: "Alessio Giovannucci", role: "Frontend Developer", cv: "/cv/Alessiogiovannucci.pdf", photo: "/photos/Alessiogiovannucci.png" },
