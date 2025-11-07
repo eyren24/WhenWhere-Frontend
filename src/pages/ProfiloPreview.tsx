@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Link, useParams} from "react-router";
+import {Link, useParams, useNavigate} from "react-router";
 import "../assets/css/profiloPreview.css";
 import toast from "react-hot-toast";
 import type {ResAgendaDTO, ResUtenteDTO} from "../services/api";
@@ -13,6 +13,7 @@ export const ProfiloPreview = () => {
     const {id} = useParams<{ id: string }>();
     const {getUtenteById} = useAuthStore();
     const {byOwner} = useAgendaStore();
+    const navigate = useNavigate();
 
     const [utente, setUtente] = useState<ResUtenteDTO | null>(null);
     const [agende, setAgende] = useState<ResAgendaDTO[]>([]);
@@ -24,20 +25,18 @@ export const ProfiloPreview = () => {
 
         getUtenteById(Number(id)).then((res) => {
             if (res.success && res.utente) {
-                setUtente(res.utente)
+                setUtente(res.utente);
                 byOwner(res.utente.username).then((res) => {
                     if (res.success && res.agende) {
-                        setAgende(res.agende)
+                        setAgende(res.agende);
                     } else {
-                        toast.error(res.error || "Errore generico")
+                        toast.error(res.error || "Errore generico");
                     }
                 }).catch((err) => {
                     console.log(err);
-                }).finally(() => {
-
-                })
+                });
             } else {
-                toast.error(res.error || "Errore generico.")
+                toast.error(res.error || "Errore generico.");
             }
         }).catch((err) => {
             console.log(err);
@@ -48,13 +47,18 @@ export const ProfiloPreview = () => {
 
     return (
         <div className="profilo-container">
-            {loading ?
+            {/* 🔙 Pulsante Torna indietro */}
+            <button onClick={() => navigate(-1)} className="go-back-button">
+                ← Torna indietro
+            </button>
+
+            {loading ? (
                 <div className="profilo-loader">
                     <ClipLoader color="var(--cerulean)" size={50}/>
-                </div> :
-                utente &&
-                <ProfiloInfo utente={utente}/>
-            }
+                </div>
+            ) : (
+                utente && <ProfiloInfo utente={utente}/>
+            )}
 
             <section className="profilo-agende">
                 <h3 className="profilo-section-title">Agende pubbliche</h3>
@@ -63,15 +67,13 @@ export const ProfiloPreview = () => {
                 ) : (
                     <div className="profilo-agende-grid">
                         {agende.map((agenda, index) => (
-                                <Link to={`/agenda/pubblica/${agenda.id}`} className="universal-link " key={index}>
-                                    <AgendaPreview agenda={agenda} onRefresh={() => setRefreshed((prev) => !prev)}/>
-                                </Link>
-                            )
-                        )}
+                            <Link to={`/agenda/pubblica/${agenda.id}`} className="universal-link" key={index}>
+                                <AgendaPreview agenda={agenda} onRefresh={() => setRefreshed(prev => !prev)}/>
+                            </Link>
+                        ))}
                     </div>
                 )}
             </section>
         </div>
-    )
-        ;
+    );
 };

@@ -275,3 +275,82 @@
     background: var(--eastern-blue);
 }
 
+@media (max-width: 768px) {
+    .social-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .social-search-wrapper {
+        max-width: 100%;
+    }
+
+    .social-title {
+        font-size: 1.6rem;
+    }
+
+    .agende-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .agende-search {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    .agende-search input,
+    .agende-search button {
+        width: 100%;
+    }
+
+    .agende-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .utenti-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-title {
+        font-size: 1.4rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .agenda-card h4 {
+        font-size: 1rem;
+    }
+
+    .agenda-card p,
+    .agenda-likes,
+    .search-user-name {
+        font-size: 0.85rem;
+    }
+
+    .search-user-email {
+        font-size: 0.75rem;
+    }
+
+    .utente-card {
+        font-size: 0.9rem;
+        padding: 0.7rem;
+    }
+
+    .social-search input {
+        font-size: 0.9rem;
+    }
+
+    .social-search button {
+        width: 100%;
+        height: 36px;
+    }
+}
+
+

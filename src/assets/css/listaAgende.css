@@ -103,18 +103,80 @@
 
 
 /* === RESPONSIVE === */
+@media (max-width: 1024px) {
+    .listaAgende-wrapper {
+        justify-content: center;
+        gap: 16px;
+        margin: 30px 20px 0 20px;
+    }
+
+    .listaAgende-div {
+        flex: 0 1 400px;
+        max-width: 400px;
+    }
+}
+
 @media (max-width: 768px) {
     .listaAgende-section {
-        margin: 20px;
+        padding: 0 1rem;
     }
-    .listaAgende-wrapper::before {
-        width: 90%;
+
+    .listaAgende-wrapper {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 20px;
+    }
+
+    .listaAgende-div {
+        flex: 0 1 400px;
+        max-width: 400px;
+    }
+
+    .new-agenda-card {
+        min-height: 200px;
+    }
+
+    .new-agenda-icon {
+        font-size: 28px;
+    }
+
+    .new-agenda-text {
+        font-size: 13px;
     }
 }
 
 @media (max-width: 480px) {
+    .listaAgende-div {
+        flex: 0 1 360px;
+        max-width: 360px;
+    }
+
     .new-agenda-card {
-        max-width: 100%;
         min-height: 180px;
+        padding: 1rem;
+    }
+
+    .new-agenda-icon {
+        font-size: 26px;
+    }
+
+    .new-agenda-text {
+        font-size: 12px;
     }
 }
+
+@media (max-width: 360px) {
+    .listaAgende-div {
+        flex: 0 1 320px;
+        max-width: 320px;
+    }
+
+    .new-agenda-text {
+        font-size: 11px;
+        letter-spacing: normal;
+        text-align: center;
+    }
+}
+
