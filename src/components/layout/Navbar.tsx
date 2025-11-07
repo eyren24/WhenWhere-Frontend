@@ -9,7 +9,7 @@ import logo from "../../assets/imgs/logo.webp";
 import toast from "react-hot-toast";
 
 export const Navbar = () => {
-    const {getTokenInfo, logout} = useAuthStore();
+    const {logout, tokenInfo} = useAuthStore();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -17,8 +17,6 @@ export const Navbar = () => {
     const [registerModal, setRegisterModal] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
-
-    const ruolo = useAuthStore.getState().tokenInfo?.ruolo;
 
     useEffect(() => {
         const body = document.body;
@@ -52,15 +50,11 @@ export const Navbar = () => {
         e.preventDefault();
         setIsMenuOpen(false);
 
-        getTokenInfo().then(token => {
-            if (token.success && token.info) {
+        if (tokenInfo != null) {
                 setShowDropdown(prev => !prev);
             } else {
                 setLoginModal(true);
             }
-        }).catch(() => {
-            setLoginModal(true);
-        });
     };
 
     const toggleMenu = (e: React.MouseEvent) => {
@@ -146,7 +140,7 @@ export const Navbar = () => {
                                 >
                                     Area Personale
                                 </button>
-                                {ruolo === "Amministratore" && (
+                                {tokenInfo?.ruolo === "Amministratore" && (
                                     <button
                                         className={location.pathname === "/admin" ? "active" : ""}
                                         onClick={() => navigate("/admin")}

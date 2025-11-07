@@ -93,7 +93,6 @@ export const CreateEventoModal = ({
                     toast.success(res.message);
                     onSave();
                     resetForm();
-                    e.currentTarget.reset();
                 } else toast.error(res.message);
             })
             .catch(console.error)

@@ -55,16 +55,15 @@ export const RegisterModal: React.FC<{ show: boolean; onClose: () => void }> = (
             confermaPassword: confirmPassword,
         }).then((res) => {
             if (res.success) {
-                toast.success("Registrazione completata con successo!");
+                toast.success("Registrazione completata con successo verifica l'account!");
+                navigate("/verify");
+                onClose();
             } else {
                 toast.error(res.error || "Errore generico.");
             }
         }).catch((err) => {
             console.log(err);
-        }).finally(() => {
-            onClose();
-            navigate("/areaPersonale");
-        });
+        })
 
 
     };

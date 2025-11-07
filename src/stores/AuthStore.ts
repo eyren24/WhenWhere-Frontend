@@ -51,8 +51,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
     logout: async () => {
         set({isLoading: true});
         logout();
-        localStorage.removeItem("token");
-        localStorage.removeItem("refreshToken");
         set({
             isLoading: false,
             isAuthenticated: false,
